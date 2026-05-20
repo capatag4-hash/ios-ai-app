@@ -7,593 +7,552 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Aura Engine</title>
     <style>
-        /* --- MODERN PREMIUM DARK VARIABLE MATRIX --- */
+        /* --- DYNAMIC THEME ENGINE CORE MATRIX --- */
         :root {
-            --bg: #131314;
-            --surface: #1e1f20;
-            --surface-variant: #282a2c;
-            --border: #3c4043;
-            --accent: #1a73e8;
-            --accent-glow: rgba(26, 115, 232, 0.15);
-            --text-main: #e3e3e3;
-            --text-sub: #9aa0a6;
-            --text-bright: #ffffff;
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
+            /* Matrix Dark (Default) */
+            --bg: #030305; --surface: #0a0a0f; --surface-alt: #13131d;
+            --border: #1a1a2e; --accent: #0f6; --accent-glow: rgba(0, 255, 102, 0.1);
+            --text: #a3f7bf; --text-bright: #ffffff; --safe-top: env(safe-area-inset-top, 0px);
+            --safe-bottom: env(safe-area-inset-bottom, 0px); --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="light"] {
+            --bg: #f5f7f6; --surface: #ffffff; --surface-alt: #e1e9e5;
+            --border: #cbd5d0; --accent: #0a4; --accent-glow: rgba(0, 170, 68, 0.08);
+            --text: #1d3d2e; --text-bright: #000000;
+        }
+
+        [data-theme="onyx"] { /* Alternate Dark */
+            --bg: #121212; --surface: #1e1e1e; --surface-alt: #2c2c2c;
+            --border: #333; --accent: #ff0055; --accent-glow: rgba(255, 0, 85, 0.1);
+            --text: #e0e0e0; --text-bright: #fff;
         }
 
         * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
+            box-sizing: border-box; margin: 0; padding: 0;
+            font-family: 'SF Mono', 'Courier New', monospace; -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            position: relative;
+            background-color: var(--bg); color: var(--text);
+            height: 100vh; width: 100vw; overflow: hidden; display: flex; transition: background 0.3s var(--ease);
         }
 
-        /* --- STAGE MODAL GATEWAYS --- */
-        .stage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            z-index: 10;
-            background: var(--bg);
-            transition: opacity 0.25s ease, visibility 0.25s;
+        /* --- STAGE OVERLAYS (GATES) --- */
+        .stage-gate {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; flex-direction: column; z-index: 50; background: var(--bg);
+            transition: opacity 0.3s var(--ease), visibility 0.3s;
         }
+        .stage-gate.hidden { opacity: 0; visibility: hidden; z-index: 1; }
 
-        .stage.hidden {
-            opacity: 0;
-            visibility: hidden;
-            z-index: 1;
-        }
-
-        /* --- AUTHENTICATION CARDS --- */
-        #login-stage {
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-        }
-
+        /* AUTH SECTOR */
+        #auth-gate { justify-content: center; align-items: center; padding: 20px; }
         .auth-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 32px 24px;
-            border-radius: 16px;
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
+            background: var(--surface); border: 2px solid var(--border);
+            padding: 30px; border-radius: 12px; width: 100%; max-width: 400px;
+            display: flex; flex-direction: column; gap: 20px; box-shadow: 0 0 20px var(--accent-glow);
+        }
+        .auth-header { text-align: center; color: var(--accent); font-size: 1.1rem; font-weight: bold; letter-spacing: 2px; }
+        
+        .input-group { display: flex; flex-direction: column; gap: 6px; }
+        .input-group label { font-size: 0.75rem; color: var(--text); opacity: 0.7; text-transform: uppercase; }
+        .matrix-input {
+            background: var(--bg); border: 1px solid var(--border); padding: 14px;
+            color: var(--text-bright); font-size: 1rem; border-radius: 6px; outline: none;
+        }
+        .matrix-input:focus { border-color: var(--accent); box-shadow: 0 0 10px var(--accent-glow); }
+        
+        .matrix-btn {
+            background: var(--surface-alt); color: var(--accent);
+            border: 1px solid var(--border); padding: 14px; font-size: 1rem;
+            font-weight: bold; border-radius: 6px; cursor: pointer; text-transform: uppercase;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .matrix-btn:active { background: var(--border); border-color: var(--accent); }
+        .prime { background: var(--accent); color: var(--bg); border: none; }
+        .prime:active { background: var(--text-bright); }
+
+        /* --- OPTIONS DRAWER PANEL --- */
+        #options-drawer {
+            position: absolute; right: -320px; top: 0; width: 320px; height: 100%;
+            background: var(--surface); border-left: 2px solid var(--border); z-index: 100;
+            display: flex; flex-direction: column;
+            transition: right 0.3s var(--ease); overflow: hidden;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
+        }
+        #options-drawer.open { right: 0; }
+        .drawer-header {
+            padding: calc(var(--safe-top) + 16px) 16px 16px 16px;
+            background: var(--bg); border-bottom: 2px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .drawer-title { font-weight: bold; color: var(--accent); }
+        .close-btn { background: none; border: none; color: var(--text); font-size: 1.5rem; cursor: pointer; }
+
+        .drawer-content { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 24px; }
+        
+        .drawer-sect { display: flex; flex-direction: column; gap: 12px; }
+        .sect-label { font-size: 0.8rem; text-transform: uppercase; color: var(--accent); opacity: 0.8; letter-spacing: 1px; }
+        
+        .drawer-row {
+            background: var(--surface-alt); border: 1px solid var(--border);
+            padding: 14px; border-radius: 8px; font-size: 0.9rem;
+            display: flex; justify-content: space-between; align-items: center; gap: 10px;
         }
 
-        .auth-header {
-            text-align: center;
+        /* Profile PFP Sector */
+        #pfp-config { display: flex; align-items: center; gap: 12px; }
+        .matrix-pfp {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: var(--border); border: 2px solid var(--accent);
+            color: var(--accent); display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: bold; overflow: hidden; object-fit: cover;
         }
+        #pfp-config-panel.hidden { display: none; }
 
-        .auth-header h1 {
-            font-size: 1.6rem;
-            font-weight: 500;
-            color: var(--text-bright);
-            margin-bottom: 6px;
+        /* Matrix Toggles */
+        .matrix-toggle { display: none; }
+        .toggle-label {
+            width: 48px; height: 26px; background: var(--border);
+            border-radius: 13px; position: relative; cursor: pointer;
+            border: 1px solid var(--border); transition: 0.2s;
         }
+        .toggle-label::after {
+            content: ''; position: absolute; top: 2px; left: 2px;
+            width: 20px; height: 20px; background: var(--text);
+            border-radius: 50%; transition: 0.2s var(--ease);
+        }
+        .matrix-toggle:checked + .toggle-label { background: var(--accent-glow); border-color: var(--accent); }
+        .matrix-toggle:checked + .toggle-label::after { transform: translateX(22px); background: var(--accent); }
 
-        .auth-header p {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-        }
+        /* Experimental Panel Scrim */
+        #experi-sect { display: none; margin-top: 10px; padding-top: 15px; border-top: 1px solid var(--border); }
+        #experi-sect.active { display: flex; }
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-main);
-        }
-
-        .clean-input {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 14px 16px;
-            color: var(--text-bright);
-            font-size: 1rem;
-            border-radius: 12px;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .clean-input:focus {
-            border-color: var(--accent);
-        }
-
-        .prime-btn {
-            background: var(--accent);
-            color: #ffffff;
-            border: none;
-            padding: 14px;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .prime-btn:active {
-            background: #1557b0;
-        }
-
-        .bypass-action {
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--accent);
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        /* --- NAVIGATION OPTIONS PANEL --- */
-        #side-panel {
-            position: absolute;
-            left: -280px;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            z-index: 100;
-            padding: calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 24px) 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #side-panel.open {
-            left: 0;
-        }
-
-        .panel-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .panel-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-sub);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .panel-row {
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            padding: 14px;
-            border-radius: 10px;
-            font-size: 0.95rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* --- DASHBOARD HEADERS --- */
-        #workspace-stage {
-            flex: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        #scrim {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 90;
-        }
-
-        #scrim.active {
-            display: block;
-        }
+        /* --- CONSOLE INTERFACE LAYOUT --- */
+        #console-stage { flex: 1; height: 100%; display: flex; flex-direction: column; position: relative; }
+        #scrim { display: none; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 90; }
+        #scrim.active { display: block; }
 
         header {
-            padding: calc(var(--safe-top) + 14px) 20px 14px 20px;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+            padding: calc(var(--safe-top) + 12px) 16px 12px 16px;
+            background: var(--surface); border-bottom: 2px solid var(--border);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .brand-title { font-weight: bold; letter-spacing: 1px; color: var(--text-bright); }
+        .tier-badge { font-size: 0.75rem; color: var(--accent); border: 1px solid var(--accent); padding: 4px 8px; border-radius: 4px; }
+        .tier-badge.restricted { color: var(--text); border-color: var(--border); }
+        .opt-btn { font-size: 1.3rem; background: none; border: none; color: var(--accent); cursor: pointer; }
+
+        /* CONSOLE TIMELINE */
+        #console-timeline {
+            flex: 1; overflow-y: auto; padding: 20px;
+            display: flex; flex-direction: column; gap: 20px;
+            background: radial-gradient(circle at center, var(--surface) 0%, var(--bg) 100%);
         }
 
-        .panel-toggle {
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text-main);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
+        .line-node {
+            max-width: 85%; padding: 14px; border-radius: 4px;
+            font-size: 0.9rem; line-height: 1.5; position: relative;
+        }
+        .line-node.user {
+            background: var(--surface-alt); border: 1px solid var(--border);
+            color: var(--text-bright); align-self: flex-end;
+        }
+        .line-node.ai {
+            background: transparent; color: var(--text);
+            align-self: flex-start; padding-left: 0;
+        }
+        .line-node.error { color: #ff3b30; border-color: #ff3b30; background: rgba(255, 59, 48, 0.05); }
+
+        /* Matrix Vision Artifacts */
+        .vision-frame {
+            border: 2px solid var(--accent); border-radius: 4px; margin-top: 10px;
+            max-width: 100%; height: auto; display: block;
         }
 
-        .brand-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-bright);
+        /* --- CONTROL CONSOLE DOCK --- */
+        #console-dock {
+            padding: 12px 16px calc(var(--safe-bottom) + 12px) 16px;
+            background: var(--surface); border-top: 2px solid var(--border);
+            display: flex; gap: 10px; align-items: center;
         }
-
-        .tier-badge {
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-        }
-
-        .tier-badge.premium {
-            border-color: rgba(26, 115, 232, 0.4);
-            background: var(--accent-glow);
-            color: #8ab4f8;
-        }
-
-        /* --- CONVERSATION CANVAS --- */
-        #chat-canvas {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background: var(--bg);
-        }
-
-        .msg-bubble {
-            max-width: 82%;
-            padding: 14px 18px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .msg-bubble.user {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-bright);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .msg-bubble.ai {
-            background-color: transparent;
-            color: var(--text-main);
-            align-self: flex-start;
-            padding-left: 0;
-            max-width: 100%;
-        }
-
-        /* --- DOCK CONTROL BAR --- */
-        #control-dock {
-            padding: 12px 20px calc(var(--safe-bottom) + 16px) 20px;
-            background: var(--bg);
-            display: flex;
-            gap: 12px;
-        }
-
         .pill-wrapper {
-            flex: 1;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            padding: 4px 6px 4px 18px;
+            flex: 1; background: var(--bg); border: 1px solid var(--border);
+            border-radius: 24px; display: flex; align-items: center;
+            padding: 4px 6px 4px 16px;
         }
+        #console-input {
+            flex: 1; background: transparent; border: none;
+            color: var(--text-bright); font-size: 1rem; outline: none; padding: 10px 0;
+        }
+        .dock-btn {
+            background: var(--border); color: var(--accent); border: none;
+            width: 38px; height: 38px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.2rem; cursor: pointer; transition: 0.2s;
+        }
+        #experi-cam-btn { display: none; }
+        #experi-cam-btn.active { display: flex; background: var(--accent-glow); border: 1px solid var(--accent); }
+        .dock-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .dock-btn:active { background: var(--accent); color: var(--bg); }
 
-        .pill-wrapper:focus-within {
-            border-color: var(--border);
-            background: var(--surface-variant);
-        }
-
-        #msg-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-bright);
-            font-size: 1rem;
-            outline: none;
-            padding: 10px 0;
-        }
-
-        #send-btn {
-            background: var(--accent);
-            border: none;
-            color: #ffffff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        #send-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Standard Toggle Switches */
-        .toggle-input { display: none; }
-        .toggle-track {
-            width: 44px; height: 24px; background: #3c4043; border-radius: 12px;
-            position: relative; cursor: pointer; transition: background 0.2s;
-        }
-        .toggle-track::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 18px; height: 18px; background: #9aa0a6; border-radius: 50%;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .toggle-input:checked + .toggle-track { background: var(--accent); }
-        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #fff; }
-        .toggle-input:disabled + .toggle-track { opacity: 0.25; cursor: not-allowed; }
+        /* Hidden Media Assets */
+        #hidden-file-input { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="scrim" onclick="toggleSidePanel()"></div>
+    <div id="scrim" onclick="closeDrawer()"></div>
 
-    <div id="login-stage" class="stage">
+    <div id="auth-gate" class="stage-gate">
         <div class="auth-card">
-            <div class="auth-header">
-                <h1>Sign in to Aura</h1>
-                <p>Enter an operator username to connect</p>
-            </div>
+            <div class="auth-header">AURA::SEC_AUTH</div>
             <div class="input-group">
-                <label>Username</label>
-                <input type="text" id="username-field" class="clean-input" placeholder="e.g. Alex" autocomplete="off">
+                <label>Operator Handle</label>
+                <input type="text" id="auth-handle" class="matrix-input" placeholder="Enter handle..." autocomplete="off">
             </div>
-            <button class="prime-btn" onclick="authenticateSession()">Continue</button>
-            <div class="bypass-action" onclick="bypassAsGuest()">Use without an account</div>
+            <button class="matrix-btn prime" onclick="executeSessionGate()">Initialize Layer-1</button>
+            <div style="text-align:center; font-size:0.8rem; color:var(--text); text-decoration:underline; cursor:pointer;" onclick="bypassSession()">Bypass Security (Restricted Node)</div>
         </div>
     </div>
 
-    <div id="side-panel">
-        <div class="panel-section">
-            <span class="panel-label">Account details</span>
-            <div class="panel-row">
-                <span id="panel-username-display" style="font-weight: 500;">Guest Session</span>
-            </div>
-            <button class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="signoutSession()">Sign Out</button>
+    <div id="options-drawer">
+        <div class="drawer-header">
+            <div class="drawer-title">AURA // CONFIG</div>
+            <button class="close-btn" onclick="closeDrawer()">✕</button>
         </div>
         
-        <div class="panel-section">
-            <span class="panel-label">Usage status</span>
-            <div class="panel-row">
-                <span>Message Allocation:</span>
-                <span id="panel-allocation-display" style="font-weight: 500; color: var(--accent);">15 / 15 min</span>
+        <div class="drawer-content">
+            
+            <div class="drawer-sect">
+                <span class="sect-label">Security Protocol</span>
+                <div class="drawer-row">
+                    <span>Node Status:</span>
+                    <strong id="config-node-status" style="color:var(--text);">RESTRICTED</strong>
+                </div>
+                <button class="matrix-btn" id="config-auth-btn" style="padding:10px; font-size:0.8rem;" onclick="toggleNodeAuth()">Terminate Session</button>
             </div>
-        </div>
 
-        <div class="panel-section">
-            <span class="panel-label">Settings</span>
-            <div class="panel-row">
-                <span>Experimental Toggles:</span>
-                <div style="display: flex; align-items: center;">
-                    <input type="checkbox" id="experimental-toggle" class="toggle-input">
-                    <label for="experimental-toggle" class="toggle-track"></label>
+            <div id="pfp-config-panel" class="drawer-sect hidden">
+                <span class="sect-label">Layer-2 Avatar</span>
+                <div class="drawer-row" id="pfp-config">
+                    <div id="pfp-avatar-preview" class="matrix-pfp">?</div>
+                    <button class="matrix-btn" style="padding:10px; font-size:0.8rem;" onclick="triggerPfpUpload()">Load Image</button>
+                </div>
+            </div>
+
+            <div class="drawer-sect">
+                <span class="sect-label">Visual Interface</span>
+                <div class="drawer-row">
+                    <span>Render Mode:</span>
+                    <select id="theme-selector" class="matrix-input" style="padding:8px; font-size:0.9rem;" onchange="updateTheme()">
+                        <option value="matrix">Matrix (Default)</option>
+                        <option value="onyx">Onyx (Dark)</option>
+                        <option value="light">Solar (Light)</option>
+                        <option value="auto">System (Auto)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="drawer-sect">
+                <span class="sect-label">Neural Settings</span>
+                <div class="drawer-row">
+                    <span>Neural-Net TTS:</span>
+                    <input type="checkbox" id="tts-toggle" class="matrix-toggle" onchange="updateExperimentalState()">
+                    <label for="tts-toggle" class="toggle-label"></label>
+                </div>
+            </div>
+
+            <div class="drawer-sect">
+                <span class="sect-label">Experimental Matrix</span>
+                <div class="drawer-row">
+                    <span>Unlock Layer-X Tools:</span>
+                    <input type="checkbox" id="experimental-toggle" class="matrix-toggle" onchange="toggleExperimentalSuite()">
+                    <label for="experimental-toggle" class="toggle-label"></label>
+                </div>
+                
+                <div id="experi-sect" class="drawer-sect">
+                    <div class="drawer-row">
+                        <span>L-X Visual Analyzer:</span>
+                        <span>[ENABLED]</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <div id="workspace-stage" class="stage hidden">
+    <div id="console-stage" class="stage-gate hidden">
         <header>
-            <button class="panel-toggle" onclick="toggleSidePanel()">☰</button>
-            <div class="brand-title">Aura</div>
-            <div id="tier-badge" class="tier-badge">Guest</div>
+            <div style="display:flex; align-items:center; gap:10px;">
+                <div id="pfp-avatar-header" class="matrix-pfp hidden" style="width:32px; height:32px; font-size:1rem;">?</div>
+                <div class="brand-title">AURA//CORE_SYS</div>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <div id="tier-badge" class="tier-badge restricted">GUEST</div>
+                <button class="opt-btn" onclick="toggleSidePanel()">⚙</button>
+            </div>
         </header>
 
-        <div id="chat-canvas">
-            <div class="msg-bubble ai">Hello! I'm Aura. How can I help you today?</div>
+        <div id="console-timeline">
+            <div class="line-node ai">[SYSTEM] Layer-1 Neural Link active. Restricted guest node access active.</div>
         </div>
 
-        <div id="control-dock">
+        <div id="console-dock">
+            <button id="experi-cam-btn" class="dock-btn" onclick="triggerCameraInput()" title="Vision Analyzer (L-X)">👁</button>
             <div class="pill-wrapper">
-                <input type="text" id="msg-input" placeholder="Message Aura..." autocomplete="off" onkeypress="handleInputKey(event)">
-                <button id="send-btn" onclick="executePayloadTransmission()">➔</button>
+                <input type="text" id="console-input" placeholder="Execute neural payload sequence..." autocomplete="off" onkeypress="handleInputKey(event)">
+                <button id="send-btn" class="dock-btn prime" onclick="transmitPayload()">➔</button>
             </div>
         </div>
     </div>
 
+    <input type="file" id="hidden-file-input" accept="image/png, image/jpeg" onchange="processPfpUpload(this)">
+    <input type="file" id="hidden-camera-input" accept="image/*" capture="camera" onchange="processCameraCapture(this)">
+
     <script>
-        // 🔴 PASTE YOUR ACTUAL GEMINI API KEY HERE 🔴
+        // 🔴 PASTE YOUR ACTIVE GEMINI API KEY HERE 🔴
         const NATIVE_IOS_KEY = "AIzaSyBlLECBL_7bT3X8j2NM3PyTNOvXQ7FTkso";
 
-        // APP WORKSPACE TRACKING VARIABLES
-        let activeProfile = null;
+        // APP CORE VARIABLE STATES
+        let activeHandle = null;
+        let pfpBase64 = null;
+        let isTtsActive = false;
+        let isExperimentalActive = false;
         let messageHistoryTimestamps = [];
-        const TRANSACTION_MAX = 15;
-        const RESYNC_WINDOW_MS = 15 * 60 * 1000;
+        const RATE_LIMIT = 15;
+        const LIMIT_WINDOW_MS = 15 * 60 * 1000;
 
-        // TARGET DOCUMENT DOM REFS
-        const loginStage = document.getElementById('login-stage');
-        const workspaceStage = document.getElementById('workspace-stage');
-        const sidePanel = document.getElementById('side-panel');
-        const scrim = document.getElementById('scrim');
-        const chatCanvas = document.getElementById('chat-canvas');
-        const msgInput = document.getElementById('msg-input');
-        const usernameField = document.getElementById('username-field');
-        const tierBadge = document.getElementById('tier-badge');
-        const panelUsernameDisplay = document.getElementById('panel-username-display');
-        const panelAllocationDisplay = document.getElementById('panel-allocation-display');
-        const experimentalToggle = document.getElementById('experimental-toggle');
+        // Neural TTS Array
+        const synapseTts = window.speechSynthesis;
+        const auraVoice = new SpeechSynthesisUtterance();
+        auraVoice.lang = 'en-US';
+        auraVoice.pitch = 0.9;
+        auraVoice.rate = 1.0;
 
-        function toggleSidePanel() {
-            sidePanel.classList.toggle('open');
-            scrim.classList.toggle('active');
+        // DOM Element Refs
+        const gates = { auth: document.getElementById('auth-gate'), console: document.getElementById('console-stage') };
+        const panels = { drawer: document.getElementById('options-drawer'), scrim: document.getElementById('scrim') };
+        const els = {
+            handleIn: document.getElementById('auth-handle'),
+            timeline: document.getElementById('console-timeline'),
+            cmdIn: document.getElementById('console-input'),
+            badge: document.getElementById('tier-badge'),
+            menuHandle: document.getElementById('menu-user-display'),
+            pfpPrev: document.getElementById('pfp-avatar-preview'),
+            pfpHeader: document.getElementById('pfp-avatar-header'),
+            themeSel: document.getElementById('theme-selector'),
+            ttsTog: document.getElementById('tts-toggle'),
+            experiTog: document.getElementById('experimental-toggle'),
+            fileIn: document.getElementById('hidden-file-input'),
+            camIn: document.getElementById('hidden-camera-input'),
+            nodeStat: document.getElementById('config-node-status'),
+            authBtn: document.getElementById('config-auth-btn'),
+            capStat: document.getElementById('config-capacity-display')
+        };
+
+        // --- DRAWER PANEL MANAGEMENT ---
+        function toggleSidePanel() { panels.drawer.classList.toggle('open'); panels.scrim.classList.toggle('active'); }
+        function closeDrawer() { panels.drawer.classList.remove('open'); panels.scrim.classList.remove('active'); }
+
+        // --- SESSION CONTROL GATE ---
+        function executeSessionGate() {
+            const handleText = els.handleIn.value.trim();
+            if(!handleText) { alert("IDENTITY REJECTED: Mandatory operator handle null."); return; }
+            activeHandle = handleText;
+            initializeCoreUI(true);
         }
 
-        // PARSE USER SIGN IN
-        function authenticateSession() {
-            const rawUserText = usernameField.value.trim();
-            if(!rawUserText) {
-                alert("Please enter a valid username to continue.");
-                return;
-            }
+        function bypassSession() {
+            activeHandle = null;
+            initializeCoreUI(false);
+        }
 
-            activeProfile = rawUserText;
+        function toggleNodeAuth() {
+            if(activeHandle) { terminateNode(); } 
+            else { toggleSidePanel(); showAuthGate(); }
+        }
+
+        function terminateNode() {
+            closeDrawer(); activeHandle = null; pfpBase64 = null; updateExperimentalState(false);
+            els.pfpHeader.classList.add('hidden'); els.handleIn.value = ''; messageHistoryTimestamps = [];
+            speakSynapse("[SESSION_TERMINATED]"); showAuthGate();
+        }
+
+        function showAuthGate() { gates.console.classList.add('hidden'); gates.auth.classList.remove('hidden'); }
+        function showConsole() { gates.auth.classList.add('hidden'); gates.console.classList.remove('hidden'); }
+
+        function initializeCoreUI(isAuthenticated) {
+            if(isAuthenticated) {
+                els.badge.innerText = activeHandle.toUpperCase(); els.badge.classList.remove('restricted');
+                els.nodeStat.innerText = "AUTHENTICATED"; els.authBtn.innerText = "Terminate Session";
+                els.pfpPrev.innerText = activeHandle[0].toUpperCase(); els.pfpHeader.innerText = activeHandle[0].toUpperCase();
+            } else {
+                els.badge.innerText = "GUEST"; els.badge.classList.add('restricted');
+                els.nodeStat.innerText = "RESTRICTED"; els.authBtn.innerText = "Authenticate Node";
+                els.pfpPrev.innerText = "?"; els.pfpHeader.innerText = "?";
+            }
+            updateExperimentalState(false); // Default L-X off
+            showConsole();
+        }
+
+        // --- EXPERIMENTAL Neural Array Suite (Layer-X) ---
+        function toggleExperimentalSuite() {
+            const active = els.experiTog.checked;
+            document.getElementById('experi-sect').classList.toggle('active', active);
+            document.getElementById('pfp-config-panel').classList.toggle('hidden', !active);
+            updateExperimentalState(active);
+        }
+
+        function updateExperimentalState(active) {
+            isExperimentalActive = active;
+            document.getElementById('experi-cam-btn').classList.toggle('active', active);
+            updateTtsState();
+            // sync profile visibility
+            if(activeHandle && isExperimentalActive) { els.pfpHeader.classList.remove('hidden'); }
+            else { els.pfpHeader.classList.add('hidden'); }
+        }
+
+        // --- THEME & Neural Array Suite Toggles ---
+        function updateTheme() { document.documentElement.setAttribute('data-theme', els.themeSel.value); }
+        
+        function updateTtsState() { isTtsActive = els.ttsTog.checked && isExperimentalActive; }
+
+        // --- Profile Avatar Vector Management (Experimental) ---
+        function triggerPfpUpload() { els.fileIn.click(); }
+        function processPfpUpload(input) {
+            const asset = input.files[0]; if(!asset) return;
+            convertAssetToBase64(asset).then(base64 => {
+                pfpBase64 = base64;
+                els.pfpPrev.innerHTML = `<img src="${base64}" style="width:100%;height:100%;">`;
+                els.pfpHeader.innerHTML = `<img src="${base64}" style="width:100%;height:100%;">`;
+            });
+        }
+
+        // --- Vision Analyzer (L-X Tool) ---
+        function triggerCameraInput() { if(isExperimentalActive) els.camIn.click(); }
+        function processCameraCapture(input) {
+            if(!isExperimentalActive) return;
+            const artifact = input.files[0]; if(!artifact) return;
+            appendNeuralArtifact(artifact);
+        }
+
+        function appendNeuralArtifact(asset) {
+            appendRowNode("[NEURAL_ARTIFACT_DEPLOYED]", 'user');
+            const targetNode = appendRowNode("Awaiting Neural Context Vector interpretation...", 'ai');
+            const artifactUrl = URL.createObjectURL(asset);
+            targetNode.innerHTML += `<img src="${artifactUrl}" class="vision-frame">`;
+            convertAssetToBase64(asset).then(base64 => executeVisionAnalysis(base64, targetNode));
+        }
+
+        async function executeVisionAnalysis(base64, activeNode) {
+            const NeuralPrompt = "Neural Matrix Vision Protocol: Define all operational contextual nodes within this artifact. Simplify visual vectors into auditory semantic chains for immediate Neural TTS synthesis. Respond ONLY with auditory semantic data.";
+            executeNetworkCall(NeuralPrompt, activeNode, base64);
+        }
+
+        // --- Rate Limiting & Input Management ---
+        function handleInputKey(e) { if (e.key === 'Enter') transmitPayload(); }
+
+        function checkCompliance() {
+            if (activeHandle) return { allow: true };
+            const now = Date.now();
+            messageHistoryTimestamps = messageHistoryTimestamps.filter(t => (now - t) < LIMIT_WINDOW_MS);
+            if (messageHistoryTimestamps.length >= RATE_LIMIT) {
+                const earliest = messageHistoryTimestamps[0];
+                const delta = LIMIT_WINDOW_MS - (now - earliest);
+                return { allow: false, cooldown: Math.ceil(delta / 60000) };
+            }
+            return { allow: true };
+        }
+
+        async function transmitPayload() {
+            const promptData = els.cmdIn.value.trim(); if (!promptData) return;
+            const check = checkCompliance();
+            if(!check.allow) { alert(`SECURITY LOCKOUT: Guest rate limits deployed. Retry contextual matrix synchronization in ${check.cooldown} minutes.`); return; }
             
-            // Adjust configuration privileges for Signed-In Accounts
-            tierBadge.innerText = "Premium";
-            tierBadge.classList.add('premium');
-            panelUsernameDisplay.innerText = activeProfile;
-            panelAllocationDisplay.innerText = "Infinite";
-            experimentalToggle.disabled = false;
-
-            // Transition screens
-            loginStage.classList.add('hidden');
-            workspaceStage.classList.remove('hidden');
+            if (!activeHandle) messageHistoryTimestamps.push(Date.now());
+            appendRowNode(promptData, 'user'); els.cmdIn.value = '';
+            const pendingNode = appendRowNode("Executing Neural Payload context synchronization...", 'ai');
+            executeNetworkCall(promptData, pendingNode);
         }
 
-        // PARSE GUEST ENTRY
-        function bypassAsGuest() {
-            activeProfile = null;
+        // --- CORE Neural Network Interface (API Link) ---
+        async function executeNetworkCall(NeuralPayload, activeNode, base64Artifact = null) {
+            if (!NATIVE_IOS_KEY || NATIVE_IOS_KEY.includes("PASTE_YOUR")) { activeNode.innerText = "[CRITICAL_FAULT] Neural Link access key null."; return; }
             
-            // Enforce restricted limits for Guest profile configurations
-            tierBadge.innerText = "Guest";
-            tierBadge.classList.remove('premium');
-            panelUsernameDisplay.innerText = "Guest Session";
-            panelAllocationDisplay.innerText = "15 / 15 min";
-            experimentalToggle.checked = false;
-            experimentalToggle.disabled = true;
+            const NeuralModel = base64Artifact ? 'gemini-1.5-flash:streamGenerateContent' : 'gemini-1.5-flash:streamGenerateContent';
+            const EndpointRoute = `https://generativelanguage.googleapis.com/v1beta/models/${NeuralModel}?key=${NATIVE_IOS_KEY}`;
 
-            loginStage.classList.add('hidden');
-            workspaceStage.classList.remove('hidden');
-        }
-
-        // TERMINATE CURRENT CONTEXT MODE
-        function signoutSession() {
-            usernameField.value = '';
-            messageHistoryTimestamps = [];
-            toggleSidePanel();
-            workspaceStage.classList.add('hidden');
-            loginStage.classList.remove('hidden');
-        }
-
-        function handleInputKey(e) {
-            if (e.key === 'Enter') executePayloadTransmission();
-        }
-
-        // VALIDATE COMPLIANCE TRACKERS
-        function calculateAllocationCompliance() {
-            if (activeProfile !== null) return { allowed: true };
-
-            const timestampMark = Date.now();
-            messageHistoryTimestamps = messageHistoryTimestamps.filter(t => (timestampMark - t) < RESYNC_WINDOW_MS);
-
-            if (messageHistoryTimestamps.length >= TRANSACTION_MAX) {
-                const earliestRemainingTime = messageHistoryTimestamps[0];
-                const deltaCalculated = RESYNC_WINDOW_MS - (timestampMark - earliestRemainingTime);
-                return { allowed: false, retryMinutes: Math.ceil(deltaCalculated / 60000) };
+            let dynamicPayload = [{ parts: [{ text: NeuralPayload }] }];
+            if(base64Artifact) {
+                dynamicPayload = [{
+                    parts: [
+                        { text: NeuralPayload },
+                        { inline_data: { mime_type: "image/jpeg", data: base64Artifact.split(',')[1] } }
+                    ]
+                }];
             }
-            return { allowed: true };
-        }
-
-        // DISPATCH SECURE PIPELINE NETWORK INSTRUCTIONS
-        async function executePayloadTransmission() {
-            const inputQuery = msgInput.value.trim();
-            if (!inputQuery) return;
-
-            const trackingStatus = calculateAllocationCompliance();
-            if(!trackingStatus.allowed) {
-                alert(`Account limit reached. Guest profiles are restricted to 15 messages every 15 minutes. Sign in to unlock unlimited messages, or try again in ${trackingStatus.retryMinutes} minutes.`);
-                return;
-            }
-
-            if (NATIVE_IOS_KEY === "PASTE_YOUR_GEMINI_API_KEY_HERE" || !NATIVE_IOS_KEY) {
-                alert("App configuration incomplete. API key required.");
-                return;
-            }
-
-            if (activeProfile === null) {
-                messageHistoryTimestamps.push(Date.now());
-            }
-
-            renderBubble(inputQuery, 'user');
-            msgInput.value = '';
-
-            const aiBubbleNode = renderBubble("Thinking...", 'ai');
 
             try {
-                const streamingGateway = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?key=${NATIVE_IOS_KEY}`;
-                const networkConnection = await fetch(streamingGateway, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ contents: [{ parts: [{ text: inputQuery }] }] })
+                const matrixStream = await fetch(EndpointRoute, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ contents: dynamicPayload })
                 });
 
-                if (!networkConnection.ok) throw new Error();
+                if (!matrixStream.ok) throw new Error("Link failed.");
 
-                const reader = networkConnection.body.getReader();
-                const textDecoder = new TextDecoder();
-                let continuousBufferText = '';
+                const reader = matrixStream.body.getReader();
+                const textDecoderInstance = new TextDecoder();
+                let semanticChainOutput = '';
 
                 while (true) {
                     const { value, done } = await reader.read();
                     if (done) break;
 
-                    const segmentChunk = textDecoder.decode(value, { stream: true });
-                    const arrayBlocks = segmentChunk.split('\n');
+                    const textSegment = textDecoderInstance.decode(value, { stream: true });
+                    const segmentedArrays = textSegment.split('\n');
 
-                    for (const arrayRow of arrayBlocks) {
-                        if (arrayRow.trim().startsWith('"text":')) {
-                            const parsedTokenString = arrayRow.split('"text":')[1].trim().replace(/^"|",?$/g, '');
-                            continuousBufferText += parsedTokenString.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-                            aiBubbleNode.innerText = continuousBufferText;
-                            chatCanvas.scrollTop = chatCanvas.scrollHeight;
+                    for (const rowUnit of segmentedArrays) {
+                        if (rowUnit.trim().startsWith('"text":')) {
+                            const semanticToken = rowUnit.split('"text":')[1].trim().replace(/^"|",?$/g, '');
+                            semanticChainOutput += semanticToken.replace(/\\n/g, '\n').replace(/\\"/g, '"');
+                            activeNode.innerText = semanticChainOutput;
+                            els.timeline.scrollTop = els.timeline.scrollHeight;
                         }
                     }
                 }
+                
+                // Final synthesis pass
+                if (!semanticChainOutput) { activeNode.innerText = "[NULL_VECTOR] Neural server returned an ambiguously empty structural context."; }
+                speakSynapse(semanticChainOutput);
 
-                if (!continuousBufferText) {
-                    aiBubbleNode.innerText = "Received empty validation context structure from processing endpoint.";
-                }
+            } catch (networkError) { speakSynapse("[CONNECTION_LOST]"); activeNode.innerText = "[CONNECTION_LOST] Link verification failure."; activeNode.classList.add('error'); }
+        }
 
-            } catch (err) {
-                aiBubbleNode.innerText = "Connection failed. Please check your network and API endpoint configurations.";
+        // --- AUDITORY SENSORY ARRAY (Neural TTS) ---
+        function speakSynapse(semanticData) {
+            if(isTtsActive && isExperimentalActive && semanticData && !semanticData.startsWith('[')) {
+                synapseTts.cancel(); auraVoice.text = semanticData; synapseTts.speak(auraVoice);
             }
         }
 
-        function renderBubble(messageContent, bubbleClass) {
-            const nodeElement = document.createElement('div');
-            nodeElement.className = `msg-bubble ${bubbleClass}`;
-            nodeElement.innerText = messageContent;
-            chatCanvas.appendChild(nodeElement);
-            chatCanvas.scrollTop = chatCanvas.scrollHeight;
-            return nodeElement;
+        // --- DOM RENDER VECTORS ---
+        function appendRowNode(content, authorClass) {
+            const containerNode = document.createElement('div');
+            containerNode.className = `line-node ${authorClass}`;
+            containerNode.innerText = content;
+            els.timeline.appendChild(containerNode);
+            els.timeline.scrollTop = els.timeline.scrollHeight;
+            return containerNode;
+        }
+
+        function convertAssetToBase64(file) {
+            return new Promise((resolve, reject) => {
+                const dataTokenizer = new FileReader(); dataTokenizer.readAsDataURL(file);
+                dataTokenizer.onload = () => resolve(dataTokenizer.result);
+                dataTokenizer.onerror = fault => reject(fault);
+            });
         }
     </script>
 </body>
