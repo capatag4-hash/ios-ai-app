@@ -7,7 +7,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>Aura Engine</title>
     <style>
-        /* --- NATIVE APP DESIGN SYSTEM --- */
+        /* --- PREMIUM APP DESIGN SYSTEM --- */
         :root {
             --bg: #131314;
             --surface: #1e1f20;
@@ -74,7 +74,7 @@
             z-index: 1;
         }
 
-        /* CARD AND ACCESS INTERFACES */
+        /* LOGIN INTERFACE */
         #login-stage {
             justify-content: center;
             align-items: center;
@@ -299,14 +299,32 @@
             justify-content: space-between;
         }
 
-        .panel-toggle {
-            font-size: 1.4rem;
+        /* Native-style Settings Icon Button */
+        .settings-btn {
             background: none;
             border: none;
-            color: var(--text-main);
             cursor: pointer;
             display: flex;
             align-items: center;
+            justify-content: center;
+            padding: 6px;
+            border-radius: 50%;
+            transition: background-color 0.2s;
+        }
+        
+        .settings-btn:hover {
+            background-color: var(--surface-variant);
+        }
+
+        .settings-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: var(--text-main);
+            transition: transform 0.3s var(--ease);
+        }
+        
+        .settings-btn:active svg {
+            transform: rotate(45deg);
         }
 
         .header-center {
@@ -538,7 +556,11 @@
 
     <div id="workspace-stage" class="stage hidden">
         <header>
-            <button class="panel-toggle" onclick="toggleSidePanel()">☰</button>
+            <button class="settings-btn" onclick="toggleSidePanel()" title="Open Settings">
+                <svg viewBox="0 0 24 24">
+                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
+                </svg>
+            </button>
             <div class="header-center">
                 <div id="header-avatar-pfp" class="pfp-viewport" style="width: 30px; height: 30px; font-size: 0.85rem; display: none;">?</div>
                 <div class="brand-title">Aura</div>
@@ -565,9 +587,9 @@
 
     <script>
         // 🔴 PASTE YOUR API KEY INSIDE THESE QUOTES 🔴
-        const NATIVE_IOS_KEY = "AIzaSyCsuTPjS9Aismup3ZN7Buw9aUzdraROFNU";
+        const NATIVE_IOS_KEY = "AIzaSyCEiI7OeQLdCPPGMnW72opRf1tuoV66rfQ";
 
-        // GLOBAL TRACKING VARIABLES
+        // STATE CONTROLLERS
         let activeProfile = null;
         let loadedPfpBase64 = null;
         let isAudioTtsActive = false;
@@ -576,14 +598,14 @@
         const TRANSACTION_MAX = 15;
         const RESYNC_WINDOW_MS = 15 * 60 * 1000;
 
-        // SPEECH INTERFACE SUBSYSTEMS
+        // SPEECH SYNTHESIS ENGINE
         const speechSynapseInstance = window.speechSynthesis;
         const speechUtteranceMatrix = new SpeechSynthesisUtterance();
         speechUtteranceMatrix.lang = 'en-US';
         speechUtteranceMatrix.pitch = 1.0;
         speechUtteranceMatrix.rate = 1.0;
 
-        // TARGET DOCUMENT DOM REFS
+        // CACHED DOM REFERENCES
         const loginStage = document.getElementById('login-stage');
         const workspaceStage = document.getElementById('workspace-stage');
         const sidePanel = document.getElementById('side-panel');
@@ -604,7 +626,7 @@
         const headerAvatarPfp = document.getElementById('header-avatar-pfp');
         const cameraTriggerBtn = document.getElementById('camera-trigger-btn');
 
-        // Dynamic System Dark Theme Monitor
+        // Dynamic System Preferences Event Tracker
         window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
             if (themeSelect.value === 'auto') executeThemeReconstruction();
         });
@@ -614,7 +636,7 @@
             scrim.classList.toggle('active');
         }
 
-        // --- THEME PROFILE INTERFACE CONTROLLER ---
+        // --- THEME PROFILE MANAGER ---
         function executeThemeReconstruction() {
             const selectedTheme = themeSelect.value;
             if (selectedTheme === 'auto') {
@@ -625,7 +647,7 @@
             }
         }
 
-        // --- IDENTITY GATEWAYS ---
+        // --- AUTH/SESSION GATEWAYS ---
         function authenticateSession() {
             const rawUserText = usernameField.value.trim();
             if(!rawUserText) {
@@ -669,7 +691,6 @@
 
         function toggleSessionState() {
             if (activeProfile !== null) {
-                // Sign Out Action Flow
                 activeProfile = null;
                 loadedPfpBase64 = null;
                 sidebarAvatarPfp.innerHTML = "?";
@@ -681,7 +702,6 @@
                 workspaceStage.classList.add('hidden');
                 loginStage.classList.remove('hidden');
             } else {
-                // Direct Auth Route Reconnect From Side Panel
                 toggleSidePanel();
                 workspaceStage.classList.add('hidden');
                 loginStage.classList.remove('hidden');
@@ -699,7 +719,7 @@
             sessionGateBtn.innerText = activeProfile ? "Sign Out" : "Log In";
         }
 
-        // --- LAYER-X EXPERIMENTAL SUITE CORE ---
+        // --- EXPERIMENTAL SETTINGS SUITE ---
         function toggleExperimentalWorkspace(explicitState = null) {
             const active = explicitState !== null ? explicitState : experimentalToggle.checked;
             experimentalToggle.checked = active;
@@ -722,7 +742,7 @@
             if (!isAudioTtsActive) speechSynapseInstance.cancel();
         }
 
-        // --- LAYER-X IMAGE LOADING PIPELINES ---
+        // --- PROFILE PICTURE STORAGE PIPELINE ---
         function triggerPfpSelector() { document.getElementById('hidden-file-pfp').click(); }
         
         function processPfpImageAssignment(input) {
@@ -736,7 +756,7 @@
             });
         }
 
-        // --- REAL-TIME COMPUTER VISION SUITE ---
+        // --- COMPUTER VISION SCANS (CAMERA REGISTRY) ---
         function triggerCameraCapture() { if(isExperimentalSuiteUnlocked) document.getElementById('hidden-file-cam').click(); }
 
         function processCameraCapturePayload(input) {
@@ -745,7 +765,7 @@
             if (!file) return;
 
             renderBubble("[IMAGE TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing scene setup...", 'ai');
+            const targetAiBubble = renderBubble("Analyzing scene registry inputs...", 'ai');
 
             const trackingImgUrl = URL.createObjectURL(file);
             targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
@@ -756,7 +776,7 @@
             });
         }
 
-        // --- NETWORKING DATA LOGISTICS ---
+        // --- NETWORK PIPELINE ENGINE ---
         function handleInputKey(e) {
             if (e.key === 'Enter') executePayloadTransmission();
         }
@@ -786,7 +806,7 @@
             }
 
             if (!NATIVE_IOS_KEY) {
-                alert("Please open the source code file and add your Gemini API Key to line 273 (const NATIVE_IOS_KEY = 'your_key') to enable connection.");
+                alert("Please add your Gemini API Key to line 291 to connect your workspace.");
                 return;
             }
 
@@ -843,11 +863,11 @@
 
             } catch (err) {
                 console.error(err);
-                DOMNodeTarget.innerText = "Connection failed. Please verify your internet connection and make sure your API key inside line 273 is valid.";
+                DOMNodeTarget.innerText = "Connection failed. Please verify your internet connection and make sure your API key inside line 291 is valid.";
             }
         }
 
-        // --- TTS SOUND CHANNEL SYNAPSE ---
+        // --- LOCAL TTS OUT-LOUD HANDLER ---
         function executeAudioSynapseOutput(speechText) {
             if (isAudioTtsActive && isExperimentalSuiteUnlocked && speechText) {
                 speechSynapseInstance.cancel();
@@ -856,7 +876,7 @@
             }
         }
 
-        // --- CONSOLE DOM COMPONENT DRAW ENGINE ---
+        // --- CHAT DISPLAY ELEMENT GENERATOR ---
         function renderBubble(messageContent, bubbleClass) {
             const nodeElement = document.createElement('div');
             nodeElement.className = `msg-bubble ${bubbleClass}`;
