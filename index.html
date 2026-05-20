@@ -5,28 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Aura</title>
+    <title>Aura Engine</title>
     <style>
+        /* --- MODERN PREMIUM DARK VARIABLE MATRIX --- */
         :root {
-            --bg: #121212;
-            --surface: #1e1e1e;
-            --text: #ffffff;
-            --text-muted: #aaaaaa;
-            --border: #2c2c2c;
-            --user-bubble: #007aff;
-            --ai-bubble: #2c2c2c;
+            --bg: #131314;
+            --surface: #1e1f20;
+            --surface-variant: #282a2c;
+            --border: #3c4043;
+            --accent: #1a73e8;
+            --accent-glow: rgba(26, 115, 232, 0.15);
+            --text-main: #e3e3e3;
+            --text-sub: #9aa0a6;
+            --text-bright: #ffffff;
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
-        }
-
-        [data-theme="light"] {
-            --bg: #f5f5f7;
-            --surface: #ffffff;
-            --text: #1d1d1f;
-            --text-muted: #86868b;
-            --border: #e5e5ea;
-            --user-bubble: #007aff;
-            --ai-bubble: #e5e5ea;
         }
 
         * {
@@ -39,412 +32,77 @@
 
         body {
             background-color: var(--bg);
-            color: var(--text);
+            color: var(--text-main);
             height: 100vh;
             width: 100vw;
             overflow: hidden;
             display: flex;
             position: relative;
-            transition: background-color 0.3s;
         }
 
-        /* --- SIDE MENU --- */
-        #side-menu {
-            position: absolute;
-            left: -280px;
-            top: 0;
-            width: 280px;
-            height: 100%;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            z-index: 100;
-            padding: calc(var(--safe-top) + 20px) 20px calc(var(--safe-bottom) + 20px) 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-            transition: left 0.3s ease;
-            box-shadow: 5px 0 15px rgba(0,0,0,0.1);
-        }
-
-        #side-menu.open {
-            left: 0;
-        }
-
-        .menu-header {
-            font-size: 1.2rem;
-            font-weight: 600;
-            padding-bottom: 12px;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .menu-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .menu-label {
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            color: var(--text-muted);
-            letter-spacing: 0.5px;
-        }
-
-        .btn {
-            background: var(--bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 0.95rem;
-            text-align: left;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .btn:active {
-            opacity: 0.7;
-        }
-
-        /* --- MAIN INTERFACE --- */
-        #main-view {
-            flex: 1;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-
-        #overlay {
-            display: none;
+        /* --- STAGE MODAL GATEWAYS --- */
+        .stage {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0,0,0,0.4);
-            z-index: 90;
-        }
-
-        #overlay.active {
-            display: block;
-        }
-
-        header {
-            padding: calc(var(--safe-top) + 12px) 16px 12px 16px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .menu-trigger {
-            font-size: 1.5rem;
-            background: none;
-            border: none;
-            color: var(--text);
-            cursor: pointer;
-        }
-
-        .app-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-        }
-
-        .status-badge {
-            font-size: 0.75rem;
-            padding: 4px 8px;
-            border-radius: 12px;
-            background: var(--border);
-            color: var(--text-muted);
-        }
-
-        .status-badge.active {
-            background: rgba(40, 199, 111, 0.2);
-            color: #28c76f;
-        }
-
-        /* --- CHAT TIMELINE --- */
-        #chat-timeline {
-            flex: 1;
-            overflow-y: auto;
-            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            z-index: 10;
             background: var(--bg);
+            transition: opacity 0.25s ease, visibility 0.25s;
         }
 
-        .bubble {
-            max-width: 80%;
-            padding: 12px 16px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.45;
-            word-wrap: break-word;
+        .stage.hidden {
+            opacity: 0;
+            visibility: hidden;
+            z-index: 1;
         }
 
-        .user {
-            background-color: var(--user-bubble);
-            color: #ffffff;
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .ai {
-            background-color: var(--ai-bubble);
-            color: var(--text);
-            align-self: flex-start;
-            border-bottom-left-radius: 4px;
-        }
-
-        /* --- INPUT CONTROL PANEL --- */
-        #input-container {
-            padding: 12px 16px calc(var(--safe-bottom) + 12px) 16px;
-            background: var(--surface);
-            border-top: 1px solid var(--border);
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-
-        #msg-input {
-            flex: 1;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 12px 16px;
-            border-radius: 22px;
-            font-size: 0.95rem;
-            outline: none;
-        }
-
-        #send-btn {
-            background: var(--user-bubble);
-            border: none;
-            color: #ffffff;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
+        /* --- AUTHENTICATION CARDS --- */
+        #login-stage {
             justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
+            align-items: center;
+            padding: 24px;
         }
 
-        #send-btn:disabled {
-            opacity: 0.4;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- OVERLAY SHIELD FOR INTERFACE DISMISSAL -->
-    <div id="overlay" onclick="toggleMenu()"></div>
-
-    <!-- SLIDE-OUT PANEL CONFIGURATION -->
-    <div id="side-menu">
-        <div class="menu-header">Aura Options</div>
-        
-        <div class="menu-section">
-            <span class="menu-label">Identity Control</span>
-            <button class="btn" id="account-toggle-btn" onclick="toggleAccount()">
-                <span>Status</span>
-                <strong id="menu-account-status">Guest Account</strong>
-            </button>
-        </div>
-
-        <div class="menu-section">
-            <span class="menu-label">Visual Interface</span>
-            <button class="btn" onclick="toggleTheme()">
-                <span>Color Theme</span>
-                <strong id="menu-theme-status">Dark Mode</strong>
-            </button>
-        </div>
-    </div>
-
-    <!-- APP SHELL CONTAINER -->
-    <div id="main-view">
-        <header>
-            <button class="menu-trigger" onclick="toggleMenu()">☰</button>
-            <div class="app-title">Aura</div>
-            <div id="header-status-badge" class="status-badge">Guest Mode</div>
-        </header>
-
-        <div id="chat-timeline">
-            <div class="bubble ai">Hello! How can I assist you with Aura today?</div>
-        </div>
-
-        <div id="input-container">
-            <input type="text" id="msg-input" placeholder="Type a message..." autocomplete="off" onkeypress="handleKey(event)">
-            <button id="send-btn" onclick="sendMessage()">➔</button>
-        </div>
-    </div>
-
-    <script>
-        // 🔴 PASTE YOUR API KEY INSIDE THE QUOTES BELOW 🔴
-        const NATIVE_IOS_KEY = "AIzaSyBlLECBL_7bT3X8j2NM3PyTNOvXQ7FTkso";
-
-        // APP CORE VARIABLE STATES
-        let currentTheme = "dark";
-        let isLoggedIn = false;
-        
-        // RATE LIMIT TRACKING SYSTEM
-        let messageTimestamps = [];
-        const LIMIT_COUNT = 15;
-        const LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes in milliseconds
-
-        // UI ELEMENT REFS
-        const sideMenu = document.getElementById('side-menu');
-        const overlay = document.getElementById('overlay');
-        const chatTimeline = document.getElementById('chat-timeline');
-        const msgInput = document.getElementById('msg-input');
-        const headerStatus = document.getElementById('header-status-badge');
-        const menuAccountStatus = document.getElementById('menu-account-status');
-        const menuThemeStatus = document.getElementById('menu-theme-status');
-
-        // SLIDE DRAWER MANAGEMENT
-        function toggleMenu() {
-            sideMenu.classList.toggle('open');
-            overlay.classList.toggle('active');
+        .auth-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            padding: 32px 24px;
+            border-radius: 16px;
+            width: 100%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
         }
 
-        // VISUAL SYSTEM TOGGLE (LIGHT / DARK)
-        function toggleTheme() {
-            if (currentTheme === "dark") {
-                document.documentElement.setAttribute('data-theme', 'light');
-                currentTheme = "light";
-                menuThemeStatus.innerText = "Light Mode";
-            } else {
-                document.documentElement.removeAttribute('data-theme');
-                currentTheme = "dark";
-                menuThemeStatus.innerText = "Dark Mode";
-            }
+        .auth-header {
+            text-align: center;
         }
 
-        // ACCOUNT CONFIGURATION ENGINE
-        function toggleAccount() {
-            isLoggedIn = !isLoggedIn;
-            if(isLoggedIn) {
-                headerStatus.innerText = "Logged In";
-                headerStatus.classList.add('active');
-                menuAccountStatus.innerText = "User Account";
-                // Reset limit checks upon user logging in
-                messageTimestamps = [];
-            } else {
-                headerStatus.innerText = "Guest Mode";
-                headerStatus.classList.remove('active');
-                menuAccountStatus.innerText = "Guest Account";
-            }
-            toggleMenu();
+        .auth-header h1 {
+            font-size: 1.6rem;
+            font-weight: 500;
+            color: var(--text-bright);
+            margin-bottom: 6px;
         }
 
-        // ENTER KEY HANDLER
-        function handleKey(e) {
-            if (e.key === 'Enter') sendMessage();
+        .auth-header p {
+            font-size: 0.9rem;
+            color: var(--text-sub);
         }
 
-        // RATE LIMIT CALCULATOR (SAVES TIMESTAMP METRICS)
-        function checkRateLimit() {
-            if (isLoggedIn) return { allowed: true };
-
-            const now = Date.now();
-            // Evict logging elements outside active time block window
-            messageTimestamps = messageTimestamps.filter(timestamp => (now - timestamp) < LIMIT_WINDOW_MS);
-
-            if (messageTimestamps.length >= LIMIT_COUNT) {
-                const oldestRemaining = messageTimestamps[0];
-                const timeRemainingMs = LIMIT_WINDOW_MS - (now - oldestRemaining);
-                const minutesRemaining = Math.ceil(timeRemainingMs / 60000);
-                return { allowed: false, minutes: minutesRemaining };
-            }
-
-            return { allowed: true };
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
 
-        // CORE GENERATION NETWORK REQUESTS
-        async function sendMessage() {
-            const queryText = msgInput.value.trim();
-            if (!queryText) return;
-
-            // Run structural security verification check against limit models
-            const limitStatus = checkRateLimit();
-            if (!limitStatus.allowed) {
-                alert(`Rate limit triggered! Guests can only send 15 messages every 15 minutes. Please log in or try again in ${limitStatus.minutes} minutes.`);
-                return;
-            }
-
-            // Fallback structural safety validation block checks
-            if (NATIVE_IOS_KEY === "PASTE_YOUR_GEMINI_API_KEY_HERE" || !NATIVE_IOS_KEY) {
-                alert("Error: App configuration is incomplete. Developer key has not been injected into source structural elements.");
-                return;
-            }
-
-            // Append request history log metrics metrics
-            if (!isLoggedIn) {
-                messageTimestamps.push(Date.now());
-            }
-
-            // Render message container node models safely to display track
-            appendBubble(queryText, 'user');
-            msgInput.value = '';
-
-            const pendingBubble = appendBubble('Thinking...', 'ai');
-
-            try {
-                const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:streamGenerateContent?key=${NATIVE_IOS_KEY}`;
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: queryText }] }]
-                    })
-                });
-
-                if (!response.ok) throw new Error();
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder();
-                let accumulatedOutput = '';
-
-                while (true) {
-                    const { value, done } = await reader.read();
-                    if (done) break;
-
-                    const textChunk = decoder.decode(value, { stream: true });
-                    const processingSegments = textChunk.split('\n');
-
-                    for (const segment of processingSegments) {
-                        if (segment.trim().startsWith('"text":')) {
-                            const cleanText = segment.split('"text":')[1].trim().replace(/^"|",?$/g, '');
-                            accumulatedOutput += cleanText.replace(/\\n/g, '\n').replace(/\\"/g, '"');
-                            pendingBubble.innerText = accumulatedOutput;
-                            chatTimeline.scrollTop = chatTimeline.scrollHeight;
-                        }
-                    }
-                }
-
-                if (!accumulatedOutput) {
-                    pendingBubble.innerText = "System returned an ambiguous text frame. Please check operational models.";
-                }
-
-            } catch (error) {
-                pendingBubble.innerText = "Connection execution failure. Please ensure backend endpoint authentication parameters are correct.";
-            }
+        .input-group label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-main);
         }
-
-        function appendBubble(content, authorClass) {
-            const bubbleNode = document.createElement('div');
-            bubbleNode.className = `bubble ${authorClass}`;
-            bubbleNode.innerText = content;
-            chatTimeline.appendChild(bubbleNode);
-            chatTimeline.scrollTop = chatTimeline.scrollHeight;
-            return bubbleNode;
-        }
-    </script>
-</body>
-</html>
