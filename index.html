@@ -3,31 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Aura Chromium Workspace</title>
+    <title>Aura</title>
     <style>
-        /* --- MODERN CHROMIUM CODENAME DESIGN SYSTEM --- */
+        /* --- NATIVE HACKER/CHROMIUM ULTRA PREMIUM DARK SYSTEM --- */
         :root {
-            --bg: #0f0f11;
+            --bg: #0b0b0d;
+            --lll-menu-bg: #111214;
             --surface: #1e1f22;
             --surface-variant: #2b2d31;
-            --border: #35373c;
-            --accent: #1a73e8;
-            --accent-glow: rgba(26, 115, 232, 0.15);
+            --border: #2e3035;
+            --accent: #00ff66; /* Classic Hacker Element Accent Highlight */
+            --accent-glow: rgba(0, 255, 102, 0.15);
             --text-main: #dbdee1;
             --text-sub: #949ba4;
             --text-bright: #ffffff;
-            --safe-top: env(safe-area-inset-top, 0px);
-            --safe-bottom: env(safe-area-inset-bottom, 0px);
             --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         [data-theme="light"] {
             --bg: #f2f3f5;
+            --lll-menu-bg: #e3e5e8;
             --surface: #ffffff;
-            --surface-variant: #e3e5e8;
-            --border: #cbd5e1;
+            --surface-variant: #f2f3f5;
+            --border: #chd5e1;
             --accent: #1a73e8;
             --accent-glow: rgba(26, 115, 232, 0.1);
             --text-main: #313338;
@@ -40,7 +38,6 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            -webkit-tap-highlight-color: transparent;
         }
 
         body {
@@ -50,11 +47,9 @@
             width: 100vw;
             overflow: hidden;
             display: flex;
-            position: relative;
-            transition: background 0.3s var(--ease), color 0.3s var(--ease);
         }
 
-        /* --- STAGE STRUCTURES --- */
+        /* --- STAGE CONFIGURATOR CONTROLS --- */
         .stage {
             position: absolute;
             top: 0;
@@ -62,7 +57,6 @@
             width: 100%;
             height: 100%;
             display: flex;
-            flex-direction: column;
             z-index: 10;
             background: var(--bg);
         }
@@ -72,7 +66,7 @@
             z-index: 1;
         }
 
-        /* LOGIN INTERFACE BUILD */
+        /* SESSION GATE SYSTEM */
         #login-stage {
             justify-content: center;
             align-items: center;
@@ -83,27 +77,21 @@
             background: var(--surface);
             border: 1px solid var(--border);
             padding: 32px 24px;
-            border-radius: 16px;
+            border-radius: 12px;
             width: 100%;
             max-width: 400px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            gap: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .auth-header h1 {
-            font-size: 1.6rem;
-            font-weight: 500;
+            font-size: 1.5rem;
+            font-weight: 600;
             color: var(--text-bright);
-            margin-bottom: 6px;
             text-align: center;
-        }
-
-        .auth-header p {
-            font-size: 0.9rem;
-            color: var(--text-sub);
-            text-align: center;
+            letter-spacing: -0.5px;
         }
 
         .clean-input {
@@ -112,7 +100,7 @@
             padding: 12px 16px;
             color: var(--text-bright);
             font-size: 0.95rem;
-            border-radius: 10px;
+            border-radius: 8px;
             outline: none;
             width: 100%;
         }
@@ -123,52 +111,106 @@
 
         .prime-btn {
             background: var(--accent);
-            color: #ffffff;
+            color: #000000;
+            font-weight: 600;
             border: none;
             padding: 14px;
-            font-size: 1rem;
-            font-weight: 500;
-            border-radius: 12px;
+            font-size: 0.95rem;
+            border-radius: 8px;
             cursor: pointer;
+            transition: opacity 0.2s;
         }
+
+        .prime-btn:hover { opacity: 0.9; }
 
         .bypass-action {
             text-align: center;
-            font-size: 0.9rem;
-            color: var(--accent);
+            font-size: 0.85rem;
+            color: var(--text-sub);
             cursor: pointer;
+            text-decoration: underline;
         }
 
-        /* --- CHROMIUM BROWSER LAYER CORE --- */
-        #browser-container {
-            flex: 1;
+        /* --- THE LLL MASTER SIDE MENU BAR DOCK --- */
+        #lll-navigation-menu {
+            width: 68px;
+            background: var(--lll-menu-bg);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
-            background: #ffffff;
-            position: relative;
+            align-items: center;
+            padding: 16px 0;
+            gap: 20px;
+            z-index: 50;
         }
 
-        /* Chromium Tab Bar Ribbon */
-        .tab-strip {
+        .lll-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-sub);
+            font-size: 1.3rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s var(--ease);
+        }
+
+        .lll-btn:hover, .lll-btn.active {
+            color: var(--text-bright);
+            border-color: var(--accent);
+            background: var(--surface-variant);
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* --- APP WORKSPACE CONTENT MULTIPLEXER --- */
+        #app-content-viewport {
+            flex: 1;
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .app-view-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: none;
+            flex-direction: column;
             background: var(--bg);
-            padding: 8px 8px 0 8px;
+        }
+
+        .app-view-panel.active-panel {
+            display: flex;
+        }
+
+        /* --- CORE WEB BROWSER SUB-INTERFACE BUILD --- */
+        .tab-strip {
+            background: var(--lll-menu-bg);
+            padding: 8px 12px 0 12px;
             display: flex;
             align-items: end;
-            gap: 6px;
+            gap: 4px;
+            border-bottom: 1px solid var(--border);
         }
 
         .browser-tab {
-            background: var(--surface-variant);
-            padding: 8px 16px;
-            border-radius: 10px 10px 0 0;
-            font-size: 0.85rem;
+            background: var(--bg);
+            padding: 8px 14px;
+            border-radius: 8px 8px 0 0;
+            font-size: 0.8rem;
             color: var(--text-sub);
             cursor: pointer;
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 130px;
-            max-width: 200px;
+            min-width: 120px;
+            max-width: 180px;
             border: 1px solid var(--border);
             border-bottom: none;
         }
@@ -176,8 +218,9 @@
         .browser-tab.active {
             background: var(--surface);
             color: var(--text-bright);
-            font-weight: 500;
             border-color: var(--border);
+            border-bottom: 1px solid var(--surface);
+            margin-bottom: -1px;
         }
 
         .close-tab-btn {
@@ -186,20 +229,8 @@
             background: none;
             color: var(--text-sub);
             cursor: pointer;
-            font-size: 0.8rem;
         }
 
-        .new-tab-btn {
-            padding: 6px 12px;
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            border-radius: 6px;
-            cursor: pointer;
-            margin-bottom: 4px;
-        }
-
-        /* Address Navigation Ribbon Control Bar */
         .browser-nav-bar {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -209,23 +240,14 @@
             gap: 12px;
         }
 
-        .nav-arrow {
-            background: none;
-            border: none;
-            color: var(--text-main);
-            font-size: 1.1rem;
-            cursor: pointer;
-            padding: 4px;
-        }
-
         .address-bar-wrapper {
             flex: 1;
             display: flex;
             align-items: center;
-            background: var(--surface-variant);
+            background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 30px;
-            padding: 6px 16px;
+            border-radius: 6px;
+            padding: 6px 14px;
         }
 
         .address-bar-input {
@@ -237,151 +259,38 @@
             outline: none;
         }
 
-        .browser-viewport {
+        .browser-iframe-viewport {
             flex: 1;
             background: #ffffff;
-            position: relative;
         }
 
-        /* REAL WEB VIEW CONTAINER */
-        .tab-content-frame {
+        .browser-frame-node {
             width: 100%;
             height: 100%;
             border: none;
             display: none;
-            background: #ffffff;
         }
 
-        .tab-content-frame.active {
+        .browser-frame-node.active-frame {
             display: block;
         }
 
-        /* --- DUAL WORKSPACE VIEW SPLITTER --- */
-        .workspace-split-view {
-            flex: 1;
-            display: flex;
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        /* --- INTEGRATED SIDEBAR ENGINE --- */
-        #aura-split-sidebar {
-            width: 380px;
-            border-left: 1px solid var(--border);
-            background: var(--bg);
-            display: flex;
-            flex-direction: column;
-            transition: width 0.3s var(--ease), transform 0.3s var(--ease);
-            position: relative;
-            z-index: 20;
-        }
-
-        #aura-split-sidebar.collapsed {
-            width: 0px;
-            transform: translateX(380px);
-            border-left: none;
-        }
-
-        .ai-panel-header {
-            padding: 16px;
-            background: var(--surface);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        /* --- SLIDE DRAWER MENU OVERLAY --- */
-        #side-panel {
-            position: absolute;
-            left: -300px;
-            top: 0;
-            width: 300px;
-            height: 100%;
-            background: var(--surface);
-            border-right: 1px solid var(--border);
-            z-index: 100;
-            padding: calc(var(--safe-top) + 24px) 20px calc(var(--safe-bottom) + 24px) 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 28px;
-            transition: left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        #side-panel.open {
-            left: 0;
-        }
-
-        .panel-section {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .panel-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-sub);
-            text-transform: uppercase;
-        }
-
-        .panel-row {
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            padding: 12px;
-            border-radius: 10px;
-            font-size: 0.9rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* Toolbar Interactive Action Assets */
-        .toolbar-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            border-radius: 8px;
-            color: var(--text-main);
-        }
-
-        .toolbar-btn:hover {
-            background-color: var(--surface-variant);
-        }
-
-        .toolbar-btn svg {
-            width: 20px;
-            height: 20px;
-            fill: currentColor;
-        }
-
-        .toolbar-btn.active-glow {
-            color: var(--accent);
-            background: var(--accent-glow);
-        }
-
-        /* CHAT BUBBLE RENDERING STATIONS */
+        /* --- THE OLD AURA ASSISTANT INTERFACE --- */
         #chat-canvas {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             gap: 16px;
         }
 
         .msg-bubble {
-            max-width: 85%;
-            padding: 12px 16px;
-            border-radius: 16px;
+            max-width: 80%;
+            padding: 14px 18px;
+            border-radius: 12px;
             font-size: 0.95rem;
-            line-height: 1.4;
+            line-height: 1.5;
         }
 
         .msg-bubble.user {
@@ -389,75 +298,62 @@
             border: 1px solid var(--border);
             color: var(--text-bright);
             align-self: flex-end;
-            border-bottom-right-radius: 4px;
         }
 
         .msg-bubble.ai {
-            background: transparent;
+            background: var(--surface);
+            border: 1px solid var(--border);
             color: var(--text-main);
             align-self: flex-start;
-            padding-left: 0;
         }
 
-        /* TEXT INPUT PLATFORM DECK */
         #control-dock {
-            padding: 16px;
+            padding: 20px;
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: flex;
-            gap: 10px;
+            gap: 12px;
             align-items: center;
         }
 
-        .pill-wrapper {
-            flex: 1;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 24px;
+        /* --- ACTUAL DEDICATED FULL PAGE SETTINGS VIEW --- */
+        .settings-content-wrapper {
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            margin: 0 auto;
             display: flex;
-            align-items: center;
-            padding: 4px 6px 4px 14px;
+            flex-direction: column;
+            gap: 32px;
+            overflow-y: auto;
         }
 
-        #msg-input {
-            flex: 1;
-            background: transparent;
-            border: none;
+        .settings-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .settings-header {
+            font-size: 1.4rem;
+            font-weight: 600;
             color: var(--text-bright);
-            font-size: 0.95rem;
-            outline: none;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             padding: 8px 0;
         }
 
-        .dock-action-btn {
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #camera-trigger-btn { display: none; }
-        #camera-trigger-btn.active { display: flex; }
-
-        #scrim {
-            display: none;
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            z-index: 90;
-        }
-        #scrim.active { display: block; }
-        .sub-tier-cluster { display: none; flex-direction: column; gap: 12px; }
-        .sub-tier-cluster.active { display: flex; }
+        /* SYSTEM CORE UTILS */
         .toggle-input { display: none; }
         .toggle-track {
             width: 44px; height: 24px; background: #3c4043; border-radius: 12px;
@@ -468,145 +364,136 @@
             background: #9aa0a6; border-radius: 50%; transition: transform 0.2s;
         }
         .toggle-input:checked + .toggle-track { background: var(--accent); }
-        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #fff; }
-        .pfp-viewport { width: 36px; height: 36px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: bold;}
+        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #000; }
+        .pfp-viewport { width: 40px; height: 40px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: bold;}
         .pfp-viewport img { width: 100%; height: 100%; object-fit: cover; }
-        #pfp-settings-row { display: none; }
-        #pfp-settings-row.visible { display: flex; }
-        .embedded-capture { max-width: 100%; border-radius: 10px; margin-top: 8px; border: 1px solid var(--border); }
+        #camera-trigger-btn { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; }
+        #camera-trigger-btn.active { display: block; }
+        .embedded-capture { max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border); }
         #hidden-file-pfp, #hidden-file-cam { display: none; }
     </style>
 </head>
 <body>
 
-    <div id="scrim" onclick="toggleSidePanel()"></div>
-
     <div id="login-stage" class="stage">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>Sign in to Aura Suite</h1>
-                <p>Launch your desktop Chromium interface framework</p>
+                <h1>Aura Environment Shell</h1>
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px;">
-                <label style="font-size: 0.85rem;">Account Engine Username</label>
-                <input type="text" id="username-field" class="clean-input" placeholder="e.g. Charlie" autocomplete="off">
+                <label style="font-size: 0.8rem; color: var(--text-sub);">User Identity Handle</label>
+                <input type="text" id="username-field" class="clean-input" placeholder="Enter custom handle name..." autocomplete="off">
             </div>
-            <button class="prime-btn" onclick="authenticateSession()">Launch Window</button>
-            <div class="bypass-action" onclick="bypassAsGuest()">Browse as Guest</div>
-        </div>
-    </div>
-
-    <div id="side-panel">
-        <div class="panel-section">
-            <span class="panel-label">Session Identity</span>
-            <div class="panel-row">
-                <div style="display: flex; align-items: center; gap: 12px;">
-                    <div id="sidebar-avatar-pfp" class="pfp-viewport">?</div>
-                    <span id="panel-username-display" style="font-weight: 500;">Guest Mode</span>
-                </div>
-            </div>
-            <div id="pfp-settings-row" class="panel-row">
-                <span>Display Avatar:</span>
-                <button class="prime-btn" style="padding: 6px 12px; font-size: 0.85rem;" onclick="triggerPfpSelector()">Upload</button>
-            </div>
-            <button id="session-gate-btn" class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="toggleSessionState()">Disconnect Matrix</button>
-        </div>
-
-        <div class="panel-section">
-            <span class="panel-label">Network Limits</span>
-            <div class="panel-row">
-                <span>AI Message Allocation:</span>
-                <span id="panel-allocation-display" style="font-weight: 500; color: var(--accent);">15 / 15 min</span>
-            </div>
-        </div>
-
-        <div class="panel-section">
-            <span class="panel-label">Visual Design</span>
-            <div class="panel-row">
-                <span>Workspace Palette:</span>
-                <select id="theme-configuration-select" class="clean-input" style="padding: 6px 10px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
-                    <option value="dark">Native Dark</option>
-                    <option value="light">Native Light</option>
-                    <option value="auto">System Sync</option>
-                </select>
-            </div>
-        </div>
-
-        <div class="panel-section">
-            <span class="panel-label">Developer Hooks</span>
-            <div class="panel-row">
-                <span>Experimental Engine:</span>
-                <div style="display: flex; align-items: center;">
-                    <input type="checkbox" id="experimental-toggle" class="toggle-input" onchange="toggleExperimentalWorkspace()">
-                    <label for="experimental-toggle" class="toggle-track"></label>
-                </div>
-            </div>
-            <div id="experimental-sub-tier" class="sub-tier-cluster">
-                <div class="panel-row">
-                    <span>Neural Audio Output:</span>
-                    <div style="display: flex; align-items: center;">
-                        <input type="checkbox" id="tts-toggle" class="toggle-input" onchange="toggleAudioSpeechSynapse()">
-                        <label for="tts-toggle" class="toggle-track"></label>
-                    </div>
-                </div>
-            </div>
+            <button class="prime-btn" onclick="authenticateSession()">Boot Environment</button>
+            <div class="bypass-action" onclick="bypassAsGuest()">Boot Guest Instance</div>
         </div>
     </div>
 
     <div id="workspace-stage" class="stage hidden">
-        <div class="tab-strip">
-            <div id="tabs-wrapper" style="display: flex; gap: 4px;">
-                </div>
-            <button class="new-tab-btn" onclick="createNewBrowserTab('https://bing.com')">+</button>
+        
+        <div id="lll-navigation-menu">
+            <button id="lll-btn-browser" class="lll-btn active" onclick="switchAppViewPanel('browser')" title="Web Browser Workspace">🌐</button>
+            <button id="lll-btn-ai" class="lll-btn" onclick="switchAppViewPanel('ai')" title="Aura Intelligent Copilot">✨</button>
+            <button id="lll-btn-settings" class="lll-btn" onclick="switchAppViewPanel('settings')" title="Master Settings Console">⚙️</button>
             
-            <div style="margin-left: auto; display: flex; gap: 8px; align-items: center; padding-bottom: 4px;">
-                <button id="ai-panel-toggle-btn" class="toolbar-btn active-glow" onclick="toggleAiSidebarSplit()" title="Toggle Aura Panel">
-                    <svg viewBox="0 0 24 24"><path d="M12 2L10.5 7.5L5 9L10.5 10.5L12 16L13.5 10.5L19 9L13.5 7.5L12 2Z M6 14L5 17.5L1.5 18.5L5 19.5L6 23L7 19.5L10.5 18.5L7 17.5L6 14Z"/></svg>
-                </button>
-                <button class="toolbar-btn" onclick="toggleSidePanel()" title="System Parameters">
-                    <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
-                </button>
-                <div id="tier-badge" class="tier-badge" style="margin-right: 8px;">Guest</div>
+            <div style="margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+                <div id="lll-avatar-pfp" class="pfp-viewport" style="width:36px; height:36px; font-size:0.8rem;">?</div>
+                <div id="tier-badge" style="font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border);">Guest</div>
             </div>
         </div>
 
-        <div class="browser-nav-bar">
-            <button class="nav-arrow" onclick="executeNativeBackBufferHistory()">◀</button>
-            <button class="nav-arrow" onclick="executeNativeForwardBufferHistory()">▶</button>
-            <button class="nav-arrow" onclick="reloadActiveTabFrame()">🔄</button>
-            <div class="address-bar-wrapper">
-                <input type="text" id="browser-address-input" class="address-bar-input" value="https://bing.com" onkeypress="handleAddressKey(event)">
-            </div>
-            <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveTabFrame()">Go</button>
-        </div>
-
-        <div class="workspace-split-view">
-            <div id="browser-container">
-                <div id="viewports-wrapper" class="browser-viewport" style="width: 100%; height: 100%;">
-                    </div>
-            </div>
-
-            <div id="aura-split-sidebar">
-                <div class="ai-panel-header">
-                    <div style="display: flex; align-items: center; gap: 8px;">
-                        <div id="header-avatar-pfp" class="pfp-viewport" style="width: 26px; height: 26px; font-size: 0.75rem; display: none;">?</div>
-                        <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-bright);">Aura Workspace AI</span>
-                    </div>
-                    <button class="toolbar-btn" style="padding: 2px;" onclick="toggleAiSidebarSplit()">✕</button>
+        <div id="app-content-viewport">
+            
+            <div id="panel-browser" class="app-view-panel active-panel">
+                <div class="tab-strip">
+                    <div id="tabs-wrapper" style="display: flex; gap: 4px;">
+                        </div>
+                    <button class="prime-btn" style="padding: 4px 10px; font-size: 0.8rem; margin-bottom: 4px; border-radius: 4px;" onclick="createNewBrowserTab('https://www.bing.com')">+</button>
                 </div>
 
+                <div class="browser-nav-bar">
+                    <button class="prime-btn" style="padding: 6px 12px; font-size: 0.85rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="reloadActiveFrameInstance()">🔄 Reload</button>
+                    <div class="address-bar-wrapper">
+                        <input type="text" id="browser-address-input" class="address-bar-input" value="https://www.bing.com" onkeypress="handleAddressKey(event)">
+                    </div>
+                    <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveFrameInstance()">Go</button>
+                </div>
+
+                <div id="viewports-wrapper" class="browser-iframe-viewport">
+                    </div>
+            </div>
+
+            <div id="panel-ai" class="app-view-panel">
+                <div style="padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 1.1rem; color: var(--text-bright);">Aura Interface Engine</div>
                 <div id="chat-canvas">
-                    <div class="msg-bubble ai">Hello! I'm Aura. I'm linked straight into your current browser tab view. Let me know what you need researched!</div>
+                    <div class="msg-bubble ai">Welcome back to the native Aura UI terminal. Let's process some prompts.</div>
                 </div>
-
                 <div id="control-dock">
-                    <button id="camera-trigger-btn" class="dock-action-btn" onclick="triggerCameraCapture()">📷</button>
-                    <div class="pill-wrapper">
-                        <input type="text" id="msg-input" placeholder="Consult Aura..." autocomplete="off" onkeypress="handleChatKey(event)">
-                        <button class="dock-action-btn" style="background: var(--accent); border:none; color:#fff; width:30px; height:30px;" onclick="executePayloadTransmission()">➔</button>
-                    </div>
+                    <button id="camera-trigger-btn" onclick="triggerCameraCapture()">📷</button>
+                    <input type="text" id="msg-input" class="clean-input" placeholder="Type prompt execution statement..." autocomplete="off" onkeypress="handleChatKey(event)">
+                    <button class="prime-btn" style="padding: 12px 24px;" onclick="executePayloadTransmission()">Execute</button>
                 </div>
             </div>
+
+            <div id="panel-settings" class="app-view-panel">
+                <div class="settings-content-wrapper">
+                    <h1 style="color: var(--text-bright); font-weight: 700; letter-spacing: -0.5px;">Master Console Workspace Settings</h1>
+                    
+                    <div class="settings-card">
+                        <div class="settings-header">Identity & Profile Mapping</div>
+                        <div class="settings-row">
+                            <span>Active Identity Signature:</span>
+                            <span id="settings-username-display" style="font-weight: 600;">Guest Workspace</span>
+                        </div>
+                        <div id="pfp-settings-row" class="settings-row" style="display: none;">
+                            <span>Identity Display Avatar Asset:</span>
+                            <button class="prime-btn" style="padding: 8px 16px; font-size: 0.85rem;" onclick="triggerPfpSelector()">Upload Custom Asset</button>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="settings-header">Resource Allocations</div>
+                        <div class="settings-row">
+                            <span>Aura API Transaction Pipeline Bandwidth:</span>
+                            <span id="settings-allocation-display" style="font-weight: 600; color: var(--accent);">15 / 15 Token Pool</span>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="settings-header">Visual Customization Suite</div>
+                        <div class="settings-row">
+                            <span>Interface Structural Skin Theme:</span>
+                            <select id="theme-configuration-select" class="clean-input" style="padding: 8px 12px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
+                                <option value="dark">Deep Hacker Dark</option>
+                                <option value="light">Chromium Native Light</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <div class="settings-header">Developer Environment Flags</div>
+                        <div class="settings-row">
+                            <span>Enable Experimental Framework Matrix:</span>
+                            <div style="display: flex; align-items: center;">
+                                <input type="checkbox" id="experimental-toggle" class="toggle-input" onchange="toggleExperimentalWorkspace()">
+                                <label for="experimental-toggle" class="toggle-track"></label>
+                            </div>
+                        </div>
+                        <div id="experimental-sub-tier" style="display: none; flex-direction: column; gap: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
+                            <div class="settings-row">
+                                <span>Speech Synthesis Audio Spoken Output:</span>
+                                <div style="display: flex; align-items: center;">
+                                    <input type="checkbox" id="tts-toggle" class="toggle-input" onchange="toggleAudioSpeechSynapse()">
+                                    <label for="tts-toggle" class="toggle-track"></label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button class="prime-btn" style="background: #ff3333; color: white;" onclick="toggleSessionState()">Kill & Purge Active Session Environment</button>
+                </div>
+            </div>
+
         </div>
     </div>
 
@@ -614,10 +501,10 @@
     <input type="file" id="hidden-file-cam" accept="image/*" capture="camera" onchange="processCameraCapturePayload(this)">
 
     <script>
-        // 🔴 PASTE YOUR API KEY HERE 🔴
+        // 🔴 PLACE YOUR GEMINI API KEY SYNC EMBED HERE 🔴
         const NATIVE_IOS_KEY = "AIzaSyANyaoVduAIgyBVsfllqhngdeZ4VS0EKxg";
 
-        // CORE RUNTIME FLAGS
+        // PERSISTENT DATA STACKS
         let activeProfile = null;
         let loadedPfpBase64 = null;
         let isAudioTtsActive = false;
@@ -626,106 +513,124 @@
         const TRANSACTION_MAX = 15;
         const RESYNC_WINDOW_MS = 15 * 60 * 1000;
 
-        // MULTI-TAB CACHE ENGINE arrays
+        // BROWSER TABS CACHE TRACKERS
         let tabArray = [];
         let activeTabId = null;
 
-        // SPEECH SYNAPSE REGS
+        // SPEECH REGS
         const speechSynapseInstance = window.speechSynthesis;
         const speechUtteranceMatrix = new SpeechSynthesisUtterance();
         speechUtteranceMatrix.lang = 'en-US';
 
-        // GLOBAL DOM HOOK QUERIES
+        // COMPONENT DOCUMENT ACCESSORS
         const loginStage = document.getElementById('login-stage');
         const workspaceStage = document.getElementById('workspace-stage');
-        const sidePanel = document.getElementById('side-panel');
-        const scrim = document.getElementById('scrim');
         const chatCanvas = document.getElementById('chat-canvas');
         const msgInput = document.getElementById('msg-input');
         const usernameField = document.getElementById('username-field');
         const tierBadge = document.getElementById('tier-badge');
-        const panelUsernameDisplay = document.getElementById('panel-username-display');
-        const panelAllocationDisplay = document.getElementById('panel-allocation-display');
+        const lllAvatarPfp = document.getElementById('lll-avatar-pfp');
+        const settingsUsernameDisplay = document.getElementById('settings-username-display');
+        const settingsAllocationDisplay = document.getElementById('settings-allocation-display');
         const experimentalToggle = document.getElementById('experimental-toggle');
         const experimentalSubTier = document.getElementById('experimental-sub-tier');
         const ttsToggle = document.getElementById('tts-toggle');
         const themeSelect = document.getElementById('theme-configuration-select');
-        const sessionGateBtn = document.getElementById('session-gate-btn');
         const pfpSettingsRow = document.getElementById('pfp-settings-row');
-        const sidebarAvatarPfp = document.getElementById('sidebar-avatar-pfp');
-        const headerAvatarPfp = document.getElementById('header-avatar-pfp');
         const cameraTriggerBtn = document.getElementById('camera-trigger-btn');
-        const auraSplitSidebar = document.getElementById('aura-split-sidebar');
-        const aiPanelToggleBtn = document.getElementById('ai-panel-toggle-btn');
         const tabsWrapper = document.getElementById('tabs-wrapper');
         const viewportsWrapper = document.getElementById('viewports-wrapper');
         const browserAddressInput = document.getElementById('browser-address-input');
 
-        function toggleSidePanel() {
-            sidePanel.classList.toggle('open');
-            scrim.classList.toggle('active');
+        // --- THE LLL MULTIPLEXER SWITCH PANEL ENGINE ---
+        function switchAppViewPanel(panelId) {
+            document.querySelectorAll('.app-view-panel').forEach(p => p.classList.remove('active-panel'));
+            document.querySelectorAll('.lll-btn').forEach(b => b.classList.remove('active'));
+
+            document.getElementById(`panel-${panelId}`).classList.add('active-panel');
+            document.getElementById(`lll-btn-${panelId}`).classList.add('active');
         }
 
-        function toggleAiSidebarSplit() {
-            auraSplitSidebar.classList.toggle('collapsed');
-            aiPanelToggleBtn.classList.toggle('active-glow');
-        }
-
-        // --- HIGH PERFORMANCE INTERNET RENDER ENGINE ---
-        function createNewBrowserTab(targetUrl = "https://bing.com") {
+        // --- CHROMIUM IFRAME X-FRAME DEFIANCE LAYER ---
+        function createNewBrowserTab(targetUrl = "https://www.bing.com") {
             const id = 'tab-' + Date.now();
-            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '').replace('http://', '') };
+            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '').replace('http://', '').substring(0, 12) + '...' };
             tabArray.push(tabObj);
 
-            // Tab Strip DOM Insertion Hook
+            // Tab Item DOM Link Node
             const tabNode = document.createElement('div');
             tabNode.className = `browser-tab`;
             tabNode.id = `node-${id}`;
-            tabNode.onclick = () => switchActiveTab(id);
-            tabNode.innerHTML = `<span>${tabObj.title}</span><button class="close-tab-btn" onclick="closeBrowserTab(event, '${id}')">✕</button>`;
+            tabNode.onclick = () => switchActiveBrowserTab(id);
+            tabNode.innerHTML = `<span>${tabObj.title}</span><button class="close-tab-btn" onclick="closeBrowserTabInstance(event, '${id}')">✕</button>`;
             tabsWrapper.appendChild(tabNode);
 
-            // ACTUAL LIVE WORKSPACE IFRAME ENGINE INJECTION
+            // CORE XFRAME IGNORE DEFIANCE FRAME INJECTION ENGINE
             const iframeNode = document.createElement('iframe');
-            iframeNode.className = 'tab-content-frame';
+            iframeNode.className = 'browser-frame-node';
             iframeNode.id = `viewport-${id}`;
-            iframeNode.src = targetUrl;
-            iframeNode.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms');
-            viewportsWrapper.appendChild(iframeNode);
+            
+            // We route through a public open deployment filter mirror proxy to strip away frame-busting security headers 
+            iframeNode.src = convertToXFrameDefianceUrl(targetUrl);
+            
+            // FORCE LOCK INSIDE CONTAINER APPLICATION: Intercept external execution redirects
+            iframeNode.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
+            
+            // Event hook listener mapping ensuring clicked links inside the browser stay forced inside the runtime framework
+            iframeNode.addEventListener('load', function() {
+                try {
+                    const internalDoc = iframeNode.contentWindow.document;
+                    internalDoc.querySelectorAll('a').forEach(anchorLink => {
+                        anchorLink.setAttribute('target', '_self');
+                    });
+                } catch(crossOriginSecBoundaryError) {
+                    // Silent optimization catch: Browser security layers isolate window lookups on distinct domains
+                }
+            });
 
-            switchActiveTab(id);
+            viewportsWrapper.appendChild(iframeNode);
+            switchActiveBrowserTab(id);
         }
 
-        function switchActiveTab(id) {
+        function convertToXFrameDefianceUrl(url) {
+            // Clean paths to ensure smooth handling
+            let workingUrl = url.trim();
+            if (!workingUrl.startsWith('http://') && !workingUrl.startsWith('https://')) {
+                workingUrl = 'https://' + workingUrl;
+            }
+            // Use an open-source reverse proxy gateway mirror to slice and drop out X-Frame-Options/CSP blocking headers completely
+            return "https://api.allorigins.win/raw?url=" + encodeURIComponent(workingUrl);
+        }
+
+        function switchActiveBrowserTab(id) {
             activeTabId = id;
             document.querySelectorAll('.browser-tab').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-content-frame').forEach(v => v.classList.remove('active'));
+            document.querySelectorAll('.browser-frame-node').forEach(v => v.classList.remove('active-frame'));
 
             const targetTab = document.getElementById(`node-${id}`);
             const targetView = document.getElementById(`viewport-${id}`);
             if(targetTab && targetView) {
                 targetTab.classList.add('active');
-                targetView.classList.add('active');
+                targetView.classList.add('active-frame');
                 const matchedData = tabArray.find(t => t.id === id);
                 if(matchedData) browserAddressInput.value = matchedData.url;
             }
         }
 
-        function closeBrowserTab(event, id) {
+        function closeBrowserTabInstance(event, id) {
             event.stopPropagation();
             tabArray = tabArray.filter(t => t.id !== id);
             document.getElementById(`node-${id}`).remove();
             document.getElementById(`viewport-${id}`).remove();
             if (activeTabId === id && tabArray.length > 0) {
-                switchActiveTab(tabArray[tabArray.length - 1].id);
+                switchActiveBrowserTab(tabArray[tabArray.length - 1].id);
             }
         }
 
-        function navigateActiveTabFrame() {
+        function navigateActiveFrameInstance() {
             if(!activeTabId) return;
             let targetUrl = browserAddressInput.value.trim();
             
-            // Auto URL structure verification layout logic
             if(!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
                 if (targetUrl.includes('.') && !targetUrl.includes(' ')) {
                     targetUrl = 'https://' + targetUrl;
@@ -738,110 +643,85 @@
             const targetIframe = document.getElementById(`viewport-${activeTabId}`);
             if(matchedData && targetIframe) {
                 matchedData.url = targetUrl;
-                matchedData.title = targetUrl.replace('https://', '').replace('http://', '').substring(0, 16) + '...';
+                matchedData.title = targetUrl.replace('https://', '').replace('http://', '').substring(0, 12) + '...';
                 document.querySelector(`#node-${activeTabId} span`).innerText = matchedData.title;
-                targetIframe.src = targetUrl;
+                targetIframe.src = convertToXFrameDefianceUrl(targetUrl);
                 browserAddressInput.value = targetUrl;
             }
         }
 
-        function reloadActiveTabFrame() {
+        function reloadActiveFrameInstance() {
             if(!activeTabId) return;
             const targetIframe = document.getElementById(`viewport-${activeTabId}`);
             if(targetIframe) targetIframe.src = targetIframe.src;
         }
 
-        function executeNativeBackBufferHistory() {
-            if(!activeTabId) return;
-            try { document.getElementById(`viewport-${activeTabId}`).contentWindow.history.back(); } 
-            catch(e) { alert("Security boundary restrictions block internal cross-origin frame array lookback reads."); }
-        }
-
-        function executeNativeForwardBufferHistory() {
-            if(!activeTabId) return;
-            try { document.getElementById(`viewport-${activeTabId}`).contentWindow.history.forward(); } 
-            catch(e) { alert("Security boundary restrictions block internal cross-origin frame array lookforward reads."); }
-        }
-
-        function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveTabFrame(); }
+        function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveFrameInstance(); }
         function handleChatKey(e) { if(e.key === 'Enter') executePayloadTransmission(); }
 
-        // --- CORE APPEARANCE LOGISTICS ---
+        // --- APPARENT VISUAL PALETTES ---
         function executeThemeReconstruction() {
-            const selectedTheme = themeSelect.value;
-            if (selectedTheme === 'auto') {
-                const systemIsDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-                document.documentElement.setAttribute('data-theme', systemIsDark ? 'dark' : 'light');
-            } else {
-                document.documentElement.setAttribute('data-theme', selectedTheme);
-            }
+            document.documentElement.setAttribute('data-theme', themeSelect.value);
         }
 
-        // --- SESSION IDENTITY STATE MANAGEMENT ---
+        // --- SESSION REGISTRY CONTROL MANAGEMENT ---
         function authenticateSession() {
             const rawUserText = usernameField.value.trim();
-            if(!rawUserText) { alert("Please enter a valid username signature handle."); return; }
+            if(!rawUserText) { alert("Please supply a valid username handles signature."); return; }
 
             activeProfile = rawUserText;
             tierBadge.innerText = "Premium";
-            tierBadge.classList.add('premium');
-            panelUsernameDisplay.innerText = activeProfile;
-            panelAllocationDisplay.innerText = "Infinite";
+            tierBadge.style.borderColor = var(--accent);
+            settingsUsernameDisplay.innerText = activeProfile;
+            settingsAllocationDisplay.innerText = "Infinite Pipeline Matrix";
             experimentalToggle.disabled = false;
 
-            sidebarAvatarPfp.innerText = activeProfile[0].toUpperCase();
-            headerAvatarPfp.innerText = activeProfile[0].toUpperCase();
+            lllAvatarPfp.innerText = activeProfile[0].toUpperCase();
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://bing.com");
+            createNewBrowserTab("https://www.bing.com");
             syncPfpVisibilityStates();
         }
 
         function bypassAsGuest() {
             activeProfile = null;
             tierBadge.innerText = "Guest";
-            tierBadge.classList.remove('premium');
-            panelUsernameDisplay.innerText = "Guest Mode";
-            panelAllocationDisplay.innerText = "15 / 15 min";
+            settingsUsernameDisplay.innerText = "Guest Account Console";
+            settingsAllocationDisplay.innerText = "15 / 15 Token Pool";
             experimentalToggle.checked = false;
             experimentalToggle.disabled = true;
             toggleExperimentalWorkspace(false);
 
-            sidebarAvatarPfp.innerText = "?";
-            headerAvatarPfp.innerText = "?";
+            lllAvatarPfp.innerText = "?";
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://bing.com");
+            createNewBrowserTab("https://www.bing.com");
             syncPfpVisibilityStates();
         }
 
         function toggleSessionState() {
             activeProfile = null;
             loadedPfpBase64 = null;
-            sidebarAvatarPfp.innerHTML = "?";
-            headerAvatarPfp.innerHTML = "?";
+            lllAvatarPfp.innerHTML = "?";
             usernameField.value = '';
             messageHistoryTimestamps = [];
             tabsWrapper.innerHTML = '';
             viewportsWrapper.innerHTML = '';
             tabArray = [];
-            if(sidePanel.classList.contains('open')) toggleSidePanel();
             toggleExperimentalWorkspace(false);
+            switchAppViewPanel('browser');
             workspaceStage.classList.add('hidden');
             loginStage.classList.remove('hidden');
         }
 
         function syncPfpVisibilityStates() {
             if (activeProfile && isExperimentalSuiteUnlocked) {
-                pfpSettingsRow.classList.add('visible');
-                headerAvatarPfp.style.display = "flex";
+                pfpSettingsRow.style.display = "flex";
             } else {
-                pfpSettingsRow.classList.remove('visible');
-                headerAvatarPfp.style.display = "none";
+                pfpSettingsRow.style.display = "none";
             }
-            sessionGateBtn.innerText = activeProfile ? "Disconnect Registry" : "Log In";
         }
 
         function toggleExperimentalWorkspace(explicitState = null) {
@@ -849,10 +729,10 @@
             experimentalToggle.checked = active;
             isExperimentalSuiteUnlocked = active;
             if (active) {
-                experimentalSubTier.classList.add('active');
+                experimentalSubTier.style.display = "flex";
                 cameraTriggerBtn.classList.add('active');
             } else {
-                experimentalSubTier.classList.remove('active');
+                experimentalSubTier.style.display = "none";
                 cameraTriggerBtn.classList.remove('active');
                 ttsToggle.checked = false;
                 toggleAudioSpeechSynapse(false);
@@ -871,12 +751,11 @@
             if (!file) return;
             convertFileToBase64(file).then(base64Data => {
                 loadedPfpBase64 = base64Data;
-                sidebarAvatarPfp.innerHTML = `<img src="${base64Data}">`;
-                headerAvatarPfp.innerHTML = `<img src="${base64Data}">`;
+                lllAvatarPfp.innerHTML = `<img src="${base64Data}">`;
             });
         }
 
-        // --- COMPUTER VISION SCANS (CAMERA REGISTRY SETUP) ---
+        // --- VISION AND CAMERA PIPELINES ---
         function triggerCameraCapture() { if(isExperimentalSuiteUnlocked) document.getElementById('hidden-file-cam').click(); }
         function processCameraCapturePayload(input) {
             if (!isExperimentalSuiteUnlocked) return;
@@ -884,7 +763,7 @@
             if (!file) return;
 
             renderBubble("[IMAGE TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing scene setup...", 'ai');
+            const targetAiBubble = renderBubble("Analyzing scene inputs...", 'ai');
             const trackingImgUrl = URL.createObjectURL(file);
             targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
 
@@ -894,7 +773,7 @@
             });
         }
 
-        // --- COGNITION DATA DISPATCH ---
+        // --- ARTIFICIAL COGNITION NETWORK PIPELINE ---
         function calculateAllocationCompliance() {
             if (activeProfile !== null) return { allowed: true };
             const timestampMark = Date.now();
@@ -913,12 +792,12 @@
 
             const trackingStatus = calculateAllocationCompliance();
             if(!trackingStatus.allowed) {
-                alert(`Allocation cap reached. Guest access resets in ${trackingStatus.retryMinutes} mins.`);
+                alert(`Allocation restriction. Guest caps clear in ${trackingStatus.retryMinutes} mins.`);
                 return;
             }
 
             if (!NATIVE_IOS_KEY) {
-                alert("Please drop your Gemini API token directly into the file codebase configuration variables.");
+                alert("Please drop your custom Gemini API key string token directly inside the code configuration objects.");
                 return;
             }
 
@@ -943,7 +822,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: queryContents })
                 });
-                if (!response.ok) throw new Error("API Server communication drop");
+                if (!response.ok) throw new Error("API Node connection breakdown.");
                 const json = await response.json();
                 if (json.candidates && json.candidates[0].content.parts[0].text) {
                     const parsedTextResult = json.candidates[0].content.parts[0].text;
@@ -956,10 +835,10 @@
                         speechSynapseInstance.speak(speechUtteranceMatrix);
                     }
                 } else {
-                    DOMNodeTarget.innerText = "Error parsing context buffer data.";
+                    DOMNodeTarget.innerText = "Error decoding candidate text buffer strings.";
                 }
             } catch (err) {
-                DOMNodeTarget.innerText = "Connection drop. Ensure your web network status is green and your API endpoint key token entry is active.";
+                DOMNodeTarget.innerText = "Network data loop fault. Validate key syntax profiles.";
             }
             chatCanvas.scrollTop = chatCanvas.scrollHeight;
         }
