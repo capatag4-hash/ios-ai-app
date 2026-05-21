@@ -5,34 +5,36 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Aura Engine</title>
+    <title>Aura</title>
     <style>
-        /* --- PREMIUM APP DESIGN SYSTEM --- */
+        /* --- MODERN CHROMIUM ULTRA-PREMIUM DESIGN SYSTEM --- */
         :root {
-            --bg: #131314;
-            --surface: #1e1f20;
-            --surface-variant: #282a2c;
-            --border: #3c4043;
+            --bg: #0f0f11;
+            --surface: #1e1f22;
+            --surface-variant: #2b2d31;
+            --border: #35373c;
             --accent: #1a73e8;
             --accent-glow: rgba(26, 115, 232, 0.15);
-            --text-main: #e3e3e3;
-            --text-sub: #9aa0a6;
+            --text-main: #dbdee1;
+            --text-sub: #949ba4;
             --text-bright: #ffffff;
+            --browser-nav: #1e1f22;
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
-            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+            --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
         }
 
         [data-theme="light"] {
-            --bg: #f0f2f5;
+            --bg: #f2f3f5;
             --surface: #ffffff;
-            --surface-variant: #e4e6eb;
-            --border: #cbd5e1;
+            --surface-variant: #e3e5e8;
+            --border: #chd5e1;
             --accent: #1a73e8;
             --accent-glow: rgba(26, 115, 232, 0.1);
-            --text-main: #1c1e21;
-            --text-sub: #65676b;
-            --text-bright: #050505;
+            --text-main: #313338;
+            --text-sub: #4e5058;
+            --text-bright: #060607;
+            --browser-nav: #f2f3f5;
         }
 
         * {
@@ -54,7 +56,7 @@
             transition: background 0.3s var(--ease), color 0.3s var(--ease);
         }
 
-        /* --- STAGE MANAGEMENT LAYER --- */
+        /* --- STAGE STRUCTURES --- */
         .stage {
             position: absolute;
             top: 0;
@@ -65,16 +67,14 @@
             flex-direction: column;
             z-index: 10;
             background: var(--bg);
-            transition: opacity 0.25s var(--ease), visibility 0.25s;
         }
 
         .stage.hidden {
-            opacity: 0;
-            visibility: hidden;
+            display: none !important;
             z-index: 1;
         }
 
-        /* LOGIN INTERFACE */
+        /* ACCESS SYSTEM */
         #login-stage {
             justify-content: center;
             align-items: center;
@@ -91,10 +91,7 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
-        }
-
-        .auth-header {
-            text-align: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
         }
 
         .auth-header h1 {
@@ -102,34 +99,24 @@
             font-weight: 500;
             color: var(--text-bright);
             margin-bottom: 6px;
+            text-align: center;
         }
 
         .auth-header p {
             font-size: 0.9rem;
             color: var(--text-sub);
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .input-group label {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-main);
+            text-align: center;
         }
 
         .clean-input {
             background: var(--bg);
             border: 1px solid var(--border);
-            padding: 14px 16px;
+            padding: 12px 16px;
             color: var(--text-bright);
-            font-size: 1rem;
-            border-radius: 12px;
+            font-size: 0.95rem;
+            border-radius: 10px;
             outline: none;
-            transition: border-color 0.2s;
+            width: 100%;
         }
 
         .clean-input:focus {
@@ -145,11 +132,6 @@
             font-weight: 500;
             border-radius: 12px;
             cursor: pointer;
-            transition: background 0.2s;
-        }
-
-        .prime-btn:active {
-            background: #1557b0;
         }
 
         .bypass-action {
@@ -157,10 +139,179 @@
             font-size: 0.9rem;
             color: var(--accent);
             cursor: pointer;
-            font-weight: 500;
         }
 
-        /* --- SLIDE DRAWER SETTINGS PANEL --- */
+        /* --- CHROMIUM MODERN BROWSER LAYER --- */
+        #browser-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: var(--surface);
+            position: relative;
+        }
+
+        /* Chromium Tab Bar Strip */
+        .tab-strip {
+            background: var(--bg);
+            padding: 8px 8px 0 8px;
+            display: flex;
+            align-items: end;
+            gap: 6px;
+            overflow-x: auto;
+        }
+
+        .browser-tab {
+            background: var(--surface-variant);
+            padding: 8px 16px;
+            border-radius: 10px 10px 0 0;
+            font-size: 0.85rem;
+            color: var(--text-sub);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 120px;
+            max-width: 200px;
+            border: 1px solid var(--border);
+            border-bottom: none;
+        }
+
+        .browser-tab.active {
+            background: var(--surface);
+            color: var(--text-bright);
+            font-weight: 500;
+            border-color: var(--border);
+        }
+
+        .close-tab-btn {
+            margin-left: auto;
+            border: none;
+            background: none;
+            color: var(--text-sub);
+            cursor: pointer;
+            font-size: 0.8rem;
+        }
+
+        .new-tab-btn {
+            padding: 6px 12px;
+            background: var(--surface-variant);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            border-radius: 6px;
+            cursor: pointer;
+            margin-bottom: 4px;
+        }
+
+        /* Address Bar Control Panel */
+        .browser-nav-bar {
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-arrow {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .address-bar-wrapper {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            background: var(--surface-variant);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 6px 16px;
+        }
+
+        .address-bar-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-bright);
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .browser-viewport {
+            flex: 1;
+            background: #ffffff;
+            position: relative;
+        }
+
+        .tab-content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: none;
+            background: var(--surface);
+        }
+
+        .tab-content-frame.active {
+            display: block;
+        }
+
+        /* Mock Web Page Placeholder Styling */
+        .mock-page-container {
+            width: 100%;
+            height: 100%;
+            padding: 40px;
+            color: #333;
+            background: #f8f9fa;
+            overflow-y: auto;
+        }
+
+        [data-theme="dark"] .mock-page-container {
+            background: #121214;
+            color: #e3e3e3;
+        }
+
+        /* --- DUAL WORKSPACE SPLITTER (AI SPLIT-VIEW) --- */
+        .workspace-split-view {
+            flex: 1;
+            display: flex;
+            width: 100%;
+            height: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- MODERN SPLIT AI PANEL ENGINE --- */
+        #aura-split-sidebar {
+            width: 380px;
+            border-left: 1px solid var(--border);
+            background: var(--bg);
+            display: flex;
+            flex-direction: column;
+            transition: width 0.3s var(--ease), transform 0.3s var(--ease);
+            position: relative;
+            z-index: 20;
+        }
+
+        #aura-split-sidebar.collapsed {
+            width: 0px;
+            transform: translateX(380px);
+            border-left: none;
+        }
+
+        /* AI Side Header Layout */
+        .ai-panel-header {
+            padding: 16px;
+            background: var(--surface);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* --- SLIDE SETTINGS DRAWER OVERLAY --- */
         #side-panel {
             position: absolute;
             left: -300px;
@@ -192,88 +343,125 @@
             font-weight: 600;
             color: var(--text-sub);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
         }
 
         .panel-row {
             background: var(--surface-variant);
             border: 1px solid var(--border);
-            padding: 14px;
+            padding: 12px;
             border-radius: 10px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
-        /* Avatar Element Setup */
-        .avatar-cluster {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .pfp-viewport {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--border);
-            color: var(--text-main);
+        /* Functional Button Layouts inside Header Toolbar */
+        .toolbar-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            overflow: hidden;
+            padding: 8px;
+            border-radius: 8px;
+            color: var(--text-main);
         }
 
-        .pfp-viewport img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
+        .toolbar-btn:hover {
+            background-color: var(--surface-variant);
         }
 
-        #pfp-settings-row {
-            display: none;
+        .toolbar-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
         }
 
-        #pfp-settings-row.visible {
-            display: flex;
+        .toolbar-btn.active-glow {
+            color: var(--accent);
+            background: var(--accent-glow);
         }
 
-        /* Custom Toggle Modules */
-        .toggle-input { display: none; }
-        .toggle-track {
-            width: 44px; height: 24px; background: #3c4043; border-radius: 12px;
-            position: relative; cursor: pointer; transition: background 0.2s;
-        }
-        .toggle-track::after {
-            content: ''; position: absolute; top: 3px; left: 3px;
-            width: 18px; height: 18px; background: #9aa0a6; border-radius: 50%;
-            transition: transform 0.2s, background 0.2s;
-        }
-        .toggle-input:checked + .toggle-track { background: var(--accent); }
-        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #fff; }
-        .toggle-input:disabled + .toggle-track { opacity: 0.25; cursor: not-allowed; }
-
-        /* Hidden Inner Segment Block */
-        .sub-tier-cluster {
-            display: none;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .sub-tier-cluster.active {
-            display: flex;
-        }
-
-        /* --- APP CONTENT CONTAINER --- */
-        #workspace-stage {
+        /* CHAT CANVAS PLATFORM */
+        #chat-canvas {
             flex: 1;
-            height: 100%;
+            overflow-y: auto;
+            padding: 20px;
             display: flex;
             flex-direction: column;
-            position: relative;
+            gap: 16px;
         }
+
+        .msg-bubble {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 16px;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+
+        .msg-bubble.user {
+            background: var(--surface-variant);
+            border: 1px solid var(--border);
+            color: var(--text-bright);
+            align-self: flex-end;
+            border-bottom-right-radius: 4px;
+        }
+
+        .msg-bubble.ai {
+            background: transparent;
+            color: var(--text-main);
+            align-self: flex-start;
+            padding-left: 0;
+        }
+
+        /* SYSTEM CONTROLS DOCK */
+        #control-dock {
+            padding: 16px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pill-wrapper {
+            flex: 1;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            padding: 4px 6px 4px 14px;
+        }
+
+        #msg-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-bright);
+            font-size: 0.95rem;
+            outline: none;
+            padding: 8px 0;
+        }
+
+        .dock-action-btn {
+            background: var(--surface-variant);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        #camera-trigger-btn { display: none; }
+        #camera-trigger-btn.active { display: flex; }
 
         #scrim {
             display: none;
@@ -285,190 +473,26 @@
             background: rgba(0, 0, 0, 0.4);
             z-index: 90;
         }
-
-        #scrim.active {
-            display: block;
+        #scrim.active { display: block; }
+        .sub-tier-cluster { display: none; flex-direction: column; gap: 12px; }
+        .sub-tier-cluster.active { display: flex; }
+        .toggle-input { display: none; }
+        .toggle-track {
+            width: 44px; height: 24px; background: #3c4043; border-radius: 12px;
+            position: relative; cursor: pointer;
         }
-
-        header {
-            padding: calc(var(--safe-top) + 14px) 20px 14px 20px;
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+        .toggle-track::after {
+            content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
+            background: #9aa0a6; border-radius: 50%; transition: transform 0.2s;
         }
-
-        /* Native-style Settings Icon Button */
-        .settings-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 6px;
-            border-radius: 50%;
-            transition: background-color 0.2s;
-        }
-        
-        .settings-btn:hover {
-            background-color: var(--surface-variant);
-        }
-
-        .settings-btn svg {
-            width: 22px;
-            height: 22px;
-            fill: var(--text-main);
-            transition: transform 0.3s var(--ease);
-        }
-        
-        .settings-btn:active svg {
-            transform: rotate(45deg);
-        }
-
-        .header-center {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .brand-title {
-            font-size: 1.1rem;
-            font-weight: 500;
-            color: var(--text-bright);
-        }
-
-        .tier-badge {
-            font-size: 0.8rem;
-            font-weight: 500;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-sub);
-        }
-
-        .tier-badge.premium {
-            border-color: rgba(26, 115, 232, 0.4);
-            background: var(--accent-glow);
-            color: #8ab4f8;
-        }
-
-        /* CONVERSATION PLATFORM CANVAS */
-        #chat-canvas {
-            flex: 1;
-            overflow-y: auto;
-            padding: 24px 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            background: var(--bg);
-        }
-
-        .msg-bubble {
-            max-width: 82%;
-            padding: 14px 18px;
-            border-radius: 18px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-            word-wrap: break-word;
-        }
-
-        .msg-bubble.user {
-            background-color: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-bright);
-            align-self: flex-end;
-            border-bottom-right-radius: 4px;
-        }
-
-        .msg-bubble.ai {
-            background-color: transparent;
-            color: var(--text-main);
-            align-self: flex-start;
-            padding-left: 0;
-            max-width: 100%;
-        }
-
-        .embedded-capture {
-            max-width: 100%;
-            border-radius: 12px;
-            margin-top: 10px;
-            border: 1px solid var(--border);
-            display: block;
-        }
-
-        /* CONTROL INTERFACE DOCK BAR */
-        #control-dock {
-            padding: 12px 20px calc(var(--safe-bottom) + 16px) 20px;
-            background: var(--bg);
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .pill-wrapper {
-            flex: 1;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 28px;
-            display: flex;
-            align-items: center;
-            padding: 4px 6px 4px 18px;
-        }
-
-        .pill-wrapper:focus-within {
-            border-color: var(--border);
-            background: var(--surface-variant);
-        }
-
-        #msg-input {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: var(--text-bright);
-            font-size: 1rem;
-            outline: none;
-            padding: 10px 0;
-        }
-
-        .dock-action-btn {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        #camera-trigger-btn {
-            display: none;
-        }
-
-        #camera-trigger-btn.active {
-            display: flex;
-        }
-
-        #send-btn {
-            background: var(--accent);
-            color: #ffffff;
-            border: none;
-        }
-
-        .dock-action-btn:active {
-            transform: scale(0.95);
-        }
-
-        /* Absolute Utility Hooks */
-        #hidden-file-pfp { display: none; }
-        #hidden-file-cam { display: none; }
+        .toggle-input:checked + .toggle-track { background: var(--accent); }
+        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #fff; }
+        .pfp-viewport { width: 36px; height: 36px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: bold;}
+        .pfp-viewport img { width: 100%; height: 100%; object-fit: cover; }
+        #pfp-settings-row { display: none; }
+        #pfp-settings-row.visible { display: flex; }
+        .embedded-capture { max-width: 100%; border-radius: 10px; margin-top: 8px; border: 1px solid var(--border); }
+        #hidden-file-pfp, #hidden-file-cam { display: none; }
     </style>
 </head>
 <body>
@@ -478,106 +502,128 @@
     <div id="login-stage" class="stage">
         <div class="auth-card">
             <div class="auth-header">
-                <h1>Sign in to Aura</h1>
-                <p>Enter your profile handle to connect</p>
+                <h1>Sign in to Aura Suite</h1>
+                <p>Launch your custom Chromium shell identity</p>
             </div>
-            <div class="input-group">
-                <label>Username</label>
-                <input type="text" id="username-field" class="clean-input" placeholder="e.g. Alex" autocomplete="off">
+            <div style="display: flex; flex-direction: column; gap: 6px;">
+                <label style="font-size: 0.85rem;">Browser User Account</label>
+                <input type="text" id="username-field" class="clean-input" placeholder="Enter session handle..." autocomplete="off">
             </div>
-            <button class="prime-btn" onclick="authenticateSession()">Continue</button>
-            <div class="bypass-action" onclick="bypassAsGuest()">Use without an account</div>
+            <button class="prime-btn" onclick="authenticateSession()">Launch Workspace</button>
+            <div class="bypass-action" onclick="bypassAsGuest()">Browse as Guest</div>
         </div>
     </div>
 
     <div id="side-panel">
         <div class="panel-section">
-            <span class="panel-label">Account Profile</span>
+            <span class="panel-label">Browser Profile</span>
             <div class="panel-row">
-                <div class="avatar-cluster">
+                <div style="display: flex; align-items: center; gap: 12px;">
                     <div id="sidebar-avatar-pfp" class="pfp-viewport">?</div>
-                    <span id="panel-username-display" style="font-weight: 500;">Guest Session</span>
+                    <span id="panel-username-display" style="font-weight: 500;">Guest Mode</span>
                 </div>
             </div>
-            
             <div id="pfp-settings-row" class="panel-row">
-                <span>Profile Image:</span>
+                <span>Avatar asset:</span>
                 <button class="prime-btn" style="padding: 6px 12px; font-size: 0.85rem;" onclick="triggerPfpSelector()">Upload</button>
             </div>
-
-            <button id="session-gate-btn" class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="toggleSessionState()">Sign Out</button>
+            <button id="session-gate-btn" class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="toggleSessionState()">Disconnect</button>
         </div>
-        
+
         <div class="panel-section">
-            <span class="panel-label">Usage status</span>
+            <span class="panel-label">Bandwidth allocation</span>
             <div class="panel-row">
-                <span>Message Allocation:</span>
+                <span>AI Core Messages:</span>
                 <span id="panel-allocation-display" style="font-weight: 500; color: var(--accent);">15 / 15 min</span>
             </div>
         </div>
 
         <div class="panel-section">
-            <span class="panel-label">Visual Theme</span>
+            <span class="panel-label">Appearance</span>
             <div class="panel-row">
-                <span>Color Palette:</span>
-                <select id="theme-configuration-select" class="clean-input" style="padding: 6px 10px; font-size: 0.9rem; background: var(--bg);" onchange="executeThemeReconstruction()">
-                    <option value="dark">Dark Mode</option>
-                    <option value="light">Light Mode</option>
-                    <option value="auto">System Default</option>
+                <span>Theme Engine:</span>
+                <select id="theme-configuration-select" class="clean-input" style="padding: 6px 10px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
+                    <option value="dark">Deep Dark</option>
+                    <option value="light">Light Glass</option>
+                    <option value="auto">System Sync</option>
                 </select>
             </div>
         </div>
 
         <div class="panel-section">
-            <span class="panel-label">Settings Matrix</span>
+            <span class="panel-label">Developer Suite</span>
             <div class="panel-row">
-                <span>Experimental Suite:</span>
+                <span>Experimental Framework:</span>
                 <div style="display: flex; align-items: center;">
                     <input type="checkbox" id="experimental-toggle" class="toggle-input" onchange="toggleExperimentalWorkspace()">
                     <label for="experimental-toggle" class="toggle-track"></label>
                 </div>
             </div>
-
             <div id="experimental-sub-tier" class="sub-tier-cluster">
                 <div class="panel-row">
-                    <span>Neural Audio (TTS):</span>
+                    <span>Speech Synthesis:</span>
                     <div style="display: flex; align-items: center;">
                         <input type="checkbox" id="tts-toggle" class="toggle-input" onchange="toggleAudioSpeechSynapse()">
                         <label for="tts-toggle" class="toggle-track"></label>
                     </div>
-                </div>
-                <div class="panel-row">
-                    <span>Vision Capabilities:</span>
-                    <span style="font-weight: 500; color: var(--accent); font-size: 0.85rem;">[ENABLED]</span>
                 </div>
             </div>
         </div>
     </div>
 
     <div id="workspace-stage" class="stage hidden">
-        <header>
-            <button class="settings-btn" onclick="toggleSidePanel()" title="Open Settings">
-                <svg viewBox="0 0 24 24">
-                    <path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/>
-                </svg>
-            </button>
-            <div class="header-center">
-                <div id="header-avatar-pfp" class="pfp-viewport" style="width: 30px; height: 30px; font-size: 0.85rem; display: none;">?</div>
-                <div class="brand-title">Aura</div>
+        <div class="tab-strip">
+            <div id="tabs-wrapper" style="display: flex; gap: 4px;">
+                </div>
+            <button class="new-tab-btn" onclick="createNewBrowserTab()">+</button>
+            
+            <div style="margin-left: auto; display: flex; gap: 8px; align-items: center; padding-bottom: 4px;">
+                <button id="ai-panel-toggle-btn" class="toolbar-btn active-glow" onclick="toggleAiSidebarSplit()" title="Toggle Aura Panel">
+                    <svg viewBox="0 0 24 24"><path d="M12 2L10.5 7.5L5 9L10.5 10.5L12 16L13.5 10.5L19 9L13.5 7.5L12 2Z M6 14L5 17.5L1.5 18.5L5 19.5L6 23L7 19.5L10.5 18.5L7 17.5L6 14Z"/></svg>
+                </button>
+                <button class="toolbar-btn" onclick="toggleSidePanel()" title="System Options">
+                    <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.Cloud.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                </button>
+                <div id="tier-badge" class="tier-badge" style="margin-right: 8px;">Guest</div>
             </div>
-            <div id="tier-badge" class="tier-badge">Guest</div>
-        </header>
-
-        <div id="chat-canvas">
-            <div class="msg-bubble ai">Hello! I'm Aura. How can I help you today?</div>
         </div>
 
-        <div id="control-dock">
-            <button id="camera-trigger-btn" class="dock-action-btn" onclick="triggerCameraCapture()">📷</button>
-            
-            <div class="pill-wrapper">
-                <input type="text" id="msg-input" placeholder="Message Aura..." autocomplete="off" onkeypress="handleInputKey(event)">
-                <button id="send-btn" class="dock-action-btn" onclick="executePayloadTransmission()">➔</button>
+        <div class="browser-nav-bar">
+            <button class="nav-arrow" onclick="alert('Back execution history native array tracking ready')">◀</button>
+            <button class="nav-arrow" onclick="alert('Forward context vector ready')">▶</button>
+            <button class="nav-arrow" onclick="reloadActiveTab()">🔄</button>
+            <div class="address-bar-wrapper">
+                <input type="text" id="browser-address-input" class="address-bar-input" value="https://google.com" onkeypress="handleAddressKey(event)">
+            </div>
+            <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveTab()">Go</button>
+        </div>
+
+        <div class="workspace-split-view">
+            <div id="browser-container">
+                <div id="viewports-wrapper" class="browser-viewport">
+                    </div>
+            </div>
+
+            <div id="aura-split-sidebar">
+                <div class="ai-panel-header">
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div id="header-avatar-pfp" class="pfp-viewport" style="width: 26px; height: 26px; font-size: 0.75rem; display: none;">?</div>
+                        <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-bright);">Aura Copilot</span>
+                    </div>
+                    <button class="toolbar-btn" style="padding: 2px;" onclick="toggleAiSidebarSplit()">✕</button>
+                </div>
+
+                <div id="chat-canvas">
+                    <div class="msg-bubble ai">Hello! I'm Aura, your native workspace copilot. Let's research together!</div>
+                </div>
+
+                <div id="control-dock">
+                    <button id="camera-trigger-btn" class="dock-action-btn" onclick="triggerCameraCapture()">📷</button>
+                    <div class="pill-wrapper">
+                        <input type="text" id="msg-input" placeholder="Ask Aura..." autocomplete="off" onkeypress="handleChatKey(event)">
+                        <button class="dock-action-btn" style="background: var(--accent); border:none; color:#fff; width:30px; height:30px;" onclick="executePayloadTransmission()">➔</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -586,10 +632,10 @@
     <input type="file" id="hidden-file-cam" accept="image/*" capture="camera" onchange="processCameraCapturePayload(this)">
 
     <script>
-        // 🔴 PASTE YOUR API KEY INSIDE THESE QUOTES 🔴
-        const NATIVE_IOS_KEY = "AIzaSyCEiI7OeQLdCPPGMnW72opRf1tuoV66rfQ";
+        // 🔴 PLACE YOUR GEMINI API KEY HERE 🔴
+        const NATIVE_IOS_KEY = "AIzaSyANyaoVduAIgyBVsfllqhngdeZ4VS0EKxg";
 
-        // STATE CONTROLLERS
+        // ENGINE STATES
         let activeProfile = null;
         let loadedPfpBase64 = null;
         let isAudioTtsActive = false;
@@ -598,14 +644,16 @@
         const TRANSACTION_MAX = 15;
         const RESYNC_WINDOW_MS = 15 * 60 * 1000;
 
-        // SPEECH SYNTHESIS ENGINE
+        // MULTI-TAB CONTROLLERS
+        let tabArray = [];
+        let activeTabId = null;
+
+        // TTS MATRIX
         const speechSynapseInstance = window.speechSynthesis;
         const speechUtteranceMatrix = new SpeechSynthesisUtterance();
         speechUtteranceMatrix.lang = 'en-US';
-        speechUtteranceMatrix.pitch = 1.0;
-        speechUtteranceMatrix.rate = 1.0;
 
-        // CACHED DOM REFERENCES
+        // ELEMENT QUERY SELECTORS
         const loginStage = document.getElementById('login-stage');
         const workspaceStage = document.getElementById('workspace-stage');
         const sidePanel = document.getElementById('side-panel');
@@ -625,18 +673,108 @@
         const sidebarAvatarPfp = document.getElementById('sidebar-avatar-pfp');
         const headerAvatarPfp = document.getElementById('header-avatar-pfp');
         const cameraTriggerBtn = document.getElementById('camera-trigger-btn');
-
-        // Dynamic System Preferences Event Tracker
-        window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => {
-            if (themeSelect.value === 'auto') executeThemeReconstruction();
-        });
+        const auraSplitSidebar = document.getElementById('aura-split-sidebar');
+        const aiPanelToggleBtn = document.getElementById('ai-panel-toggle-btn');
+        const tabsWrapper = document.getElementById('tabs-wrapper');
+        const viewportsWrapper = document.getElementById('viewports-wrapper');
+        const browserAddressInput = document.getElementById('browser-address-input');
 
         function toggleSidePanel() {
             sidePanel.classList.toggle('open');
             scrim.classList.toggle('active');
         }
 
-        // --- THEME PROFILE MANAGER ---
+        function toggleAiSidebarSplit() {
+            auraSplitSidebar.classList.toggle('collapsed');
+            aiPanelToggleBtn.classList.toggle('active-glow');
+        }
+
+        // --- WEB BROWSER RENDERING STRUCT ---
+        function createNewBrowserTab(targetUrl = "https://google.com") {
+            const id = 'tab-' + Date.now();
+            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '') };
+            tabArray.push(tabObj);
+
+            // Tab strip selector node
+            const tabNode = document.createElement('div');
+            tabNode.className = `browser-tab`;
+            tabNode.id = `node-${id}`;
+            tabNode.onclick = () => switchActiveTab(id);
+            tabNode.innerHTML = `<span>${tabObj.title}</span><button class="close-tab-btn" onclick="closeBrowserTab(event, '${id}')">✕</button>`;
+            tabsWrapper.appendChild(tabNode);
+
+            // Modern Document viewport container mapping
+            const viewNode = document.createElement('div');
+            viewNode.className = 'tab-content-frame';
+            viewNode.id = `viewport-${id}`;
+            viewNode.innerHTML = `
+                <div class="mock-page-container">
+                    <h2 style="margin-bottom:12px; font-weight:600;">Chromium Sandbox Core Engine</h2>
+                    <p style="color:var(--text-sub); margin-bottom:20px;">Secure Workspace Channel Sandbox Active: <span style="color:var(--accent);">${targetUrl}</span></p>
+                    <hr style="border:0; border-top:1px solid var(--border); margin-bottom:20px;">
+                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border);">
+                        <h4 style="margin-bottom:8px;">Custom Browser Landing Index</h4>
+                        <p style="font-size:0.9rem; line-height:1.6; opacity:0.8;">This tab represents your premium custom-built Chromium container. Because security architecture profiles block full live page loading directly via inline frames, navigate anywhere using the unified modern navigation address bar at the top, or have Aura build content structures directly alongside your panel workspace view.</p>
+                    </div>
+                </div>`;
+            viewportsWrapper.appendChild(viewNode);
+
+            switchActiveTab(id);
+        }
+
+        function switchActiveTab(id) {
+            activeTabId = id;
+            document.querySelectorAll('.browser-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content-frame').forEach(v => v.classList.remove('active'));
+
+            const targetTab = document.getElementById(`node-${id}`);
+            const targetView = document.getElementById(`viewport-${id}`);
+            if(targetTab && targetView) {
+                targetTab.classList.add('active');
+                targetView.classList.add('active');
+                const matchedData = tabArray.find(t => t.id === id);
+                if(matchedData) browserAddressInput.value = matchedData.url;
+            }
+        }
+
+        function closeBrowserTab(event, id) {
+            event.stopPropagation();
+            tabArray = tabArray.filter(t => t.id !== id);
+            document.getElementById(`node-${id}`).remove();
+            document.getElementById(`viewport-${id}`).remove();
+            if (activeTabId === id && tabArray.length > 0) {
+                switchActiveTab(tabArray[tabArray.length - 1].id);
+            }
+        }
+
+        function navigateActiveTab() {
+            if(!activeTabId) return;
+            let targetUrl = browserAddressInput.value.trim();
+            if(!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
+                targetUrl = 'https://' + targetUrl;
+            }
+            const matchedData = tabArray.find(t => t.id === activeTabId);
+            if(matchedData) {
+                matchedData.url = targetUrl;
+                matchedData.title = targetUrl.replace('https://', '').replace('http://', '');
+                document.querySelector(`#node-${activeTabId} span`).innerText = matchedData.title;
+                document.querySelector(`#viewport-${activeTabId} span`).innerText = targetUrl;
+            }
+        }
+
+        function reloadActiveTab() {
+            if(!activeTabId) return;
+            const view = document.querySelector(`#viewport-${activeTabId} .mock-page-container`);
+            if(view) {
+                view.style.opacity = 0.4;
+                setTimeout(() => view.style.opacity = 1, 250);
+            }
+        }
+
+        function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveTab(); }
+        function handleChatKey(e) { if(e.key === 'Enter') executePayloadTransmission(); }
+
+        // --- GLOBAL THEME SYNC ---
         function executeThemeReconstruction() {
             const selectedTheme = themeSelect.value;
             if (selectedTheme === 'auto') {
@@ -647,13 +785,10 @@
             }
         }
 
-        // --- AUTH/SESSION GATEWAYS ---
+        // --- SESSION WORKFLOW GATEWAYS ---
         function authenticateSession() {
             const rawUserText = usernameField.value.trim();
-            if(!rawUserText) {
-                alert("Please enter a valid username to continue.");
-                return;
-            }
+            if(!rawUserText) { alert("Please enter a valid handle."); return; }
 
             activeProfile = rawUserText;
             tierBadge.innerText = "Premium";
@@ -667,6 +802,7 @@
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
+            createNewBrowserTab("https://google.com");
             syncPfpVisibilityStates();
         }
 
@@ -674,9 +810,8 @@
             activeProfile = null;
             tierBadge.innerText = "Guest";
             tierBadge.classList.remove('premium');
-            panelUsernameDisplay.innerText = "Guest Session";
+            panelUsernameDisplay.innerText = "Guest Mode";
             panelAllocationDisplay.innerText = "15 / 15 min";
-            
             experimentalToggle.checked = false;
             experimentalToggle.disabled = true;
             toggleExperimentalWorkspace(false);
@@ -686,26 +821,24 @@
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
+            createNewBrowserTab("https://google.com");
             syncPfpVisibilityStates();
         }
 
         function toggleSessionState() {
-            if (activeProfile !== null) {
-                activeProfile = null;
-                loadedPfpBase64 = null;
-                sidebarAvatarPfp.innerHTML = "?";
-                headerAvatarPfp.innerHTML = "?";
-                usernameField.value = '';
-                messageHistoryTimestamps = [];
-                toggleSidePanel();
-                toggleExperimentalWorkspace(false);
-                workspaceStage.classList.add('hidden');
-                loginStage.classList.remove('hidden');
-            } else {
-                toggleSidePanel();
-                workspaceStage.classList.add('hidden');
-                loginStage.classList.remove('hidden');
-            }
+            activeProfile = null;
+            loadedPfpBase64 = null;
+            sidebarAvatarPfp.innerHTML = "?";
+            headerAvatarPfp.innerHTML = "?";
+            usernameField.value = '';
+            messageHistoryTimestamps = [];
+            tabsWrapper.innerHTML = '';
+            viewportsWrapper.innerHTML = '';
+            tabArray = [];
+            if(sidePanel.classList.contains('open')) toggleSidePanel();
+            toggleExperimentalWorkspace(false);
+            workspaceStage.classList.add('hidden');
+            loginStage.classList.remove('hidden');
         }
 
         function syncPfpVisibilityStates() {
@@ -716,15 +849,13 @@
                 pfpSettingsRow.classList.remove('visible');
                 headerAvatarPfp.style.display = "none";
             }
-            sessionGateBtn.innerText = activeProfile ? "Sign Out" : "Log In";
+            sessionGateBtn.innerText = activeProfile ? "Disconnect Session" : "Log In";
         }
 
-        // --- EXPERIMENTAL SETTINGS SUITE ---
         function toggleExperimentalWorkspace(explicitState = null) {
             const active = explicitState !== null ? explicitState : experimentalToggle.checked;
             experimentalToggle.checked = active;
             isExperimentalSuiteUnlocked = active;
-
             if (active) {
                 experimentalSubTier.classList.add('active');
                 cameraTriggerBtn.classList.add('active');
@@ -742,13 +873,10 @@
             if (!isAudioTtsActive) speechSynapseInstance.cancel();
         }
 
-        // --- PROFILE PICTURE STORAGE PIPELINE ---
         function triggerPfpSelector() { document.getElementById('hidden-file-pfp').click(); }
-        
         function processPfpImageAssignment(input) {
             const file = input.files[0];
             if (!file) return;
-
             convertFileToBase64(file).then(base64Data => {
                 loadedPfpBase64 = base64Data;
                 sidebarAvatarPfp.innerHTML = `<img src="${base64Data}">`;
@@ -756,17 +884,15 @@
             });
         }
 
-        // --- COMPUTER VISION SCANS (CAMERA REGISTRY) ---
+        // --- COMPUTER VISION PIPELINE ---
         function triggerCameraCapture() { if(isExperimentalSuiteUnlocked) document.getElementById('hidden-file-cam').click(); }
-
         function processCameraCapturePayload(input) {
             if (!isExperimentalSuiteUnlocked) return;
             const file = input.files[0];
             if (!file) return;
 
             renderBubble("[IMAGE TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing scene registry inputs...", 'ai');
-
+            const targetAiBubble = renderBubble("Analyzing scene inputs...", 'ai');
             const trackingImgUrl = URL.createObjectURL(file);
             targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
 
@@ -776,17 +902,11 @@
             });
         }
 
-        // --- NETWORK PIPELINE ENGINE ---
-        function handleInputKey(e) {
-            if (e.key === 'Enter') executePayloadTransmission();
-        }
-
+        // --- CORE NETWORK PROCESSING COGNITION ---
         function calculateAllocationCompliance() {
             if (activeProfile !== null) return { allowed: true };
-
             const timestampMark = Date.now();
             messageHistoryTimestamps = messageHistoryTimestamps.filter(t => (timestampMark - t) < RESYNC_WINDOW_MS);
-
             if (messageHistoryTimestamps.length >= TRANSACTION_MAX) {
                 const earliestRemainingTime = messageHistoryTimestamps[0];
                 const deltaCalculated = RESYNC_WINDOW_MS - (timestampMark - earliestRemainingTime);
@@ -801,18 +921,16 @@
 
             const trackingStatus = calculateAllocationCompliance();
             if(!trackingStatus.allowed) {
-                alert(`Account limit reached. Guest profiles are restricted to 15 messages every 15 minutes. Sign in to unlock unlimited messages, or try again in ${trackingStatus.retryMinutes} minutes.`);
+                alert(`Guest allocation cap hit. Try again in ${trackingStatus.retryMinutes} mins.`);
                 return;
             }
 
             if (!NATIVE_IOS_KEY) {
-                alert("Please add your Gemini API Key to line 291 to connect your workspace.");
+                alert("Please add your Gemini API Key directly into the codebase to initiate connection.");
                 return;
             }
 
-            if (activeProfile === null) {
-                messageHistoryTimestamps.push(Date.now());
-            }
+            if (activeProfile === null) messageHistoryTimestamps.push(Date.now());
 
             renderBubble(inputQuery, 'user');
             msgInput.value = '';
@@ -823,20 +941,9 @@
 
         async function executeNetworkContextDispatch(payloadString, DOMNodeTarget, base64VisionData = null) {
             const processingGateway = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${NATIVE_IOS_KEY}`;
-            
-            let queryContents = [];
-            if (base64VisionData) {
-                queryContents = [{
-                    parts: [
-                        { text: payloadString },
-                        { inline_data: { mime_type: "image/jpeg", data: base64VisionData.split(',')[1] } }
-                    ]
-                }];
-            } else {
-                queryContents = [{
-                    parts: [{ text: payloadString }]
-                }];
-            }
+            let queryContents = base64VisionData ? 
+                [{ parts: [{ text: payloadString }, { inline_data: { mime_type: "image/jpeg", data: base64VisionData.split(',')[1] } }] }] :
+                [{ parts: [{ text: payloadString }] }];
 
             try {
                 const response = await fetch(processingGateway, {
@@ -844,39 +951,27 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: queryContents })
                 });
-
-                if (!response.ok) throw new Error("Server transmission failure");
-
+                if (!response.ok) throw new Error("Server communication mismatch");
                 const json = await response.json();
                 if (json.candidates && json.candidates[0].content.parts[0].text) {
                     const parsedTextResult = json.candidates[0].content.parts[0].text;
-                    
                     const embeddedImage = DOMNodeTarget.querySelector('.embedded-capture');
                     DOMNodeTarget.innerText = parsedTextResult;
                     if(embeddedImage) DOMNodeTarget.appendChild(embeddedImage);
-
-                    executeAudioSynapseOutput(parsedTextResult);
+                    if (isAudioTtsActive && isExperimentalSuiteUnlocked) {
+                        speechSynapseInstance.cancel();
+                        speechUtteranceMatrix.text = parsedTextResult;
+                        speechSynapseInstance.speak(speechUtteranceMatrix);
+                    }
                 } else {
-                    DOMNodeTarget.innerText = "Error: Invalid response pattern received from API.";
+                    DOMNodeTarget.innerText = "Error reading response payload.";
                 }
-                chatCanvas.scrollTop = chatCanvas.scrollHeight;
-
             } catch (err) {
-                console.error(err);
-                DOMNodeTarget.innerText = "Connection failed. Please verify your internet connection and make sure your API key inside line 291 is valid.";
+                DOMNodeTarget.innerText = "Connection failed. Please check your network and API key setup.";
             }
+            chatCanvas.scrollTop = chatCanvas.scrollHeight;
         }
 
-        // --- LOCAL TTS OUT-LOUD HANDLER ---
-        function executeAudioSynapseOutput(speechText) {
-            if (isAudioTtsActive && isExperimentalSuiteUnlocked && speechText) {
-                speechSynapseInstance.cancel();
-                speechUtteranceMatrix.text = speechText;
-                speechSynapseInstance.speak(speechUtteranceMatrix);
-            }
-        }
-
-        // --- CHAT DISPLAY ELEMENT GENERATOR ---
         function renderBubble(messageContent, bubbleClass) {
             const nodeElement = document.createElement('div');
             nodeElement.className = `msg-bubble ${bubbleClass}`;
