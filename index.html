@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Aura</title>
+    <title>Aura Workspace Environment</title>
     <style>
         /* --- MODERN MINIMALIST CLEAN PREMIUM GRAPHICS ENGINE --- */
         :root {
@@ -213,29 +213,46 @@
             display: block;
         }
 
-        /* --- IMMERSIVE CHAT ASSISTANT TERMINAL --- */
+        /* --- ELITE PRESTIGE CHAT ASSISTANT PANEL --- */
+        .ai-panel-container {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            background: linear-gradient(180deg, var(--bg) 0%, rgba(20,20,22,0.95) 100%);
+        }
+
         #chat-canvas {
             flex: 1;
             overflow-y: auto;
-            padding: 32px;
+            padding: 32px 40px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 24px;
+            scroll-behavior: smooth;
         }
 
         .msg-bubble {
-            max-width: 75%;
-            padding: 16px 20px;
-            border-radius: 16px;
-            font-size: 0.95rem;
-            line-height: 1.5;
+            max-width: 70%;
+            padding: 16px 22px;
+            border-radius: 20px;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            letter-spacing: -0.1px;
+            animation: bubbleSlideIn 0.3s var(--ease) forwards;
+            position: relative;
+        }
+
+        @keyframes bubbleSlideIn {
+            from { opacity: 0; transform: translateY(12px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .msg-bubble.user {
             background: var(--accent);
             color: #ffffff;
             align-self: flex-end;
-            box-shadow: 0 4px 12px var(--accent-glow);
+            border-bottom-right-radius: 4px;
+            box-shadow: 0 4px 16px var(--accent-glow);
         }
 
         .msg-bubble.ai {
@@ -243,15 +260,83 @@
             border: 1px solid var(--border);
             color: var(--text-main);
             align-self: flex-start;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        #control-dock {
-            padding: 24px;
-            background: var(--surface);
+        /* Animated Typing Framework Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 4px;
+        }
+        
+        .typing-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--text-sub);
+            border-radius: 50%;
+            animation: dotPulse 1.4s infinite ease-in-out both;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dotPulse {
+            0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+            40% { transform: scale(1.1); opacity: 1; }
+        }
+
+        #control-dock-wrapper {
+            background: var(--lll-menu-bg);
             border-top: 1px solid var(--border);
+            padding: 20px 40px 28px 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .ai-status-strip {
+            display: flex;
+            align-items: center;
+            font-size: 0.78rem;
+            color: var(--text-sub);
+            padding-left: 4px;
+        }
+
+        .status-light {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: #ffb700;
+            margin-right: 8px;
+            display: inline-block;
+        }
+        .status-light.active-ready { background: #00e676; box-shadow: 0 0 8px rgba(0,230,118,0.4); }
+
+        #control-dock {
             display: flex;
             gap: 14px;
             align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 8px 12px 8px 20px;
+            transition: border-color 0.2s;
+        }
+        
+        #control-dock:focus-within {
+            border-color: var(--accent);
+        }
+
+        .ai-clean-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-bright);
+            font-size: 1rem;
+            outline: none;
+            padding: 10px 0;
         }
 
         /* --- PREMIUM SETTINGS PANEL LAYOUT --- */
@@ -326,7 +411,8 @@
         
         .pfp-viewport { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-variant); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: 600;}
         .pfp-viewport img { width: 100%; height: 100%; object-fit: cover; }
-        #camera-trigger-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
+        #camera-trigger-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; opacity: 0.6; transition: opacity 0.2s; }
+        #camera-trigger-btn:hover { opacity: 1; }
         #camera-trigger-btn.active { display: block; }
         .embedded-capture { max-width: 100%; border-radius: 12px; margin-top: 12px; border: 1px solid var(--border); }
         #hidden-file-pfp, #hidden-file-cam { display: none; }
@@ -380,14 +466,27 @@
             </div>
 
             <div id="panel-ai" class="app-view-panel">
-                <div style="padding: 24px 32px; background: var(--lll-menu-bg); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 1.1rem; color: var(--text-bright);">Aura Desktop Intelligence</div>
-                <div id="chat-canvas">
-                    <div class="msg-bubble ai">Hello. I am Aura, built into your master desktop dock interface. Open any browser panel tab, and I can assist you with your workload.</div>
-                </div>
-                <div id="control-dock">
-                    <button id="camera-trigger-btn" onclick="triggerCameraCapture()">📷</button>
-                    <input type="text" id="msg-input" class="clean-input" placeholder="Ask Aura anything..." autocomplete="off" onkeypress="handleChatKey(event)">
-                    <button class="prime-btn accent-style" style="padding: 12px 28px;" onclick="executePayloadTransmission()">Send Prompt</button>
+                <div class="ai-panel-container">
+                    <div style="padding: 24px 40px; background: var(--lll-menu-bg); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 1.1rem; color: var(--text-bright); display: flex; align-items: center; justify-content: space-between;">
+                        <span>Aura Desktop Assistant</span>
+                        <span style="font-size: 0.8rem; color: var(--text-sub); font-weight: normal; background: var(--surface); padding: 4px 10px; border-radius: 8px; border: 1px solid var(--border);">v1.5 Flash</span>
+                    </div>
+                    
+                    <div id="chat-canvas">
+                        <div class="msg-bubble ai">Hello! I am Aura, your workspace copilot. Drop a question below or upload images using the sandbox tools, and let's get to work.</div>
+                    </div>
+                    
+                    <div id="control-dock-wrapper">
+                        <div class="ai-status-strip">
+                            <span id="api-status-light" class="status-light"></span>
+                            <span id="api-status-text">Running in offline sandbox layout loop</span>
+                        </div>
+                        <div id="control-dock">
+                            <button id="camera-trigger-btn" onclick="triggerCameraCapture()">📷</button>
+                            <input type="text" id="msg-input" class="ai-clean-input" placeholder="Type a message or trigger execution..." autocomplete="off" onkeypress="handleChatKey(event)">
+                            <button class="prime-btn accent-style" style="padding: 8px 20px; border-radius: 10px;" onclick="executePayloadTransmission()">Send</button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -419,7 +518,7 @@
                         <div class="settings-header">Visual Configuration</div>
                         <div class="settings-row">
                             <span>Interface Design Layout Scheme:</span>
-                            <select id="theme-configuration-select" class="clean-input" style="padding: 8px 12px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
+                            <select id="theme-configuration-select" class="clean-input" style="padding: 8px 12px; width: auto; background: var(--bg); color: var(--text-bright); border: 1px solid var(--border); border-radius: 8px;" onchange="executeThemeReconstruction()">
                                 <option value="dark">Minimal Dark Premium</option>
                                 <option value="light">Minimal Light Native</option>
                             </select>
@@ -458,7 +557,7 @@
 
     <script>
         // 🔴 PASTE YOUR ACTIVE GEMINI API KEY HERE TO REMOVE ALL ERROR ALERTS 🔴
-        const NATIVE_IOS_KEY = "AIzaSyANyaoVduAIgyBVsfllqhngdeZ4VS0EKxg";
+        const NATIVE_IOS_KEY = "AIzaSyCh8nfxfWmcLPQBPYFnEongJHejIgtlGVs";
 
         let activeProfile = "Aura User";
         let loadedPfpBase64 = null;
@@ -487,6 +586,8 @@
         const tabsWrapper = document.getElementById('tabs-wrapper');
         const viewportsWrapper = document.getElementById('viewports-wrapper');
         const browserAddressInput = document.getElementById('browser-address-input');
+        const apiStatusLight = document.getElementById('api-status-light');
+        const apiStatusText = document.getElementById('api-status-text');
 
         function switchWorkspaceAppPanel(panelId) {
             document.querySelectorAll('.app-view-panel').forEach(p => p.classList.remove('active-panel'));
@@ -494,6 +595,10 @@
 
             document.getElementById(`panel-${panelId}`).classList.add('active-panel');
             document.getElementById(`lll-btn-${panelId}`).classList.add('active');
+            
+            if(panelId === 'ai') {
+                chatCanvas.scrollTop = chatCanvas.scrollHeight;
+            }
         }
 
         // INITIALIZES DIRECTLY ON STARTUP WITH GOOGLE AUTOMATICALLY
@@ -501,6 +606,12 @@
             createNewBrowserTab("https://www.google.com/custom?safe=active");
             lllAvatarPfp.innerText = activeProfile[0].toUpperCase();
             settingsUsernameDisplay.innerText = activeProfile;
+            
+            // Sync API Header configuration state layout indicators
+            if(NATIVE_IOS_KEY) {
+                apiStatusLight.classList.add('active-ready');
+                apiStatusText.innerText = "Cloud pipeline synchronized and active";
+            }
         });
 
         function createNewBrowserTab(targetUrl = "https://www.google.com/custom?safe=active") {
@@ -520,7 +631,6 @@
             iframeNode.id = `viewport-${id}`;
             iframeNode.src = targetUrl;
             
-            // Forces clicks to capture internally inside your app shell wrapper
             iframeNode.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
             
             iframeNode.addEventListener('load', function() {
@@ -632,13 +742,14 @@
             if (!file) return;
 
             renderBubble("[IMAGE ATTACHMENT TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing visual data payload...", 'ai');
+            const targetAiBubble = renderBubble("", 'ai');
+            targetAiBubble.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
+            
             const trackingImgUrl = URL.createObjectURL(file);
-            targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
 
             convertFileToBase64(file).then(base64Str => {
                 const visionSystemPrompt = "Describe exactly what you see in this image.";
-                executeNetworkContextDispatch(visionSystemPrompt, targetAiBubble, base64Str);
+                executeNetworkContextDispatch(visionSystemPrompt, targetAiBubble, base64Str, trackingImgUrl);
             });
         }
 
@@ -649,20 +760,21 @@
             renderBubble(inputQuery, 'user');
             msgInput.value = '';
 
-            const aiBubbleNode = renderBubble("Processing...", 'ai');
+            const aiBubbleNode = renderBubble("", 'ai');
+            aiBubbleNode.innerHTML = `<div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div>`;
 
-            // FALLBACK SIMULATION MATRIX: Prevents breaking when code variables are blank
             if (!NATIVE_IOS_KEY) {
                 setTimeout(() => {
-                    aiBubbleNode.innerText = "Simulated Response: Your UI dashboard is completely updated! To link this text terminal to live generative network models, paste your token inside the 'NATIVE_IOS_KEY' variable placeholder.";
-                }, 750);
+                    aiBubbleNode.innerText = "Simulated Response: Your text engine is updated successfully! To sync directly to a live generative workspace model, paste your endpoint token inside the 'NATIVE_IOS_KEY' code configuration line.";
+                    chatCanvas.scrollTop = chatCanvas.scrollHeight;
+                }, 1100);
                 return;
             }
 
             executeNetworkContextDispatch(inputQuery, aiBubbleNode);
         }
 
-        async function executeNetworkContextDispatch(payloadString, DOMNodeTarget, base64VisionData = null) {
+        async function executeNetworkContextDispatch(payloadString, DOMNodeTarget, base64VisionData = null, trackingImgUrl = null) {
             const processingGateway = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${NATIVE_IOS_KEY}`;
             let queryContents = base64VisionData ? 
                 [{ parts: [{ text: payloadString }, { inline_data: { mime_type: "image/jpeg", data: base64VisionData.split(',')[1] } }] }] :
@@ -678,9 +790,12 @@
                 const json = await response.json();
                 if (json.candidates && json.candidates[0].content.parts[0].text) {
                     const parsedTextResult = json.candidates[0].content.parts[0].text;
-                    const embeddedImage = DOMNodeTarget.querySelector('.embedded-capture');
                     DOMNodeTarget.innerText = parsedTextResult;
-                    if(embeddedImage) DOMNodeTarget.appendChild(embeddedImage);
+                    
+                    if(trackingImgUrl) {
+                        DOMNodeTarget.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
+                    }
+                    
                     if (isAudioTtsActive && isExperimentalSuiteUnlocked) {
                         speechSynapseInstance.cancel();
                         speechUtteranceMatrix.text = parsedTextResult;
