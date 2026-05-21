@@ -5,9 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Aura</title>
+    <title>Aura Chromium Workspace</title>
     <style>
-        /* --- MODERN CHROMIUM ULTRA-PREMIUM DESIGN SYSTEM --- */
+        /* --- MODERN CHROMIUM CODENAME DESIGN SYSTEM --- */
         :root {
             --bg: #0f0f11;
             --surface: #1e1f22;
@@ -18,7 +18,6 @@
             --text-main: #dbdee1;
             --text-sub: #949ba4;
             --text-bright: #ffffff;
-            --browser-nav: #1e1f22;
             --safe-top: env(safe-area-inset-top, 0px);
             --safe-bottom: env(safe-area-inset-bottom, 0px);
             --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -28,13 +27,12 @@
             --bg: #f2f3f5;
             --surface: #ffffff;
             --surface-variant: #e3e5e8;
-            --border: #chd5e1;
+            --border: #cbd5e1;
             --accent: #1a73e8;
             --accent-glow: rgba(26, 115, 232, 0.1);
             --text-main: #313338;
             --text-sub: #4e5058;
             --text-bright: #060607;
-            --browser-nav: #f2f3f5;
         }
 
         * {
@@ -74,7 +72,7 @@
             z-index: 1;
         }
 
-        /* ACCESS SYSTEM */
+        /* LOGIN INTERFACE BUILD */
         #login-stage {
             justify-content: center;
             align-items: center;
@@ -91,7 +89,7 @@
             display: flex;
             flex-direction: column;
             gap: 24px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
         }
 
         .auth-header h1 {
@@ -141,23 +139,22 @@
             cursor: pointer;
         }
 
-        /* --- CHROMIUM MODERN BROWSER LAYER --- */
+        /* --- CHROMIUM BROWSER LAYER CORE --- */
         #browser-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--surface);
+            background: #ffffff;
             position: relative;
         }
 
-        /* Chromium Tab Bar Strip */
+        /* Chromium Tab Bar Ribbon */
         .tab-strip {
             background: var(--bg);
             padding: 8px 8px 0 8px;
             display: flex;
             align-items: end;
             gap: 6px;
-            overflow-x: auto;
         }
 
         .browser-tab {
@@ -170,7 +167,7 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            min-width: 120px;
+            min-width: 130px;
             max-width: 200px;
             border: 1px solid var(--border);
             border-bottom: none;
@@ -202,7 +199,7 @@
             margin-bottom: 4px;
         }
 
-        /* Address Bar Control Panel */
+        /* Address Navigation Ribbon Control Bar */
         .browser-nav-bar {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
@@ -246,34 +243,20 @@
             position: relative;
         }
 
+        /* REAL WEB VIEW CONTAINER */
         .tab-content-frame {
             width: 100%;
             height: 100%;
             border: none;
             display: none;
-            background: var(--surface);
+            background: #ffffff;
         }
 
         .tab-content-frame.active {
             display: block;
         }
 
-        /* Mock Web Page Placeholder Styling */
-        .mock-page-container {
-            width: 100%;
-            height: 100%;
-            padding: 40px;
-            color: #333;
-            background: #f8f9fa;
-            overflow-y: auto;
-        }
-
-        [data-theme="dark"] .mock-page-container {
-            background: #121214;
-            color: #e3e3e3;
-        }
-
-        /* --- DUAL WORKSPACE SPLITTER (AI SPLIT-VIEW) --- */
+        /* --- DUAL WORKSPACE VIEW SPLITTER --- */
         .workspace-split-view {
             flex: 1;
             display: flex;
@@ -283,7 +266,7 @@
             overflow: hidden;
         }
 
-        /* --- MODERN SPLIT AI PANEL ENGINE --- */
+        /* --- INTEGRATED SIDEBAR ENGINE --- */
         #aura-split-sidebar {
             width: 380px;
             border-left: 1px solid var(--border);
@@ -301,7 +284,6 @@
             border-left: none;
         }
 
-        /* AI Side Header Layout */
         .ai-panel-header {
             padding: 16px;
             background: var(--surface);
@@ -311,7 +293,7 @@
             justify-content: space-between;
         }
 
-        /* --- SLIDE SETTINGS DRAWER OVERLAY --- */
+        /* --- SLIDE DRAWER MENU OVERLAY --- */
         #side-panel {
             position: absolute;
             left: -300px;
@@ -356,7 +338,7 @@
             align-items: center;
         }
 
-        /* Functional Button Layouts inside Header Toolbar */
+        /* Toolbar Interactive Action Assets */
         .toolbar-btn {
             background: none;
             border: none;
@@ -384,7 +366,7 @@
             background: var(--accent-glow);
         }
 
-        /* CHAT CANVAS PLATFORM */
+        /* CHAT BUBBLE RENDERING STATIONS */
         #chat-canvas {
             flex: 1;
             overflow-y: auto;
@@ -417,7 +399,7 @@
             padding-left: 0;
         }
 
-        /* SYSTEM CONTROLS DOCK */
+        /* TEXT INPUT PLATFORM DECK */
         #control-dock {
             padding: 16px;
             background: var(--surface);
@@ -503,20 +485,20 @@
         <div class="auth-card">
             <div class="auth-header">
                 <h1>Sign in to Aura Suite</h1>
-                <p>Launch your custom Chromium shell identity</p>
+                <p>Launch your desktop Chromium interface framework</p>
             </div>
             <div style="display: flex; flex-direction: column; gap: 6px;">
-                <label style="font-size: 0.85rem;">Browser User Account</label>
-                <input type="text" id="username-field" class="clean-input" placeholder="Enter session handle..." autocomplete="off">
+                <label style="font-size: 0.85rem;">Account Engine Username</label>
+                <input type="text" id="username-field" class="clean-input" placeholder="e.g. Charlie" autocomplete="off">
             </div>
-            <button class="prime-btn" onclick="authenticateSession()">Launch Workspace</button>
+            <button class="prime-btn" onclick="authenticateSession()">Launch Window</button>
             <div class="bypass-action" onclick="bypassAsGuest()">Browse as Guest</div>
         </div>
     </div>
 
     <div id="side-panel">
         <div class="panel-section">
-            <span class="panel-label">Browser Profile</span>
+            <span class="panel-label">Session Identity</span>
             <div class="panel-row">
                 <div style="display: flex; align-items: center; gap: 12px;">
                     <div id="sidebar-avatar-pfp" class="pfp-viewport">?</div>
@@ -524,36 +506,36 @@
                 </div>
             </div>
             <div id="pfp-settings-row" class="panel-row">
-                <span>Avatar asset:</span>
+                <span>Display Avatar:</span>
                 <button class="prime-btn" style="padding: 6px 12px; font-size: 0.85rem;" onclick="triggerPfpSelector()">Upload</button>
             </div>
-            <button id="session-gate-btn" class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="toggleSessionState()">Disconnect</button>
+            <button id="session-gate-btn" class="prime-btn" style="padding: 10px; font-size: 0.9rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="toggleSessionState()">Disconnect Matrix</button>
         </div>
 
         <div class="panel-section">
-            <span class="panel-label">Bandwidth allocation</span>
+            <span class="panel-label">Network Limits</span>
             <div class="panel-row">
-                <span>AI Core Messages:</span>
+                <span>AI Message Allocation:</span>
                 <span id="panel-allocation-display" style="font-weight: 500; color: var(--accent);">15 / 15 min</span>
             </div>
         </div>
 
         <div class="panel-section">
-            <span class="panel-label">Appearance</span>
+            <span class="panel-label">Visual Design</span>
             <div class="panel-row">
-                <span>Theme Engine:</span>
+                <span>Workspace Palette:</span>
                 <select id="theme-configuration-select" class="clean-input" style="padding: 6px 10px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
-                    <option value="dark">Deep Dark</option>
-                    <option value="light">Light Glass</option>
+                    <option value="dark">Native Dark</option>
+                    <option value="light">Native Light</option>
                     <option value="auto">System Sync</option>
                 </select>
             </div>
         </div>
 
         <div class="panel-section">
-            <span class="panel-label">Developer Suite</span>
+            <span class="panel-label">Developer Hooks</span>
             <div class="panel-row">
-                <span>Experimental Framework:</span>
+                <span>Experimental Engine:</span>
                 <div style="display: flex; align-items: center;">
                     <input type="checkbox" id="experimental-toggle" class="toggle-input" onchange="toggleExperimentalWorkspace()">
                     <label for="experimental-toggle" class="toggle-track"></label>
@@ -561,7 +543,7 @@
             </div>
             <div id="experimental-sub-tier" class="sub-tier-cluster">
                 <div class="panel-row">
-                    <span>Speech Synthesis:</span>
+                    <span>Neural Audio Output:</span>
                     <div style="display: flex; align-items: center;">
                         <input type="checkbox" id="tts-toggle" class="toggle-input" onchange="toggleAudioSpeechSynapse()">
                         <label for="tts-toggle" class="toggle-track"></label>
@@ -575,32 +557,32 @@
         <div class="tab-strip">
             <div id="tabs-wrapper" style="display: flex; gap: 4px;">
                 </div>
-            <button class="new-tab-btn" onclick="createNewBrowserTab()">+</button>
+            <button class="new-tab-btn" onclick="createNewBrowserTab('https://bing.com')">+</button>
             
             <div style="margin-left: auto; display: flex; gap: 8px; align-items: center; padding-bottom: 4px;">
                 <button id="ai-panel-toggle-btn" class="toolbar-btn active-glow" onclick="toggleAiSidebarSplit()" title="Toggle Aura Panel">
                     <svg viewBox="0 0 24 24"><path d="M12 2L10.5 7.5L5 9L10.5 10.5L12 16L13.5 10.5L19 9L13.5 7.5L12 2Z M6 14L5 17.5L1.5 18.5L5 19.5L6 23L7 19.5L10.5 18.5L7 17.5L6 14Z"/></svg>
                 </button>
-                <button class="toolbar-btn" onclick="toggleSidePanel()" title="System Options">
-                    <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1.Cloud.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
+                <button class="toolbar-btn" onclick="toggleSidePanel()" title="System Parameters">
+                    <svg viewBox="0 0 24 24"><path d="M19.43 12.98c.04-.32.07-.64.07-.98s-.03-.66-.07-.98l2.11-1.65c.19-.15.24-.42.12-.64l-2-3.46c-.12-.22-.39-.3-.61-.22l-2.49 1c-.52-.4-1.08-.73-1.69-.98l-.38-2.65C14.46 2.18 14.25 2 14 2h-4c-.25 0-.46.18-.49.42l-.38 2.65c-.61.25-1.17.59-1.69.98l-2.49-1c-.23-.09-.49 0-.61.22l-2 3.46c-.13.22-.07.49.12.64l2.11 1.65c-.04.32-.07.65-.07.98s.03.66.07.98l-2.11 1.65c-.19.15-.24.42-.12.64l2 3.46c.12.22.39.3.61.22l2.49-1c.52.4 1.08.73 1.69.98l.38 2.65c.03.24.24.42.49.42h4c.25 0 .46-.18.49-.42l.38-2.65c.61-.25 1.17-.59 1.69-.98l2.49 1c.23.09.49 0 .61-.22l2-3.46c.12-.22.07-.49-.12-.64l-2.11-1.65zM12 15.5c-1.93 0-3.5-1.57-3.5-3.5s1.57-3.5 3.5-3.5 3.5 1.57 3.5 3.5-1.57 3.5-3.5 3.5z"/></svg>
                 </button>
                 <div id="tier-badge" class="tier-badge" style="margin-right: 8px;">Guest</div>
             </div>
         </div>
 
         <div class="browser-nav-bar">
-            <button class="nav-arrow" onclick="alert('Back execution history native array tracking ready')">◀</button>
-            <button class="nav-arrow" onclick="alert('Forward context vector ready')">▶</button>
-            <button class="nav-arrow" onclick="reloadActiveTab()">🔄</button>
+            <button class="nav-arrow" onclick="executeNativeBackBufferHistory()">◀</button>
+            <button class="nav-arrow" onclick="executeNativeForwardBufferHistory()">▶</button>
+            <button class="nav-arrow" onclick="reloadActiveTabFrame()">🔄</button>
             <div class="address-bar-wrapper">
-                <input type="text" id="browser-address-input" class="address-bar-input" value="https://google.com" onkeypress="handleAddressKey(event)">
+                <input type="text" id="browser-address-input" class="address-bar-input" value="https://bing.com" onkeypress="handleAddressKey(event)">
             </div>
-            <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveTab()">Go</button>
+            <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveTabFrame()">Go</button>
         </div>
 
         <div class="workspace-split-view">
             <div id="browser-container">
-                <div id="viewports-wrapper" class="browser-viewport">
+                <div id="viewports-wrapper" class="browser-viewport" style="width: 100%; height: 100%;">
                     </div>
             </div>
 
@@ -608,19 +590,19 @@
                 <div class="ai-panel-header">
                     <div style="display: flex; align-items: center; gap: 8px;">
                         <div id="header-avatar-pfp" class="pfp-viewport" style="width: 26px; height: 26px; font-size: 0.75rem; display: none;">?</div>
-                        <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-bright);">Aura Copilot</span>
+                        <span style="font-weight: 600; font-size: 0.95rem; color: var(--text-bright);">Aura Workspace AI</span>
                     </div>
                     <button class="toolbar-btn" style="padding: 2px;" onclick="toggleAiSidebarSplit()">✕</button>
                 </div>
 
                 <div id="chat-canvas">
-                    <div class="msg-bubble ai">Hello! I'm Aura, your native workspace copilot. Let's research together!</div>
+                    <div class="msg-bubble ai">Hello! I'm Aura. I'm linked straight into your current browser tab view. Let me know what you need researched!</div>
                 </div>
 
                 <div id="control-dock">
                     <button id="camera-trigger-btn" class="dock-action-btn" onclick="triggerCameraCapture()">📷</button>
                     <div class="pill-wrapper">
-                        <input type="text" id="msg-input" placeholder="Ask Aura..." autocomplete="off" onkeypress="handleChatKey(event)">
+                        <input type="text" id="msg-input" placeholder="Consult Aura..." autocomplete="off" onkeypress="handleChatKey(event)">
                         <button class="dock-action-btn" style="background: var(--accent); border:none; color:#fff; width:30px; height:30px;" onclick="executePayloadTransmission()">➔</button>
                     </div>
                 </div>
@@ -632,10 +614,10 @@
     <input type="file" id="hidden-file-cam" accept="image/*" capture="camera" onchange="processCameraCapturePayload(this)">
 
     <script>
-        // 🔴 PLACE YOUR GEMINI API KEY HERE 🔴
+        // 🔴 PASTE YOUR API KEY HERE 🔴
         const NATIVE_IOS_KEY = "AIzaSyANyaoVduAIgyBVsfllqhngdeZ4VS0EKxg";
 
-        // ENGINE STATES
+        // CORE RUNTIME FLAGS
         let activeProfile = null;
         let loadedPfpBase64 = null;
         let isAudioTtsActive = false;
@@ -644,16 +626,16 @@
         const TRANSACTION_MAX = 15;
         const RESYNC_WINDOW_MS = 15 * 60 * 1000;
 
-        // MULTI-TAB CONTROLLERS
+        // MULTI-TAB CACHE ENGINE arrays
         let tabArray = [];
         let activeTabId = null;
 
-        // TTS MATRIX
+        // SPEECH SYNAPSE REGS
         const speechSynapseInstance = window.speechSynthesis;
         const speechUtteranceMatrix = new SpeechSynthesisUtterance();
         speechUtteranceMatrix.lang = 'en-US';
 
-        // ELEMENT QUERY SELECTORS
+        // GLOBAL DOM HOOK QUERIES
         const loginStage = document.getElementById('login-stage');
         const workspaceStage = document.getElementById('workspace-stage');
         const sidePanel = document.getElementById('side-panel');
@@ -689,13 +671,13 @@
             aiPanelToggleBtn.classList.toggle('active-glow');
         }
 
-        // --- WEB BROWSER RENDERING STRUCT ---
-        function createNewBrowserTab(targetUrl = "https://google.com") {
+        // --- HIGH PERFORMANCE INTERNET RENDER ENGINE ---
+        function createNewBrowserTab(targetUrl = "https://bing.com") {
             const id = 'tab-' + Date.now();
-            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '') };
+            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '').replace('http://', '') };
             tabArray.push(tabObj);
 
-            // Tab strip selector node
+            // Tab Strip DOM Insertion Hook
             const tabNode = document.createElement('div');
             tabNode.className = `browser-tab`;
             tabNode.id = `node-${id}`;
@@ -703,21 +685,13 @@
             tabNode.innerHTML = `<span>${tabObj.title}</span><button class="close-tab-btn" onclick="closeBrowserTab(event, '${id}')">✕</button>`;
             tabsWrapper.appendChild(tabNode);
 
-            // Modern Document viewport container mapping
-            const viewNode = document.createElement('div');
-            viewNode.className = 'tab-content-frame';
-            viewNode.id = `viewport-${id}`;
-            viewNode.innerHTML = `
-                <div class="mock-page-container">
-                    <h2 style="margin-bottom:12px; font-weight:600;">Chromium Sandbox Core Engine</h2>
-                    <p style="color:var(--text-sub); margin-bottom:20px;">Secure Workspace Channel Sandbox Active: <span style="color:var(--accent);">${targetUrl}</span></p>
-                    <hr style="border:0; border-top:1px solid var(--border); margin-bottom:20px;">
-                    <div style="background:var(--surface); padding:20px; border-radius:12px; border:1px solid var(--border);">
-                        <h4 style="margin-bottom:8px;">Custom Browser Landing Index</h4>
-                        <p style="font-size:0.9rem; line-height:1.6; opacity:0.8;">This tab represents your premium custom-built Chromium container. Because security architecture profiles block full live page loading directly via inline frames, navigate anywhere using the unified modern navigation address bar at the top, or have Aura build content structures directly alongside your panel workspace view.</p>
-                    </div>
-                </div>`;
-            viewportsWrapper.appendChild(viewNode);
+            // ACTUAL LIVE WORKSPACE IFRAME ENGINE INJECTION
+            const iframeNode = document.createElement('iframe');
+            iframeNode.className = 'tab-content-frame';
+            iframeNode.id = `viewport-${id}`;
+            iframeNode.src = targetUrl;
+            iframeNode.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms');
+            viewportsWrapper.appendChild(iframeNode);
 
             switchActiveTab(id);
         }
@@ -747,34 +721,52 @@
             }
         }
 
-        function navigateActiveTab() {
+        function navigateActiveTabFrame() {
             if(!activeTabId) return;
             let targetUrl = browserAddressInput.value.trim();
+            
+            // Auto URL structure verification layout logic
             if(!targetUrl.startsWith('http://') && !targetUrl.startsWith('https://')) {
-                targetUrl = 'https://' + targetUrl;
+                if (targetUrl.includes('.') && !targetUrl.includes(' ')) {
+                    targetUrl = 'https://' + targetUrl;
+                } else {
+                    targetUrl = 'https://www.bing.com/search?q=' + encodeURIComponent(targetUrl);
+                }
             }
+            
             const matchedData = tabArray.find(t => t.id === activeTabId);
-            if(matchedData) {
+            const targetIframe = document.getElementById(`viewport-${activeTabId}`);
+            if(matchedData && targetIframe) {
                 matchedData.url = targetUrl;
-                matchedData.title = targetUrl.replace('https://', '').replace('http://', '');
+                matchedData.title = targetUrl.replace('https://', '').replace('http://', '').substring(0, 16) + '...';
                 document.querySelector(`#node-${activeTabId} span`).innerText = matchedData.title;
-                document.querySelector(`#viewport-${activeTabId} span`).innerText = targetUrl;
+                targetIframe.src = targetUrl;
+                browserAddressInput.value = targetUrl;
             }
         }
 
-        function reloadActiveTab() {
+        function reloadActiveTabFrame() {
             if(!activeTabId) return;
-            const view = document.querySelector(`#viewport-${activeTabId} .mock-page-container`);
-            if(view) {
-                view.style.opacity = 0.4;
-                setTimeout(() => view.style.opacity = 1, 250);
-            }
+            const targetIframe = document.getElementById(`viewport-${activeTabId}`);
+            if(targetIframe) targetIframe.src = targetIframe.src;
         }
 
-        function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveTab(); }
+        function executeNativeBackBufferHistory() {
+            if(!activeTabId) return;
+            try { document.getElementById(`viewport-${activeTabId}`).contentWindow.history.back(); } 
+            catch(e) { alert("Security boundary restrictions block internal cross-origin frame array lookback reads."); }
+        }
+
+        function executeNativeForwardBufferHistory() {
+            if(!activeTabId) return;
+            try { document.getElementById(`viewport-${activeTabId}`).contentWindow.history.forward(); } 
+            catch(e) { alert("Security boundary restrictions block internal cross-origin frame array lookforward reads."); }
+        }
+
+        function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveTabFrame(); }
         function handleChatKey(e) { if(e.key === 'Enter') executePayloadTransmission(); }
 
-        // --- GLOBAL THEME SYNC ---
+        // --- CORE APPEARANCE LOGISTICS ---
         function executeThemeReconstruction() {
             const selectedTheme = themeSelect.value;
             if (selectedTheme === 'auto') {
@@ -785,10 +777,10 @@
             }
         }
 
-        // --- SESSION WORKFLOW GATEWAYS ---
+        // --- SESSION IDENTITY STATE MANAGEMENT ---
         function authenticateSession() {
             const rawUserText = usernameField.value.trim();
-            if(!rawUserText) { alert("Please enter a valid handle."); return; }
+            if(!rawUserText) { alert("Please enter a valid username signature handle."); return; }
 
             activeProfile = rawUserText;
             tierBadge.innerText = "Premium";
@@ -802,7 +794,7 @@
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://google.com");
+            createNewBrowserTab("https://bing.com");
             syncPfpVisibilityStates();
         }
 
@@ -821,7 +813,7 @@
 
             loginStage.classList.add('hidden');
             workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://google.com");
+            createNewBrowserTab("https://bing.com");
             syncPfpVisibilityStates();
         }
 
@@ -849,7 +841,7 @@
                 pfpSettingsRow.classList.remove('visible');
                 headerAvatarPfp.style.display = "none";
             }
-            sessionGateBtn.innerText = activeProfile ? "Disconnect Session" : "Log In";
+            sessionGateBtn.innerText = activeProfile ? "Disconnect Registry" : "Log In";
         }
 
         function toggleExperimentalWorkspace(explicitState = null) {
@@ -884,7 +876,7 @@
             });
         }
 
-        // --- COMPUTER VISION PIPELINE ---
+        // --- COMPUTER VISION SCANS (CAMERA REGISTRY SETUP) ---
         function triggerCameraCapture() { if(isExperimentalSuiteUnlocked) document.getElementById('hidden-file-cam').click(); }
         function processCameraCapturePayload(input) {
             if (!isExperimentalSuiteUnlocked) return;
@@ -892,7 +884,7 @@
             if (!file) return;
 
             renderBubble("[IMAGE TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing scene inputs...", 'ai');
+            const targetAiBubble = renderBubble("Analyzing scene setup...", 'ai');
             const trackingImgUrl = URL.createObjectURL(file);
             targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
 
@@ -902,7 +894,7 @@
             });
         }
 
-        // --- CORE NETWORK PROCESSING COGNITION ---
+        // --- COGNITION DATA DISPATCH ---
         function calculateAllocationCompliance() {
             if (activeProfile !== null) return { allowed: true };
             const timestampMark = Date.now();
@@ -921,12 +913,12 @@
 
             const trackingStatus = calculateAllocationCompliance();
             if(!trackingStatus.allowed) {
-                alert(`Guest allocation cap hit. Try again in ${trackingStatus.retryMinutes} mins.`);
+                alert(`Allocation cap reached. Guest access resets in ${trackingStatus.retryMinutes} mins.`);
                 return;
             }
 
             if (!NATIVE_IOS_KEY) {
-                alert("Please add your Gemini API Key directly into the codebase to initiate connection.");
+                alert("Please drop your Gemini API token directly into the file codebase configuration variables.");
                 return;
             }
 
@@ -951,7 +943,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: queryContents })
                 });
-                if (!response.ok) throw new Error("Server communication mismatch");
+                if (!response.ok) throw new Error("API Server communication drop");
                 const json = await response.json();
                 if (json.candidates && json.candidates[0].content.parts[0].text) {
                     const parsedTextResult = json.candidates[0].content.parts[0].text;
@@ -964,10 +956,10 @@
                         speechSynapseInstance.speak(speechUtteranceMatrix);
                     }
                 } else {
-                    DOMNodeTarget.innerText = "Error reading response payload.";
+                    DOMNodeTarget.innerText = "Error parsing context buffer data.";
                 }
             } catch (err) {
-                DOMNodeTarget.innerText = "Connection failed. Please check your network and API key setup.";
+                DOMNodeTarget.innerText = "Connection drop. Ensure your web network status is green and your API endpoint key token entry is active.";
             }
             chatCanvas.scrollTop = chatCanvas.scrollHeight;
         }
