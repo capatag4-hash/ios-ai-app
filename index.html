@@ -5,32 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Aura</title>
     <style>
-        /* --- NATIVE HACKER/CHROMIUM ULTRA PREMIUM DARK SYSTEM --- */
+        /* --- MODERN MINIMALIST CLEAN PREMIUM GRAPHICS ENGINE --- */
         :root {
-            --bg: #0b0b0d;
-            --lll-menu-bg: #111214;
-            --surface: #1e1f22;
-            --surface-variant: #2b2d31;
-            --border: #2e3035;
-            --accent: #00ff66; /* Classic Hacker Element Accent Highlight */
-            --accent-glow: rgba(0, 255, 102, 0.15);
-            --text-main: #dbdee1;
-            --text-sub: #949ba4;
+            --bg: #141416;
+            --lll-menu-bg: #1e1e22;
+            --surface: #232329;
+            --surface-variant: #2d2d35;
+            --border: #32323d;
+            --accent: #3886ff; 
+            --accent-glow: rgba(56, 134, 255, 0.15);
+            --text-main: #e2e2e9;
+            --text-sub: #8e8e9f;
             --text-bright: #ffffff;
-            --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+            --ease: cubic-bezier(0.25, 1, 0.5, 1);
         }
 
         [data-theme="light"] {
-            --bg: #f2f3f5;
-            --lll-menu-bg: #e3e5e8;
-            --surface: #ffffff;
-            --surface-variant: #f2f3f5;
-            --border: #chd5e1;
-            --accent: #1a73e8;
-            --accent-glow: rgba(26, 115, 232, 0.1);
-            --text-main: #313338;
-            --text-sub: #4e5058;
-            --text-bright: #060607;
+            --bg: #f4f5f7;
+            --lll-menu-bg: #ffffff;
+            --surface: #f9fafb;
+            --surface-variant: #edf0f5;
+            --border: #d2d6dc;
+            --accent: #0066cc;
+            --accent-glow: rgba(0, 102, 204, 0.1);
+            --text-main: #2d3139;
+            --text-sub: #6b7280;
+            --text-bright: #111827;
         }
 
         * {
@@ -47,111 +47,30 @@
             width: 100vw;
             overflow: hidden;
             display: flex;
+            transition: background 0.25s var(--ease);
         }
 
-        /* --- STAGE CONFIGURATOR CONTROLS --- */
-        .stage {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            z-index: 10;
-            background: var(--bg);
-        }
-
-        .stage.hidden {
-            display: none !important;
-            z-index: 1;
-        }
-
-        /* SESSION GATE SYSTEM */
-        #login-stage {
-            justify-content: center;
-            align-items: center;
-            padding: 24px;
-        }
-
-        .auth-card {
-            background: var(--surface);
-            border: 1px solid var(--border);
-            padding: 32px 24px;
-            border-radius: 12px;
-            width: 100%;
-            max-width: 400px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-
-        .auth-header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--text-bright);
-            text-align: center;
-            letter-spacing: -0.5px;
-        }
-
-        .clean-input {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            padding: 12px 16px;
-            color: var(--text-bright);
-            font-size: 0.95rem;
-            border-radius: 8px;
-            outline: none;
-            width: 100%;
-        }
-
-        .clean-input:focus {
-            border-color: var(--accent);
-        }
-
-        .prime-btn {
-            background: var(--accent);
-            color: #000000;
-            font-weight: 600;
-            border: none;
-            padding: 14px;
-            font-size: 0.95rem;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .prime-btn:hover { opacity: 0.9; }
-
-        .bypass-action {
-            text-align: center;
-            font-size: 0.85rem;
-            color: var(--text-sub);
-            cursor: pointer;
-            text-decoration: underline;
-        }
-
-        /* --- THE LLL MASTER SIDE MENU BAR DOCK --- */
+        /* --- THE LLL MINIMALIST NAVIGATION HUB --- */
         #lll-navigation-menu {
-            width: 68px;
+            width: 76px;
             background: var(--lll-menu-bg);
             border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 16px 0;
-            gap: 20px;
+            padding: 24px 0;
+            gap: 16px;
             z-index: 50;
         }
 
         .lll-btn {
             width: 48px;
             height: 48px;
-            border-radius: 12px;
-            background: var(--surface);
-            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: transparent;
+            border: 1px solid transparent;
             color: var(--text-sub);
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -159,19 +78,25 @@
             transition: all 0.2s var(--ease);
         }
 
-        .lll-btn:hover, .lll-btn.active {
+        .lll-btn:hover {
             color: var(--text-bright);
-            border-color: var(--accent);
-            background: var(--surface-variant);
-            box-shadow: 0 0 10px var(--accent-glow);
+            background: var(--surface);
         }
 
-        /* --- APP WORKSPACE CONTENT MULTIPLEXER --- */
+        .lll-btn.active {
+            color: var(--text-bright);
+            border-color: var(--border);
+            background: var(--surface-variant);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* --- APP WORKSPACE SYSTEM CONTAINER --- */
         #app-content-viewport {
             flex: 1;
             position: relative;
             height: 100%;
             overflow: hidden;
+            background: var(--bg);
         }
 
         .app-view-panel {
@@ -182,37 +107,37 @@
             height: 100%;
             display: none;
             flex-direction: column;
-            background: var(--bg);
         }
 
         .app-view-panel.active-panel {
             display: flex;
         }
 
-        /* --- CORE WEB BROWSER SUB-INTERFACE BUILD --- */
+        /* --- NATIVE HIGH-PERFORMANCE BROWSER LAYOUT --- */
         .tab-strip {
             background: var(--lll-menu-bg);
-            padding: 8px 12px 0 12px;
+            padding: 12px 16px 0 16px;
             display: flex;
             align-items: end;
-            gap: 4px;
+            gap: 6px;
             border-bottom: 1px solid var(--border);
         }
 
         .browser-tab {
             background: var(--bg);
-            padding: 8px 14px;
-            border-radius: 8px 8px 0 0;
-            font-size: 0.8rem;
+            padding: 10px 16px;
+            border-radius: 10px 10px 0 0;
+            font-size: 0.85rem;
             color: var(--text-sub);
             cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 8px;
-            min-width: 120px;
-            max-width: 180px;
+            gap: 10px;
+            min-width: 140px;
+            max-width: 200px;
             border: 1px solid var(--border);
             border-bottom: none;
+            transition: background 0.15s;
         }
 
         .browser-tab.active {
@@ -221,6 +146,7 @@
             border-color: var(--border);
             border-bottom: 1px solid var(--surface);
             margin-bottom: -1px;
+            font-weight: 500;
         }
 
         .close-tab-btn {
@@ -229,12 +155,24 @@
             background: none;
             color: var(--text-sub);
             cursor: pointer;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+        }
+        
+        .close-tab-btn:hover {
+            background: var(--surface-variant);
+            color: var(--text-bright);
         }
 
         .browser-nav-bar {
             background: var(--surface);
             border-bottom: 1px solid var(--border);
-            padding: 8px 16px;
+            padding: 10px 18px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -246,8 +184,8 @@
             align-items: center;
             background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 14px;
+            border-radius: 10px;
+            padding: 8px 16px;
         }
 
         .address-bar-input {
@@ -275,29 +213,29 @@
             display: block;
         }
 
-        /* --- THE OLD AURA ASSISTANT INTERFACE --- */
+        /* --- IMMERSIVE CHAT ASSISTANT TERMINAL --- */
         #chat-canvas {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
+            padding: 32px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .msg-bubble {
-            max-width: 80%;
-            padding: 14px 18px;
-            border-radius: 12px;
+            max-width: 75%;
+            padding: 16px 20px;
+            border-radius: 16px;
             font-size: 0.95rem;
             line-height: 1.5;
         }
 
         .msg-bubble.user {
-            background: var(--surface-variant);
-            border: 1px solid var(--border);
-            color: var(--text-bright);
+            background: var(--accent);
+            color: #ffffff;
             align-self: flex-end;
+            box-shadow: 0 4px 12px var(--accent-glow);
         }
 
         .msg-bubble.ai {
@@ -308,97 +246,116 @@
         }
 
         #control-dock {
-            padding: 20px;
+            padding: 24px;
             background: var(--surface);
             border-top: 1px solid var(--border);
             display: flex;
-            gap: 12px;
+            gap: 14px;
             align-items: center;
         }
 
-        /* --- ACTUAL DEDICATED FULL PAGE SETTINGS VIEW --- */
+        /* --- PREMIUM SETTINGS PANEL LAYOUT --- */
         .settings-content-wrapper {
-            padding: 40px;
-            max-width: 800px;
+            padding: 48px;
+            max-width: 760px;
             width: 100%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
-            gap: 32px;
+            gap: 36px;
             overflow-y: auto;
         }
 
         .settings-card {
             background: var(--surface);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 24px;
+            border-radius: 16px;
+            padding: 28px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 20px;
         }
 
         .settings-header {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
             font-weight: 600;
             color: var(--text-bright);
             border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
+            padding-bottom: 14px;
         }
 
         .settings-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 8px 0;
+            padding: 6px 0;
         }
 
-        /* SYSTEM CORE UTILS */
+        /* CONTROL ELEMENTS */
+        .prime-btn {
+            background: var(--surface-variant);
+            color: var(--text-bright);
+            border: 1px solid var(--border);
+            font-weight: 500;
+            padding: 12px 24px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background 0.15s;
+        }
+
+        .prime-btn:hover { background: var(--border); }
+        .prime-btn.accent-style {
+            background: var(--accent);
+            color: #ffffff;
+            border: none;
+        }
+        .prime-btn.accent-style:hover { opacity: 0.9; }
+
         .toggle-input { display: none; }
         .toggle-track {
-            width: 44px; height: 24px; background: #3c4043; border-radius: 12px;
-            position: relative; cursor: pointer;
+            width: 48px; height: 26px; background: #3a3a44; border-radius: 14px;
+            position: relative; cursor: pointer; transition: background 0.2s;
         }
         .toggle-track::after {
-            content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px;
-            background: #9aa0a6; border-radius: 50%; transition: transform 0.2s;
+            content: ''; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px;
+            background: #ffffff; border-radius: 50%; transition: transform 0.2s;
         }
         .toggle-input:checked + .toggle-track { background: var(--accent); }
-        .toggle-input:checked + .toggle-track::after { transform: translateX(20px); background: #000; }
-        .pfp-viewport { width: 40px; height: 40px; border-radius: 50%; background: var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: bold;}
+        .toggle-input:checked + .toggle-track::after { transform: translateX(22px); }
+        
+        .pfp-viewport { width: 44px; height: 44px; border-radius: 50%; background: var(--surface-variant); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; overflow: hidden; font-weight: 600;}
         .pfp-viewport img { width: 100%; height: 100%; object-fit: cover; }
-        #camera-trigger-btn { display: none; background: none; border: none; font-size: 1.4rem; cursor: pointer; }
+        #camera-trigger-btn { display: none; background: none; border: none; font-size: 1.5rem; cursor: pointer; }
         #camera-trigger-btn.active { display: block; }
-        .embedded-capture { max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--border); }
+        .embedded-capture { max-width: 100%; border-radius: 12px; margin-top: 12px; border: 1px solid var(--border); }
         #hidden-file-pfp, #hidden-file-cam { display: none; }
+        
+        /* LOGIN LAYER PRESERVED INDEPENDENTLY FOR MANUAL DESTRUCTION PURPOSES ONLY */
+        .stage { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; z-index: 10; background: var(--bg); justify-content: center; align-items: center; padding: 24px; }
+        .stage.hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-    <div id="login-stage" class="stage">
-        <div class="auth-card">
-            <div class="auth-header">
-                <h1>Aura Environment Shell</h1>
-            </div>
-            <div style="display: flex; flex-direction: column; gap: 6px;">
-                <label style="font-size: 0.8rem; color: var(--text-sub);">User Identity Handle</label>
-                <input type="text" id="username-field" class="clean-input" placeholder="Enter custom handle name..." autocomplete="off">
-            </div>
-            <button class="prime-btn" onclick="authenticateSession()">Boot Environment</button>
-            <div class="bypass-action" onclick="bypassAsGuest()">Boot Guest Instance</div>
+    <div id="login-stage" class="stage hidden">
+        <div style="background: var(--surface); border: 1px solid var(--border); padding: 36px; border-radius: 16px; width: 100%; max-width: 400px; display: flex; flex-direction: column; gap: 24px;">
+            <h2 style="color: var(--text-bright); text-align: center;">Reactivate Environment</h2>
+            <input type="text" id="username-field" class="clean-input" placeholder="User signature..." autocomplete="off">
+            <button class="prime-btn accent-style" onclick="authenticateSessionFromGate()">Restore Session</button>
         </div>
     </div>
 
-    <div id="workspace-stage" class="stage hidden">
+    <div id="workspace-stage" class="stage" style="justify-content: flex-start; align-items: stretch; padding: 0;">
         
         <div id="lll-navigation-menu">
-            <button id="lll-btn-browser" class="lll-btn active" onclick="switchAppViewPanel('browser')" title="Web Browser Workspace">🌐</button>
-            <button id="lll-btn-ai" class="lll-btn" onclick="switchAppViewPanel('ai')" title="Aura Intelligent Copilot">✨</button>
-            <button id="lll-btn-settings" class="lll-btn" onclick="switchAppViewPanel('settings')" title="Master Settings Console">⚙️</button>
+            <button id="lll-btn-browser" class="lll-btn active" onclick="switchWorkspaceAppPanel('browser')" title="Internet Framework">🌐</button>
+            <button id="lll-btn-ai" class="lll-btn" onclick="switchWorkspaceAppPanel('ai')" title="Aura Workspace Assistant">✨</button>
+            <button id="lll-btn-settings" class="lll-btn" onclick="switchWorkspaceAppPanel('settings')" title="System Engine Parameters">⚙️</button>
             
-            <div style="margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
-                <div id="lll-avatar-pfp" class="pfp-viewport" style="width:36px; height:36px; font-size:0.8rem;">?</div>
-                <div id="tier-badge" style="font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; background: var(--surface); border: 1px solid var(--border);">Guest</div>
+            <div style="margin-top: auto; display: flex; flex-direction: column; align-items: center; gap: 16px;">
+                <div id="lll-avatar-pfp" class="pfp-viewport">A</div>
+                <div id="tier-badge" style="font-size: 0.7rem; color: var(--accent); font-weight: 500;">Premium</div>
             </div>
         </div>
 
@@ -406,17 +363,17 @@
             
             <div id="panel-browser" class="app-view-panel active-panel">
                 <div class="tab-strip">
-                    <div id="tabs-wrapper" style="display: flex; gap: 4px;">
+                    <div id="tabs-wrapper" style="display: flex; gap: 6px;">
                         </div>
-                    <button class="prime-btn" style="padding: 4px 10px; font-size: 0.8rem; margin-bottom: 4px; border-radius: 4px;" onclick="createNewBrowserTab('https://www.bing.com')">+</button>
+                    <button class="prime-btn" style="padding: 6px 12px; margin-bottom: 6px;" onclick="createNewBrowserTab('https://www.bing.com')">+</button>
                 </div>
 
                 <div class="browser-nav-bar">
-                    <button class="prime-btn" style="padding: 6px 12px; font-size: 0.85rem; background: var(--surface-variant); border: 1px solid var(--border); color: var(--text-main);" onclick="reloadActiveFrameInstance()">🔄 Reload</button>
+                    <button class="prime-btn" style="padding: 8px 16px;" onclick="reloadActiveFrameInstance()">🔄 Reload</button>
                     <div class="address-bar-wrapper">
                         <input type="text" id="browser-address-input" class="address-bar-input" value="https://www.bing.com" onkeypress="handleAddressKey(event)">
                     </div>
-                    <button class="prime-btn" style="padding: 6px 16px; font-size: 0.85rem;" onclick="navigateActiveFrameInstance()">Go</button>
+                    <button class="prime-btn accent-style" style="padding: 8px 20px;" onclick="navigateActiveFrameInstance()">Go</button>
                 </div>
 
                 <div id="viewports-wrapper" class="browser-iframe-viewport">
@@ -424,56 +381,56 @@
             </div>
 
             <div id="panel-ai" class="app-view-panel">
-                <div style="padding: 16px 24px; background: var(--surface); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 1.1rem; color: var(--text-bright);">Aura Interface Engine</div>
+                <div style="padding: 24px 32px; background: var(--lll-menu-bg); border-bottom: 1px solid var(--border); font-weight: 600; font-size: 1.1rem; color: var(--text-bright);">Aura Desktop Intelligence</div>
                 <div id="chat-canvas">
-                    <div class="msg-bubble ai">Welcome back to the native Aura UI terminal. Let's process some prompts.</div>
+                    <div class="msg-bubble ai">Hello. I am Aura.</div>
                 </div>
                 <div id="control-dock">
                     <button id="camera-trigger-btn" onclick="triggerCameraCapture()">📷</button>
-                    <input type="text" id="msg-input" class="clean-input" placeholder="Type prompt execution statement..." autocomplete="off" onkeypress="handleChatKey(event)">
-                    <button class="prime-btn" style="padding: 12px 24px;" onclick="executePayloadTransmission()">Execute</button>
+                    <input type="text" id="msg-input" class="clean-input" placeholder="Ask Aura anything..." autocomplete="off" onkeypress="handleChatKey(event)">
+                    <button class="prime-btn accent-style" style="padding: 12px 28px;" onclick="executePayloadTransmission()">Send Prompt</button>
                 </div>
             </div>
 
             <div id="panel-settings" class="app-view-panel">
                 <div class="settings-content-wrapper">
-                    <h1 style="color: var(--text-bright); font-weight: 700; letter-spacing: -0.5px;">Master Console Workspace Settings</h1>
+                    <h1 style="color: var(--text-bright); font-weight: 600; letter-spacing: -0.5px;">Workspace Control Parameters</h1>
                     
                     <div class="settings-card">
-                        <div class="settings-header">Identity & Profile Mapping</div>
+                        <div class="settings-header">Identity Profiles</div>
                         <div class="settings-row">
-                            <span>Active Identity Signature:</span>
-                            <span id="settings-username-display" style="font-weight: 600;">Guest Workspace</span>
+                            <span>Profile Signature Identity Handle:</span>
+                            <span id="settings-username-display" style="font-weight: 500;">Aura Account User</span>
                         </div>
-                        <div id="pfp-settings-row" class="settings-row" style="display: none;">
-                            <span>Identity Display Avatar Asset:</span>
-                            <button class="prime-btn" style="padding: 8px 16px; font-size: 0.85rem;" onclick="triggerPfpSelector()">Upload Custom Asset</button>
+                        <div id="pfp-settings-row" class="settings-row">
+                            <span>Upload Avatar Display Asset:</span>
+                            <button class="prime-btn" onclick="triggerPfpSelector()">Choose Image Asset</button>
                         </div>
                     </div>
 
                     <div class="settings-card">
                         <div class="settings-header">Resource Allocations</div>
                         <div class="settings-row">
-                            <span>Aura API Transaction Pipeline Bandwidth:</span>
-                            <span id="settings-allocation-display" style="font-weight: 600; color: var(--accent);">15 / 15 Token Pool</span>
+                            <span>Message Allocation Bandwidth Limit:</span>
+                            <span style="font-weight: 600; color: var(--accent);">Infinite Messaging Matrix Active</span>
                         </div>
                     </div>
 
                     <div class="settings-card">
-                        <div class="settings-header">Visual Customization Suite</div>
+                        <div class="settings-header">Visual Configuration</div>
                         <div class="settings-row">
-                            <span>Interface Structural Skin Theme:</span>
+                            <span>Interface Design Layout Scheme:</span>
                             <select id="theme-configuration-select" class="clean-input" style="padding: 8px 12px; width: auto; background: var(--bg);" onchange="executeThemeReconstruction()">
-                                <option value="dark">Deep Hacker Dark</option>
-                                <option value="light">Chromium Native Light</option>
+                                <option value="dark">Minimal Dark Premium</option>
+                                <option value="light">Minimal Light Native</option>
                             </select>
                         </div>
                     </div>
 
                     <div class="settings-card">
-                        <div class="settings-header">Developer Environment Flags</div>
+                        <div class="settings-header">Developer Integration Framework</div>
                         <div class="settings-row">
-                            <span>Enable Experimental Framework Matrix:</span>
+                            <span>Experimental Features Pipeline Mode:</span>
                             <div style="display: flex; align-items: center;">
                                 <input type="checkbox" id="experimental-toggle" class="toggle-input" onchange="toggleExperimentalWorkspace()">
                                 <label for="experimental-toggle" class="toggle-track"></label>
@@ -481,7 +438,7 @@
                         </div>
                         <div id="experimental-sub-tier" style="display: none; flex-direction: column; gap: 16px; border-top: 1px solid var(--border); padding-top: 16px;">
                             <div class="settings-row">
-                                <span>Speech Synthesis Audio Spoken Output:</span>
+                                <span>Speech Synthesis Engine Spoken Audio Output:</span>
                                 <div style="display: flex; align-items: center;">
                                     <input type="checkbox" id="tts-toggle" class="toggle-input" onchange="toggleAudioSpeechSynapse()">
                                     <label for="tts-toggle" class="toggle-track"></label>
@@ -490,7 +447,7 @@
                         </div>
                     </div>
 
-                    <button class="prime-btn" style="background: #ff3333; color: white;" onclick="toggleSessionState()">Kill & Purge Active Session Environment</button>
+                    <button class="prime-btn" style="background: rgba(255, 59, 48, 0.1); color: #ff3b30; border-color: rgba(255, 59, 48, 0.2);" onclick="purgeActiveSessionState()">Purge Workspace Environment</button>
                 </div>
             </div>
 
@@ -501,49 +458,43 @@
     <input type="file" id="hidden-file-cam" accept="image/*" capture="camera" onchange="processCameraCapturePayload(this)">
 
     <script>
-        // 🔴 PLACE YOUR GEMINI API KEY SYNC EMBED HERE 🔴
+        // 🔴 PASTE YOUR ACTIVE GEMINI API ENDPOINT KEY SYNC TOKEN HERE 🔴
         const NATIVE_IOS_KEY = "AIzaSyANyaoVduAIgyBVsfllqhngdeZ4VS0EKxg";
 
-        // PERSISTENT DATA STACKS
-        let activeProfile = null;
+        // WORKSPACE PERSISTENCE LOGISTICS
+        let activeProfile = "Aura User";
         let loadedPfpBase64 = null;
         let isAudioTtsActive = false;
         let isExperimentalSuiteUnlocked = false;
-        let messageHistoryTimestamps = [];
-        const TRANSACTION_MAX = 15;
-        const RESYNC_WINDOW_MS = 15 * 60 * 1000;
 
-        // BROWSER TABS CACHE TRACKERS
+        // BROWSER CONTEXT CACHE REGS
         let tabArray = [];
         let activeTabId = null;
 
-        // SPEECH REGS
+        // SPEECH SYNAPSE MATRIX
         const speechSynapseInstance = window.speechSynthesis;
         const speechUtteranceMatrix = new SpeechSynthesisUtterance();
         speechUtteranceMatrix.lang = 'en-US';
 
-        // COMPONENT DOCUMENT ACCESSORS
+        // DOM NODE ELEMENT MATRIX LOOKUPS
         const loginStage = document.getElementById('login-stage');
         const workspaceStage = document.getElementById('workspace-stage');
         const chatCanvas = document.getElementById('chat-canvas');
         const msgInput = document.getElementById('msg-input');
         const usernameField = document.getElementById('username-field');
-        const tierBadge = document.getElementById('tier-badge');
         const lllAvatarPfp = document.getElementById('lll-avatar-pfp');
         const settingsUsernameDisplay = document.getElementById('settings-username-display');
-        const settingsAllocationDisplay = document.getElementById('settings-allocation-display');
         const experimentalToggle = document.getElementById('experimental-toggle');
         const experimentalSubTier = document.getElementById('experimental-sub-tier');
         const ttsToggle = document.getElementById('tts-toggle');
         const themeSelect = document.getElementById('theme-configuration-select');
-        const pfpSettingsRow = document.getElementById('pfp-settings-row');
         const cameraTriggerBtn = document.getElementById('camera-trigger-btn');
         const tabsWrapper = document.getElementById('tabs-wrapper');
         const viewportsWrapper = document.getElementById('viewports-wrapper');
         const browserAddressInput = document.getElementById('browser-address-input');
 
-        // --- THE LLL MULTIPLEXER SWITCH PANEL ENGINE ---
-        function switchAppViewPanel(panelId) {
+        // MULTIPLEXER VIEW NAVIGATOR
+        function switchWorkspaceAppPanel(panelId) {
             document.querySelectorAll('.app-view-panel').forEach(p => p.classList.remove('active-panel'));
             document.querySelectorAll('.lll-btn').forEach(b => b.classList.remove('active'));
 
@@ -551,13 +502,21 @@
             document.getElementById(`lll-btn-${panelId}`).classList.add('active');
         }
 
-        // --- CHROMIUM IFRAME X-FRAME DEFIANCE LAYER ---
+        // AUTO CORE RUNTIME SYSTEM FRAME INJECTOR
+        window.addEventListener('DOMContentLoaded', () => {
+            // Instantly setup initial framework tabs directly to default landing page without login gate checks
+            createNewBrowserTab("https://www.bing.com");
+            lllAvatarPfp.innerText = activeProfile[0].toUpperCase();
+            settingsUsernameDisplay.innerText = activeProfile;
+        });
+
+        // --- ANTI IFRAME BLOCK INTERCEPT DEFIANCE CORE ---
         function createNewBrowserTab(targetUrl = "https://www.bing.com") {
             const id = 'tab-' + Date.now();
-            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '').replace('http://', '').substring(0, 12) + '...' };
+            const tabObj = { id: id, url: targetUrl, title: targetUrl.replace('https://', '').replace('http://', '').substring(0, 14) + '...' };
             tabArray.push(tabObj);
 
-            // Tab Item DOM Link Node
+            // Create Visual Tab Element Node
             const tabNode = document.createElement('div');
             tabNode.className = `browser-tab`;
             tabNode.id = `node-${id}`;
@@ -565,26 +524,24 @@
             tabNode.innerHTML = `<span>${tabObj.title}</span><button class="close-tab-btn" onclick="closeBrowserTabInstance(event, '${id}')">✕</button>`;
             tabsWrapper.appendChild(tabNode);
 
-            // CORE XFRAME IGNORE DEFIANCE FRAME INJECTION ENGINE
+            // INJECT HIGH SPEED X-FRAME BYPASS CANVAS
             const iframeNode = document.createElement('iframe');
             iframeNode.className = 'browser-frame-node';
             iframeNode.id = `viewport-${id}`;
-            
-            // We route through a public open deployment filter mirror proxy to strip away frame-busting security headers 
             iframeNode.src = convertToXFrameDefianceUrl(targetUrl);
             
-            // FORCE LOCK INSIDE CONTAINER APPLICATION: Intercept external execution redirects
+            // STRICT REDIRECT DEFIANCE OVERRIDE LOCK: forces external hyper-references to map internally
             iframeNode.setAttribute('sandbox', 'allow-same-origin allow-scripts allow-popups allow-forms allow-modals');
             
-            // Event hook listener mapping ensuring clicked links inside the browser stay forced inside the runtime framework
             iframeNode.addEventListener('load', function() {
                 try {
-                    const internalDoc = iframeNode.contentWindow.document;
-                    internalDoc.querySelectorAll('a').forEach(anchorLink => {
+                    const innerDomWindow = iframeNode.contentWindow.document;
+                    innerDomWindow.querySelectorAll('a').forEach(anchorLink => {
+                        // Override structural targets to keep link clicks contextually localized inside the application layout frame
                         anchorLink.setAttribute('target', '_self');
                     });
-                } catch(crossOriginSecBoundaryError) {
-                    // Silent optimization catch: Browser security layers isolate window lookups on distinct domains
+                } catch(crossOriginSecError) {
+                    // Security boundary trace catches isolation locks on distinct top domains gracefully
                 }
             });
 
@@ -593,12 +550,11 @@
         }
 
         function convertToXFrameDefianceUrl(url) {
-            // Clean paths to ensure smooth handling
             let workingUrl = url.trim();
             if (!workingUrl.startsWith('http://') && !workingUrl.startsWith('https://')) {
                 workingUrl = 'https://' + workingUrl;
             }
-            // Use an open-source reverse proxy gateway mirror to slice and drop out X-Frame-Options/CSP blocking headers completely
+            // Route processing directly through a raw cloud deployment bypass proxy to strip out X-Frame-Options/CSP blocking headers cleanly
             return "https://api.allorigins.win/raw?url=" + encodeURIComponent(workingUrl);
         }
 
@@ -643,7 +599,7 @@
             const targetIframe = document.getElementById(`viewport-${activeTabId}`);
             if(matchedData && targetIframe) {
                 matchedData.url = targetUrl;
-                matchedData.title = targetUrl.replace('https://', '').replace('http://', '').substring(0, 12) + '...';
+                matchedData.title = targetUrl.replace('https://', '').replace('http://', '').substring(0, 14) + '...';
                 document.querySelector(`#node-${activeTabId} span`).innerText = matchedData.title;
                 targetIframe.src = convertToXFrameDefianceUrl(targetUrl);
                 browserAddressInput.value = targetUrl;
@@ -659,76 +615,15 @@
         function handleAddressKey(e) { if(e.key === 'Enter') navigateActiveFrameInstance(); }
         function handleChatKey(e) { if(e.key === 'Enter') executePayloadTransmission(); }
 
-        // --- APPARENT VISUAL PALETTES ---
+        // --- THEME MUTATIONS ---
         function executeThemeReconstruction() {
             document.documentElement.setAttribute('data-theme', themeSelect.value);
         }
 
-        // --- SESSION REGISTRY CONTROL MANAGEMENT ---
-        function authenticateSession() {
-            const rawUserText = usernameField.value.trim();
-            if(!rawUserText) { alert("Please supply a valid username handles signature."); return; }
-
-            activeProfile = rawUserText;
-            tierBadge.innerText = "Premium";
-            tierBadge.style.borderColor = var(--accent);
-            settingsUsernameDisplay.innerText = activeProfile;
-            settingsAllocationDisplay.innerText = "Infinite Pipeline Matrix";
-            experimentalToggle.disabled = false;
-
-            lllAvatarPfp.innerText = activeProfile[0].toUpperCase();
-
-            loginStage.classList.add('hidden');
-            workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://www.bing.com");
-            syncPfpVisibilityStates();
-        }
-
-        function bypassAsGuest() {
-            activeProfile = null;
-            tierBadge.innerText = "Guest";
-            settingsUsernameDisplay.innerText = "Guest Account Console";
-            settingsAllocationDisplay.innerText = "15 / 15 Token Pool";
-            experimentalToggle.checked = false;
-            experimentalToggle.disabled = true;
-            toggleExperimentalWorkspace(false);
-
-            lllAvatarPfp.innerText = "?";
-
-            loginStage.classList.add('hidden');
-            workspaceStage.classList.remove('hidden');
-            createNewBrowserTab("https://www.bing.com");
-            syncPfpVisibilityStates();
-        }
-
-        function toggleSessionState() {
-            activeProfile = null;
-            loadedPfpBase64 = null;
-            lllAvatarPfp.innerHTML = "?";
-            usernameField.value = '';
-            messageHistoryTimestamps = [];
-            tabsWrapper.innerHTML = '';
-            viewportsWrapper.innerHTML = '';
-            tabArray = [];
-            toggleExperimentalWorkspace(false);
-            switchAppViewPanel('browser');
-            workspaceStage.classList.add('hidden');
-            loginStage.classList.remove('hidden');
-        }
-
-        function syncPfpVisibilityStates() {
-            if (activeProfile && isExperimentalSuiteUnlocked) {
-                pfpSettingsRow.style.display = "flex";
-            } else {
-                pfpSettingsRow.style.display = "none";
-            }
-        }
-
-        function toggleExperimentalWorkspace(explicitState = null) {
-            const active = explicitState !== null ? explicitState : experimentalToggle.checked;
-            experimentalToggle.checked = active;
-            isExperimentalSuiteUnlocked = active;
-            if (active) {
+        // --- DEVELOPMENT WORKSPACE LOGISTICS ---
+        function toggleExperimentalWorkspace() {
+            isExperimentalSuiteUnlocked = experimentalToggle.checked;
+            if (isExperimentalSuiteUnlocked) {
                 experimentalSubTier.style.display = "flex";
                 cameraTriggerBtn.classList.add('active');
             } else {
@@ -737,7 +632,6 @@
                 ttsToggle.checked = false;
                 toggleAudioSpeechSynapse(false);
             }
-            syncPfpVisibilityStates();
         }
 
         function toggleAudioSpeechSynapse(explicitState = null) {
@@ -755,15 +649,15 @@
             });
         }
 
-        // --- VISION AND CAMERA PIPELINES ---
+        // --- ADVANCED COMPUTER VISION MODES ---
         function triggerCameraCapture() { if(isExperimentalSuiteUnlocked) document.getElementById('hidden-file-cam').click(); }
         function processCameraCapturePayload(input) {
             if (!isExperimentalSuiteUnlocked) return;
             const file = input.files[0];
             if (!file) return;
 
-            renderBubble("[IMAGE TRANSMITTED]", 'user');
-            const targetAiBubble = renderBubble("Analyzing scene inputs...", 'ai');
+            renderBubble("[IMAGE ATTACHMENT TRANSMITTED]", 'user');
+            const targetAiBubble = renderBubble("Analyzing visual data payload...", 'ai');
             const trackingImgUrl = URL.createObjectURL(file);
             targetAiBubble.innerHTML += `<img src="${trackingImgUrl}" class="embedded-capture">`;
 
@@ -773,40 +667,20 @@
             });
         }
 
-        // --- ARTIFICIAL COGNITION NETWORK PIPELINE ---
-        function calculateAllocationCompliance() {
-            if (activeProfile !== null) return { allowed: true };
-            const timestampMark = Date.now();
-            messageHistoryTimestamps = messageHistoryTimestamps.filter(t => (timestampMark - t) < RESYNC_WINDOW_MS);
-            if (messageHistoryTimestamps.length >= TRANSACTION_MAX) {
-                const earliestRemainingTime = messageHistoryTimestamps[0];
-                const deltaCalculated = RESYNC_WINDOW_MS - (timestampMark - earliestRemainingTime);
-                return { allowed: false, retryMinutes: Math.ceil(deltaCalculated / 60000) };
-            }
-            return { allowed: true };
-        }
-
+        // --- NETWORK COGNITION ENGINE ---
         async function executePayloadTransmission() {
             const inputQuery = msgInput.value.trim();
             if (!inputQuery) return;
 
-            const trackingStatus = calculateAllocationCompliance();
-            if(!trackingStatus.allowed) {
-                alert(`Allocation restriction. Guest caps clear in ${trackingStatus.retryMinutes} mins.`);
-                return;
-            }
-
             if (!NATIVE_IOS_KEY) {
-                alert("Please drop your custom Gemini API key string token directly inside the code configuration objects.");
+                alert("Please add your Gemini API key inside the script setup variables to verify transmission.");
                 return;
             }
-
-            if (activeProfile === null) messageHistoryTimestamps.push(Date.now());
 
             renderBubble(inputQuery, 'user');
             msgInput.value = '';
 
-            const aiBubbleNode = renderBubble("Thinking...", 'ai');
+            const aiBubbleNode = renderBubble("Processing...", 'ai');
             executeNetworkContextDispatch(inputQuery, aiBubbleNode);
         }
 
@@ -822,7 +696,7 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ contents: queryContents })
                 });
-                if (!response.ok) throw new Error("API Node connection breakdown.");
+                if (!response.ok) throw new Error("API Pipeline Drop");
                 const json = await response.json();
                 if (json.candidates && json.candidates[0].content.parts[0].text) {
                     const parsedTextResult = json.candidates[0].content.parts[0].text;
@@ -835,10 +709,10 @@
                         speechSynapseInstance.speak(speechUtteranceMatrix);
                     }
                 } else {
-                    DOMNodeTarget.innerText = "Error decoding candidate text buffer strings.";
+                    DOMNodeTarget.innerText = "Error analyzing framework tokens.";
                 }
             } catch (err) {
-                DOMNodeTarget.innerText = "Network data loop fault. Validate key syntax profiles.";
+                DOMNodeTarget.innerText = "Data fault. Verify deployment key status strings.";
             }
             chatCanvas.scrollTop = chatCanvas.scrollHeight;
         }
@@ -859,6 +733,27 @@
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
             });
+        }
+
+        function purgeActiveSessionState() {
+            activeProfile = "Guest";
+            loadedPfpBase64 = null;
+            lllAvatarPfp.innerHTML = "?";
+            experimentalToggle.checked = false;
+            toggleExperimentalWorkspace();
+            switchWorkspaceAppPanel('browser');
+            workspaceStage.classList.add('hidden');
+            loginStage.classList.remove('hidden');
+        }
+
+        function authenticateSessionFromGate() {
+            const raw = usernameField.value.trim();
+            if(!raw) return;
+            activeProfile = raw;
+            lllAvatarPfp.innerText = activeProfile[0].toUpperCase();
+            settingsUsernameDisplay.innerText = activeProfile;
+            loginStage.classList.add('hidden');
+            workspaceStage.classList.remove('hidden');
         }
     </script>
 </body>
